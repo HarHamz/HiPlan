@@ -1,0 +1,683 @@
+/*******************************
+* BASE STYLES
+*******************************/
+
+/* Import Poppins font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* DESKTOP STYLES
+*******************************/
+
+/* Layout */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #8fc098;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00381f;
+  text-decoration: none;
+}
+
+.nav-menu {
+  margin-left: auto;
+}
+
+.nav-menu .nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav-menu .nav-links li {
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu .nav-links a {
+  text-decoration: none;
+  color: #1a1a19;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-menu .nav-links a:hover,
+.nav-menu .nav-links a.active {
+  color: #00381f;
+}
+
+/* Button styles */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.btn-masuk {
+  background: none;
+  border: 1px solid #1a1a19;
+  color: #1a1a19;
+  margin-left: 1rem;
+}
+
+.btn-daftar {
+  background: #1a1a19;
+  border: none;
+  color: rgb(255, 255, 255);
+  margin-left: 1rem;
+}
+
+/* Hero section styles */
+.hero {
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Search styles */
+.search-container {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #1a1a19;
+}
+
+#searchInput {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  font-size: 1rem;
+  background: rgb(255, 255, 255);
+  color: #1a1a19;
+}
+
+#searchInput::placeholder {
+  color: #1a1a19;
+  opacity: 0.7;
+}
+
+.search-btn {
+  background: rgb(255, 255, 255);
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-left: 1px solid #8fc098;
+}
+
+.search-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Mountain cards section */
+.mountain-section {
+  padding: 4rem 2rem;
+}
+
+.mountain-section h2 {
+  color: #2d3648;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 1rem;
+  background: rgb(255, 255, 255);
+}
+
+.card-content h3 {
+  color: #00381f;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.card-content p {
+  color: #1a1a19;
+  font-size: 0.9rem;
+}
+
+.altitude {
+  color: #00381f !important;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+/* Section styles */
+.mulai-jelajah-section,
+.destinasi-populer-section {
+  padding: 4rem 0;
+  width: 100%;
+}
+
+.mulai-jelajah-section > div,
+.destinasi-populer-section > div,
+.mulai-jelajah-section h2,
+.destinasi-populer-section h2 {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mulai-jelajah-section h2,
+.destinasi-populer-section h2 {
+  color: #00381f;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  padding: 0;
+}
+
+/* Login/Register Form styles */
+.login-container,
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: 100px;
+  background-color: #f5f5f5;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.login-form,
+.register-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form h1,
+.register-form h1 {
+  color: #00381f;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #1a1a19;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #8fc098;
+  box-shadow: 0 0 0 2px rgba(143, 192, 152, 0.2);
+}
+
+/* Styling untuk link Lupa Password */
+.forgot-password {
+  display: block;
+  text-align: right;
+  color: #00381f;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.forgot-password:hover {
+  color: #8fc098;
+}
+
+.forgot-password::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #8fc098;
+  transition: width 0.3s ease;
+}
+
+.forgot-password:hover::after {
+  width: 100%;
+}
+
+.login-btn,
+.register-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1a1a19;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+  background: #333;
+}
+
+/* Styling untuk Register Link */
+.register-link {
+  text-align: center;
+  color: #1a1a19;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.register-now {
+  color: #00381f;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.register-now:hover {
+  color: #8fc098;
+}
+
+.register-now::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #8fc098;
+  transition: width 0.3s ease;
+}
+
+.register-now:hover::after {
+  width: 100%;
+}
+
+/* Feature section styles */
+.feature-section {
+  max-width: 1260px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.feature-container {
+  display: flex;
+  align-items: stretch;
+  gap: 4rem;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature-image {
+  flex: 1;
+  max-width: 50%;
+  height: auto;
+  display: flex;
+}
+
+.feature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.feature-content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-section h2 {
+  color: #00381f;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.feature-content p {
+  color: #1a1a19;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  text-align: justify;
+}
+
+.feature-icons {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0 1rem;
+  gap: 1.5rem;
+}
+
+.feature-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  max-width: 120px;
+}
+
+.feature-icon img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+/* Hide hamburger menu by default */
+.hamburger-menu {
+  display: none;
+}
+
+/*******************************
+* MOBILE STYLES
+*******************************/
+@media screen and (max-width: 768px) {
+  /* Navbar mobile styles */
+  .navbar-container {
+    padding: 0.8rem 1rem;
+  }
+
+  .hamburger-menu {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1100;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin: 5px 0;
+    background-color: #1a1a19;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    height: 100vh;
+    background: #fff;
+    padding: 4rem 1.5rem 2rem;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-menu .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .nav-menu .nav-links li {
+    width: 100%;
+  }
+
+  .nav-menu .nav-links a,
+  .nav-menu .nav-links button {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 0;
+    text-align: center;
+  }
+
+  .btn-masuk,
+  .btn-daftar {
+    margin: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Feature section mobile styles */
+  .feature-section {
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .feature-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+  }
+
+  .feature-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .feature-image {
+    max-width: 100%;
+    height: 250px;
+  }
+
+  .feature-content {
+    padding: 1.5rem;
+  }
+
+  .feature-content p {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .feature-icons {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1.5rem 0;
+    gap: 0.5rem;
+  }
+
+  .feature-icon {
+    max-width: 90px;
+  }
+
+  .feature-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .feature-icon p {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+
+  /* Hamburger menu animation */
+  .hamburger-menu.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger-menu.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Show nav-menu when active */
+  .nav-menu.active {
+    left: 0;
+  }
+
+  /* Overlay for mobile menu */
+  .navbar.menu-active::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
+
+/* Small mobile styles */
+@media screen and (max-width: 480px) {
+  .feature-section {
+    margin: 1.5rem auto;
+  }
+
+  .feature-image {
+    height: 200px;
+  }
+
+  .feature-content {
+    padding: 1rem;
+  }
+
+  .feature-section h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 769px) {
+  .navbar-container {
+    padding: 1rem 2rem;
+  }
+
+  .drawer-menu {
+    display: flex;
+    align-items: center;
+    position: static;
+    height: auto;
+    width: auto;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .nav-links {
+    margin: 0 2rem 0 auto;
+  }
+}
