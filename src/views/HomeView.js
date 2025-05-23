@@ -62,6 +62,8 @@ export class HomeView {
                     </div>
                 </section>
             </main>
+
+            <footer-component></footer-component>
         `;
 
     this.bindEvents();

@@ -16,7 +16,7 @@ export class RegisterView {
                         </div>
                         <div class="form-group">
                             <label for="tanggal">Tanggal Lahir</label>
-                            <input type="date" id="tanggal" name="tanggal" required>
+                            <input type="text" id="tanggal" name="tanggal" placeholder="DD/MM/YYYY" required>
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>

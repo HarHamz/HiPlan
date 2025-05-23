@@ -1,24 +1,25 @@
-export class RegisterPresenter {    constructor(view) {
-        this.view = view;
-        
-        // Set up event handlers
-        this.view.setRegisterHandler(this.handleRegister.bind(this));
-        this.view.setLoginHandler(this.handleLogin.bind(this));
-        
-        // Initial render
-        this.init();
-    }
+export class RegisterPresenter {
+  constructor(view) {
+    this.view = view;
 
-    init() {
-        this.view.render();
-    }
+    // Set up event handlers
+    this.view.setRegisterHandler(this.handleRegister.bind(this));
+    this.view.setLoginHandler(this.handleLogin.bind(this));
 
-    handleRegister(formData) {
-        // TODO: Implement actual registration logic here
-        console.log('Register attempt:', formData);
-    }
+    // Initial render
+    this.init();
+  }
 
-    handleLogin() {
-        window.location.hash = '#login';
-    }
+  init() {
+    this.view.render();
+  }
+
+  handleRegister(formData) {
+    // TODO: Implement actual registration logic here
+    console.log("Register attempt:", formData);
+  }
+
+  handleLogin() {
+    window.location.hash = "#login";
+  }
 }

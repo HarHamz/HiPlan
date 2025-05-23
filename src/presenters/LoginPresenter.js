@@ -1,24 +1,25 @@
-export class LoginPresenter {    constructor(view) {
-        this.view = view;
-        
-        // Set up event handlers
-        this.view.setLoginHandler(this.handleLogin.bind(this));
-        this.view.setRegisterHandler(this.handleRegister.bind(this));
-        
-        // Initial render
-        this.init();
-    }
+export class LoginPresenter {
+  constructor(view) {
+    this.view = view;
 
-    init() {
-        this.view.render();
-    }
+    // Set up event handlers
+    this.view.setLoginHandler(this.handleLogin.bind(this));
+    this.view.setRegisterHandler(this.handleRegister.bind(this));
 
-    handleLogin(email, password) {
-        // TODO: Implement actual login logic here
-        console.log('Login attempt:', { email, password });
-    }
+    // Initial render
+    this.init();
+  }
 
-    handleRegister() {
-        window.location.hash = '#register';
-    }
+  init() {
+    this.view.render();
+  }
+
+  handleLogin(email, password) {
+    // TODO: Implement actual login logic here
+    console.log("Login attempt:", { email, password });
+  }
+
+  handleRegister() {
+    window.location.hash = "#register";
+  }
 }
