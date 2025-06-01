@@ -71,19 +71,21 @@ export class HomeView {
 
   renderMountainCards(mountains) {
     return mountains
-      .map(
-        (mountain) => `
-            <article class="card">
-                <img src="${require("../assets/images/" +
-                  mountain.image)}" alt="Pemandangan ${mountain.name}" />
-                <div class="card-content">
-                    <h3>${mountain.name}</h3>
-                    <p>${mountain.location}</p>
-                    <p class="altitude">${mountain.altitude}</p>
-                </div>
-            </article>
-        `
-      )
+      .map((mountain) => {
+        return `            
+        <article class="card" data-id="${mountain.id}">
+          <a href="#/mountain/${mountain.id}" class="card-link">
+          <img src="${require("../assets/images/" +
+            mountain.mainImage)}" alt="Pemandangan Gunung ${mountain.name}" />
+                    <div class="card-content">
+                        <h3>${mountain.name}</h3>
+                        <p>${mountain.location}</p>
+                        <p class="altitude">${mountain.altitude} mdpl</p>
+                    </div>
+                  </a>
+              </article>
+          `;
+      })
       .join("");
   }
 

@@ -5,11 +5,9 @@ class NavBar extends HTMLElement {
 
   constructor() {
     super();
-    console.log("NavBar component constructed");
 
     // Create shadow root
     this._root = this.attachShadow({ mode: "open" });
-    console.log("Shadow root created:", this._root);
 
     // Initialize state
     this._isMenuOpen = false;
@@ -25,7 +23,6 @@ class NavBar extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log("NavBar component connected to DOM");
     this._setupEventListeners();
 
     // Set initial active page
@@ -39,13 +36,11 @@ class NavBar extends HTMLElement {
   }
 
   disconnectedCallback() {
-    console.log("NavBar component disconnected");
     document.removeEventListener("click", this._onDocumentClick);
     window.removeEventListener("hashchange", this._updateActivePage);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(`Attribute ${name} changed from ${oldValue} to ${newValue}`);
     if (name === "active-page") {
       this._updateActivePage(newValue);
     }
@@ -68,21 +63,20 @@ class NavBar extends HTMLElement {
 
         .navbar {
           background-color: #8fc098;
-          position: fixed;
+          position: var(--navbar-position, fixed); 
           width: 100%;
           top: 0;
           left: 0;
           right: 0;
           z-index: 1000;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
+        }        
         .navbar-container {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding: 1rem 2rem;
-          max-width: 1200px;
+          max-width: 1260px;
           margin: 0 auto;
           width: 100%;
         }
@@ -132,14 +126,14 @@ class NavBar extends HTMLElement {
           background: none;
           border: 1px solid #1a1a19;
           color: #1a1a19;
-          margin-left: 1rem;
+          margin-left: auto;
         }
 
         .btn-daftar {
           background: #1a1a19;
           border: none;
           color: rgb(255, 255, 255);
-          margin-left: 1rem;
+          margin-left: auto;
         }
 
         .hamburger-menu {

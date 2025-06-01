@@ -1,6 +1,7 @@
 import "./components/navbar-component.js";
 import "./components/footer-component.js";
 import "./assets/styles/styles.css";
+import "./assets/styles/mountain-detail.css";
 import { HomeView } from "./views/HomeView";
 import { LoginView } from "./views/LoginView";
 import { RegisterView } from "./views/RegisterView";
@@ -8,6 +9,8 @@ import { MountainModel } from "./models/MountainModel";
 import { HomePresenter } from "./presenters/HomePresenter";
 import { LoginPresenter } from "./presenters/LoginPresenter";
 import { RegisterPresenter } from "./presenters/RegisterPresenter";
+import { MountainDetailPresenter } from "./presenters/MountainDetailPresenter";
+import { MountainDetailView } from "./views/MountainDetailView";
 
 // Initialize the application
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,6 +25,16 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (hash === "#register") {
       const registerView = new RegisterView();
       new RegisterPresenter(registerView);
+    } else if (hash.startsWith("#/mountain/")) {
+      // Extract mountain ID from the hash
+      const mountainId = hash.split("/")[2];
+      const mountainDetailView = new MountainDetailView();
+      const mountainDetailPresenter = new MountainDetailPresenter(
+        mountainDetailView,
+        model,
+        mountainId
+      );
+      mountainDetailPresenter.init();
     } else {
       const homeView = new HomeView();
       new HomePresenter(homeView, model);
