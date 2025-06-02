@@ -243,6 +243,16 @@ export class MountainDetailView {
               
               <div class="jalur-detail-item">
                 <div class="detail-icon">
+                  <i class="bi bi-graph-up"></i>
+                </div>
+                <div class="detail-info">
+                  <h4>Kenaikan Elevasi</h4>
+                  <p>${mountain.elevationGain || "N/A"} m</p>
+                </div>
+              </div>
+
+              <div class="jalur-detail-item">
+                <div class="detail-icon">
                   <i class="bi bi-clock"></i>
                 </div>
                 <div class="detail-info">
@@ -250,19 +260,22 @@ export class MountainDetailView {
                   <p>-</p>
                 </div>
               </div>
+
                 <div class="jalur-detail-item">
-                <div class="detail-icon">
-                  <i class="bi bi-bar-chart"></i>
-                </div>
-                <div class="detail-info">
-                  <h4>Tingkat Kesulitan</h4>
-                  <div class="difficulty-display" id="difficultyDisplay">
-                    <span class="difficulty-score" id="difficultyScore">${
-                      mountain.difficulty
-                    }/10</span>
+                  <div class="detail-icon">
+                    <i class="bi bi-bar-chart"></i>
+                  </div>
+                  <div class="detail-info">
+                    <h4>Tingkat Kesulitan</h4>
+                    <div class="difficulty-display" id="difficultyDisplay">
+                      <span class="difficulty-score" id="difficultyScore">${
+                        mountain.difficulty
+                      }/10</span>
+                    </div>
                   </div>
                 </div>
               </div>
+
               <p class="jalur-description">
                 **Silakan memilih tanggal pada bagian cuaca untuk mengetahui estimasi waktu dan tingkat kesulitan
               </p>

@@ -82,7 +82,7 @@
 /* ==================== SECTION CONTAINERS ==================== */
 .section-container {
   scroll-margin-top: 140px;
-  padding: 16px 0;
+  padding: 8px 0;
   border-bottom: 1px solid var(--color-border-light);
   margin-bottom: 20px;
 }
@@ -151,7 +151,6 @@
 }
 
 .mountain-details {
-  margin: 30px 0;
   width: 100%;
 }
 
@@ -201,7 +200,6 @@
 .forecast-card {
   flex: 1;
   min-width: 120px;
-  max-width: 160px;
   background: var(--color-background);
   border-radius: 8px;
   border: 1px solid var(--color-border);
@@ -309,7 +307,6 @@
   border-color: var(--color-primary) !important;
   background-color: var(--color-primary-light) !important;
   box-shadow: var(--shadow-heavy) !important;
-  transform: translateY(-2px) !important;
 }
 
 .active-weather .forecast-day,
@@ -368,8 +365,8 @@
 }
 
 .difficulty-score {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 600;
   transition: color 0.3s ease;
 }
 
@@ -506,7 +503,6 @@
   display: flex;
   flex-wrap: wrap;
   padding: 20px;
-  border-bottom: 1px solid var(--color-border-lighter);
   background-color: var(--color-background);
 }
 
@@ -548,7 +544,7 @@
 }
 
 .jalur-description {
-  padding: 20px 15px 5px;
+  padding: 0px 25px 8px;
   color: var(--color-text-light);
   line-height: 1.6;
   font-size: 0.85rem;
@@ -837,8 +833,8 @@ y
 .nearby-mountains h3 {
   color: var(--color-text-secondary);
   font-size: 1.3rem;
-  margin-bottom: 20px;
   font-weight: 600;
+  margin-bottom: 8px;
 }
 
 /* Card container untuk area sekitar menggunakan grid yang sama dengan homepage */
