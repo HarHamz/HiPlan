@@ -132,6 +132,7 @@ export class MountainDetailView {
         temp: "22°",
         wind: "8 kph",
         precip: "10%",
+        humid: "40%",
       },
       {
         weather: "badai",
@@ -140,6 +141,7 @@ export class MountainDetailView {
         temp: "12°",
         wind: "25 kph",
         precip: "90%",
+        humid: "80%",
       },
       {
         weather: "hujan",
@@ -148,6 +150,7 @@ export class MountainDetailView {
         temp: "17°",
         wind: "15 kph",
         precip: "70%",
+        humid: "60%",
       },
       {
         weather: "berawan",
@@ -156,6 +159,7 @@ export class MountainDetailView {
         temp: "18°",
         wind: "10 kph",
         precip: "30%",
+        humid: "50%",
       },
       {
         weather: "cerah",
@@ -164,6 +168,7 @@ export class MountainDetailView {
         temp: "22°",
         wind: "6 kph",
         precip: "5%",
+        humid: "30%",
       },
       {
         weather: "berawan",
@@ -172,6 +177,7 @@ export class MountainDetailView {
         temp: "18°",
         wind: "12 kph",
         precip: "25%",
+        humid: "40%",
       },
     ];
 
@@ -202,7 +208,8 @@ export class MountainDetailView {
                 <div class="forecast-desc">${data.desc}</div>
                 <div class="forecast-details">
                   <div class="forecast-wind"><i class="bi bi-wind"></i> ${data.wind}</div>
-                  <div class="forecast-precip"><i class="bi bi-droplet"></i> ${data.precip}</div>
+                  <div class="forecast-precip"><i class="bi bi-cloud-rain-heavy"></i> ${data.precip}</div>
+                  <div class="forecast-humid"><i class="bi bi-droplet"></i> ${data.humid}</div>
                 </div>
               </div>
             `;
