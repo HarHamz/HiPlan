@@ -267,7 +267,7 @@ export class ExploreView {
       const imgSrc = gunung.Foto || cartenzImg;
       highlightCardMobile.innerHTML = `
         <button class="close-highlight-btn" aria-label="Tutup">&times;</button>
-        <div class="highlight-card-content-mobile" style="display:flex;gap:14px;align-items:flex-start;">
+        <div class="highlight-card-content-mobile" data-mountain-id="${gunung.Id}" style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:8px;border-radius:12px;transition:background-color 0.2s ease;">
           <img src="${imgSrc}" alt="${gunung.Nama}" style="width:72px;height:72px;object-fit:cover;border-radius:14px;flex-shrink:0;background:#f5f5f5;">
           <div>
             <div class="highlight-title-mobile" style="font-size:1.1rem;font-weight:600;margin-bottom:2px;">${gunung.Nama}</div>
@@ -277,6 +277,36 @@ export class ExploreView {
         </div>
       `;
       highlightCardMobile.classList.add("active");
+
+      // Add click functionality to mobile highlight card
+      const mobileContent = highlightCardMobile.querySelector(
+        ".highlight-card-content-mobile"
+      );
+      if (mobileContent) {
+        const mountainId = mobileContent.getAttribute("data-mountain-id");
+
+        // Add touch feedback
+        mobileContent.addEventListener("touchstart", () => {
+          mobileContent.style.backgroundColor = "#f8f9fa";
+        });
+
+        mobileContent.addEventListener("touchend", () => {
+          mobileContent.style.backgroundColor = "transparent";
+        });
+
+        mobileContent.addEventListener("touchcancel", () => {
+          mobileContent.style.backgroundColor = "transparent";
+        });
+
+        // Add click functionality
+        mobileContent.addEventListener("click", () => {
+          if (mountainId) {
+            // Navigate to mountain detail page
+            window.location.hash = `#/mountain/${mountainId}`;
+          }
+        });
+      }
+
       // Tombol close
       highlightCardMobile.querySelector(".close-highlight-btn").onclick =
         () => {
@@ -323,13 +353,14 @@ export class ExploreView {
           <button id="minimize-highlight-card" class="highlight-min-btn" title="Minimize">
             <svg width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="2" rx="1" fill="#222"/></svg>
           </button>
-        </div>
-        <div class="highlight-list">
+        </div>        <div class="highlight-list">
           ${gunungList
             .slice(0, 6)
             .map(
-              (gunung) => `
-            <div class="highlight-card-item">
+              (gunung, index) => `
+            <div class="highlight-card-item" data-mountain-id="${
+              gunung.Id
+            }" data-index="${index}" style="cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
               <div class="highlight-img-wrap">
                 <img src="${cartenzImg}" alt="${gunung.Nama}" />
               </div>
@@ -349,6 +380,34 @@ export class ExploreView {
         </div>
       `;
       highlightCard.style.display = "flex";
+
+      // Add click functionality to highlight cards
+      const highlightCardItems = highlightCard.querySelectorAll(
+        ".highlight-card-item"
+      );
+      highlightCardItems.forEach((cardItem, index) => {
+        const mountainId = cardItem.getAttribute("data-mountain-id");
+        const gunung = gunungList[index];
+
+        // Add hover effects
+        cardItem.addEventListener("mouseenter", () => {
+          cardItem.style.transform = "translateY(-2px)";
+          cardItem.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+        });
+
+        cardItem.addEventListener("mouseleave", () => {
+          cardItem.style.transform = "translateY(0)";
+          cardItem.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.04)";
+        });
+
+        // Add click functionality
+        cardItem.addEventListener("click", () => {
+          if (mountainId) {
+            // Navigate to mountain detail page
+            window.location.hash = `#/mountain/${mountainId}`;
+          }
+        });
+      });
 
       // Event minimize
       const minimizeBtn = document.getElementById("minimize-highlight-card");

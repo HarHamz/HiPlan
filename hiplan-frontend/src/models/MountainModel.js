@@ -1,4 +1,4 @@
-import mountainsData from "./gunung_indonesia.json";
+import gunungData from "../assets/data/gunung_indonesia.json";
 
 export class Mountain {
   constructor(
@@ -112,7 +112,7 @@ export class Mountain {
 export class MountainModel {
   constructor() {
     // Transform the raw data into Mountain objects
-    this.mountains = mountainsData.map(
+    this.mountains = gunungData.map(
       (data) =>
         new Mountain(
           data.Id,

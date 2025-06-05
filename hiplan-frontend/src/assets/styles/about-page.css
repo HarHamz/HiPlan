@@ -1,6 +1,12 @@
 /* ------------------
  AboutView 
 ---------------------*/
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 2rem;
+}
+
 .AboutView-card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -118,9 +124,6 @@
   AboutView mobile
   ----------------------*/
 @media screen and (max-width: 768px) {
-  h1 {
-    padding-left: 1rem;
-  }
   .AboutView-section {
     display: flex;
     flex-direction: column; /* Mengubah arah flex menjadi kolom */

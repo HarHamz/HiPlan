@@ -4,7 +4,7 @@ export class MountainDetailView {
   }
   render(mountain, presenter = null) {
     this.currentMountain = mountain;
-    this.presenter = presenter; // Simpan reference ke presenter
+    this.presenter = presenter;
     this.app.innerHTML = `
       <header>
         <nav-bar></nav-bar>

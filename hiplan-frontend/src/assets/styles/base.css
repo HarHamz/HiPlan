@@ -22,7 +22,9 @@ body {
   background-color: #f5f5f5;
 }
 
-nav-bar, .navbar, header {
+nav-bar,
+.navbar,
+header {
   z-index: 1001 !important;
   position: relative; /* atau fixed/sticky sesuai kebutuhan */
 }
@@ -51,7 +53,7 @@ nav-bar, .navbar, header {
   left: auto;
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
   padding: 8px 0;
   z-index: 9999;
   min-width: 160px;
@@ -62,7 +64,8 @@ nav-bar, .navbar, header {
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px) scale(0.98);
-  transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .layer-dropdown.open {
   opacity: 1;
@@ -91,4 +94,74 @@ nav-bar, .navbar, header {
   color: #222;
   vertical-align: middle;
   margin-right: 8px;
+}
+
+/*******************************
+* BASE BUTTON STYLES
+*******************************/
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+/*******************************
+* UTILITY CLASSES
+*******************************/
+
+/* Common hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Common card styles */
+.card-base {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Text utilities */
+.text-primary {
+  color: #00381f;
+}
+
+.text-secondary {
+  color: #1a1a19;
+}
+
+.text-muted {
+  color: #666;
+}
+
+/* Layout utilities */
+.container-centered {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Common transitions */
+.smooth-transition {
+  transition: all 0.3s ease;
 }

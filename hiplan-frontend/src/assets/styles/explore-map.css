@@ -2,15 +2,6 @@
 * FILENAME: 07_explore-page.css
 *******************************/
 
-/* Navbar tetap di atas */
-nav-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 1000;
-}
-
 /* Main content turun sesuai tinggi navbar */
 .map-page-full-container {
   padding-top: 64px; /* Sesuaikan dengan tinggi navbar */
