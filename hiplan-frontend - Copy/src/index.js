@@ -1,6 +1,6 @@
 import "./components/navbar-component.js";
 import "./components/footer-component.js";
-import './assets/styles/main.css';
+import "./assets/styles/styles.css";
 import { HomeView } from "./views/HomeView";
 import { LoginView } from "./views/LoginView";
 import { RegisterView } from "./views/RegisterView";

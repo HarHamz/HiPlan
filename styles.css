@@ -17,8 +17,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  background-color: #f5f5f5;
+  height: 100%; /* Penting untuk layout full-height */
+  width: 100%;
+  background-color: #f5f5f5; /* */
 }
 
 /* DESKTOP STYLES
@@ -26,9 +27,36 @@ body {
 
 /* Layout */
 #app {
+  width: 100%;
   min-height: 100vh;
+}
+
+/* Kontainer khusus untuk halaman peta agar bisa full-width dan full-height */
+.map-page-full-container {
+  flex-grow: 1; /* Mengisi sisa ruang vertikal di dalam #app */
   display: flex;
   flex-direction: column;
+  /* padding-top: 65px; */
+  /* Sesuaikan dengan tinggi aktual navbar Anda agar konten tidak tertutup.
+                        Navbar Anda memiliki padding 1rem atas/bawah (16px * 2 = 32px)
+                        dan tinggi teks brand sekitar 1.5rem (24px). Total sekitar 56px.
+                        Tambahkan sedikit buffer, misal 65px - 70px. */
+  /* padding-left: 0; */ /* Jika ingin benar-benar edge-to-edge horizontal */
+  /* padding-right: 0; */ /* Jika ingin benar-benar edge-to-edge horizontal */
+  /* padding-bottom: 0; */ /* Jika ingin map menyentuh footer */
+  box-sizing: border-box;
+
+  padding-top: 60px;
+  position: relative; /* Penting! */
+}
+
+.map-page-full-container .map-page-title {
+  color: #00381f;
+  margin: 0.5rem 1rem 1rem 1rem; /* Beri sedikit margin untuk judul */
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center; /* Opsional, agar judul di tengah */
+  flex-shrink: 0; /* Judul tidak boleh mengecil */
 }
 
 /* Navbar styles */
@@ -271,6 +299,27 @@ body {
   padding: 0;
 }
 
+/* Tambahkan di src/assets/styles/styles.css */
+.explore-container {
+  padding: 80px 2rem 2rem; /* Atur padding atas agar tidak tertutup navbar */
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-grow: 1; /* Memastikan main content mengisi ruang tersedia */
+  display: flex; /* Tambahkan ini untuk kontrol layout anak elemen */
+  flex-direction: column; /* Tambahkan ini */
+  min-height: calc(
+    100vh - 160px
+  ); /* Estimasi tinggi viewport dikurangi header & footer, sesuaikan jika perlu */
+}
+
+.explore-container h2 {
+  color: #00381f;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  flex-shrink: 0; /* Mencegah judul mengecil */
+}
+
 /* Login/Register Form styles */
 .login-container,
 .register-container {
@@ -494,12 +543,13 @@ body {
 }
 
 footer-component {
+  flex-shrink: 0;
   display: block;
   background-color: #212529;
   color: #f8f9fa;
   padding-top: 3rem;
   padding-bottom: 3rem;
-  margin-top: 3rem;
+  margin-top: 0;
 }
 
 footer-component .container {
@@ -789,3 +839,334 @@ footer-component .footer-social-link:hover {
     margin: 0 2rem 0 auto;
   }
 }
+
+/* Styling responsif untuk container peta */
+#map {
+  width: 100%;
+  height: calc(100vh - 70px); /* 70px = tinggi navbar, sesuaikan jika berbeda */
+  min-height: 400px;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  display: block;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 600px) {
+  #map {
+    height: 40vh;
+    min-height: 200px;
+    border-radius: 8px;
+  }
+}
+
+/* Pindahkan kontrol zoom ke kanan atas dan biarkan tertimpa navbar */
+.leaflet-top.leaflet-left {
+  z-index: 900; /* Lebih rendah dari navbar (navbar z-index: 1000) */
+}
+
+/* Search panel styles */
+.search-panel {
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(247,250,247,0.6);
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 8px 0 8px 0;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Saat search bar atau input di dalam panel difokuskan, jadi solid */
+.search-panel:focus-within {
+  background: #f7faf7;
+  backdrop-filter: none;
+}
+
+.search-bar {
+  width: 90%;
+  max-width: 320px;
+  background: transparent; /* Ubah dari #fff ke transparent */
+  box-shadow: none;        /* Hilangkan shadow */
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  transition: width 0.3s cubic-bezier(0.4, 2, 0.6, 1), box-shadow 0.3s, background 0.3s;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0 12px;
+  position: relative;
+}
+
+/* Saat expanded, baru tampil background dan shadow */
+.search-bar.expanded {
+  width: 320px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+}
+
+.search-bar .search-icon {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+#search-gunung {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1em;
+  width: 0;
+  opacity: 0;
+  transition: width 0.3s, opacity 0.2s;
+}
+
+.search-bar.expanded #search-gunung {
+  width: 220px;
+  opacity: 1;
+  margin-left: 4px;
+}
+
+/* .search-result-list {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,2,.6,1), opacity 0.2s;
+  background: #fff;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 48px;
+  z-index: 20;
+  list-style: none;
+  pointer-events: none;
+} */
+
+.search-bar.expanded .search-result-list,
+.search-result-list.active {
+  max-height: 400px;
+  opacity: 1;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.search-result-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.search-result-list li:hover {
+  background: #eaeae8;
+}
+
+.result-icon {
+  width: 28px;
+  height: 28px;
+  background: #eaeae8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.result-title {
+  font-weight: 500;
+  color: #222;
+}
+
+.result-sub {
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 2px;
+}
+
+.gunung-highlight-card {
+  position: absolute;
+  top: 80px;
+  right: 32px;
+  width: 370px;
+  max-height: calc(100vh - 120px);
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 18px;
+  z-index: 900; /* Lebih rendah dari navbar (navbar z-index: 1000) */
+  display: flex;
+  flex-direction: column;
+  padding: 18px 0 18px 0;
+  overflow: hidden;
+}
+
+.highlight-list {
+  overflow-y: auto;
+  padding: 0 18px;
+  max-height: calc(100vh - 160px);
+}
+
+.highlight-card-item {
+  background: #f8f8f8;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.highlight-card-item:last-child {
+  margin-bottom: 0;
+}
+
+.highlight-img-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #e0e0e0;
+  overflow: hidden;
+}
+
+.highlight-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.highlight-info {
+  padding: 14px 16px 12px 16px;
+}
+
+.highlight-title {
+  font-weight: bold;
+  font-size: 1.08em;
+  margin-bottom: 4px;
+}
+
+.highlight-sub {
+  color: #666;
+  font-size: 0.98em;
+  margin-bottom: 6px;
+}
+
+.highlight-meta {
+  color: #888;
+  font-size: 0.95em;
+}
+
+/* Tambahan untuk minimized card */
+.gunung-highlight-card.minimized {
+  width: auto !important;
+  min-width: 0;
+  max-width: none;
+  height: auto !important;
+  max-height: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.highlight-minimized-btn {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px 18px 10px 18px;
+  gap: 10px;
+}
+
+.highlight-minimized-title {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #222;
+}
+
+.highlight-minimized-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #ededed;
+  border-radius: 50%;
+  font-size: 1.3em;
+  color: #444;
+}
+
+/* Tambahkan ke style.innerHTML di initMap atau file CSS global */
+.side-panel-container {
+  position: absolute;
+  top: 80px;         /* Sesuaikan dengan tinggi navbar */
+  left: 24px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 370px;
+  max-width: 95vw;
+  height: calc(100vh - 100px); /* agar tidak keluar layar */
+  pointer-events: none; /* Supaya panel tidak blokir map, kecuali child */
+}
+
+.gunung-highlight-card,
+.search-panel {
+  width: 100%;
+  pointer-events: auto; /* Aktifkan interaksi */
+}
+
+.gunung-highlight-card {
+  position: static !important;
+  margin-bottom: 8px;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+.search-panel {
+  background: rgba(247,250,247,0.6);
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 8px 0 8px 0;
+  margin-top: 8px;
+}
+
+/* Map controls tetap di kanan */
+.custom-map-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .side-panel-container {
+    left: 2vw;
+    width: 96vw;
+    max-width: 98vw;
+    top: 60px;
+    height: auto;
+  }
+  .gunung-highlight-card {
+    max-height: 30vh;
+  }
+}
+
+
