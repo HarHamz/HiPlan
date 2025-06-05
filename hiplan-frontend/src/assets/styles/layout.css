@@ -1,0 +1,68 @@
+/*******************************
+* FILENAME: 02_layout.css
+*******************************/
+
+/* Layout utama aplikasi */
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Kontainer khusus untuk halaman peta agar bisa full-width dan full-height */
+.map-page-full-container {
+  flex-grow: 1; /* Mengisi sisa ruang vertikal di dalam #app */
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px; /* Penyesuaian untuk tinggi navbar */
+  position: relative; /* Penting untuk child dengan posisi absolute */
+  box-sizing: border-box;
+}
+
+.map-page-full-container .map-page-title {
+  color: #00381f;
+  margin: 0.5rem 1rem 1rem 1rem; /* Beri sedikit margin untuk judul */
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center; /* Opsional, agar judul di tengah */
+  flex-shrink: 0; /* Judul tidak boleh mengecil */
+}
+
+/* Kontainer untuk halaman eksplorasi umum (non-peta utama) */
+/* Catatan: .explore-container muncul dua kali di file asli dengan definisi berbeda.
+   Ini adalah yang pertama, yang lebih umum.
+   Jika .explore-container hanya digunakan untuk satu jenis halaman,
+   mungkin lebih baik digabungkan atau diberi nama yang lebih spesifik.
+   Untuk saat ini, saya ambil definisi yang pertama muncul untuk "layout".
+*/
+.explore-container {
+  padding: 80px 2rem 2rem; /* Atur padding atas agar tidak tertutup navbar */
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-grow: 1; /* Memastikan main content mengisi ruang tersedia */
+  display: flex; /* Tambahkan ini untuk kontrol layout anak elemen */
+  flex-direction: column;
+  min-height: calc(
+    100vh - 160px
+  ); /* Estimasi tinggi viewport dikurangi header & footer */
+}
+
+.explore-container h2 {
+  color: #00381f;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  flex-shrink: 0; /* Mencegah judul mengecil */
+}
+
+/* Kontainer untuk halaman Login dan Registrasi */
+.login-container,
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: 100px;
+  background-color: #f5f5f5; /* Warna latar belakang sama dengan body, bisa dipertimbangkan untuk dihapus jika tidak ada perbedaan spesifik */
+  margin: 0; /* Sudah di-reset oleh *, tapi tidak masalah ada di sini */
+  box-sizing: border-box; /* Sudah di-reset oleh *, tapi tidak masalah ada di sini */
+}

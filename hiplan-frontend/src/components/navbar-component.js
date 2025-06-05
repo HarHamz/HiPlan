@@ -242,6 +242,8 @@ class NavBar extends HTMLElement {
               <li role="none"><a href="/" role="menuitem" aria-current="page">Beranda</a></li>
               <li role="none"><a href="#" role="menuitem">Jelajah</a></li>
               <li role="none"><a href="#about" role="menuitem">Tentang</a></li>
+              <li role="none"><a href="#jelajah" role="menuitem">Jelajah</a></li>
+              <li role="none"><a href="#" role="menuitem">Tentang</a></li>
               <li role="none"><button class="btn btn-masuk" type="button">Masuk</button></li>
               <li role="none"><button class="btn btn-daftar" type="button">Daftar</button></li>
             </ul>

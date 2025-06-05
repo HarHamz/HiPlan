@@ -1,0 +1,291 @@
+/*******************************
+* FILENAME: 07_explore-page.css
+*******************************/
+
+/* Navbar tetap di atas */
+nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 1000;
+}
+
+/* Main content turun sesuai tinggi navbar */
+.map-page-full-container {
+  padding-top: 64px; /* Sesuaikan dengan tinggi navbar */
+}
+
+/* Styling untuk container peta */
+#map {
+  width: 100%;
+  height: calc(100vh - 70px); /* 70px = tinggi navbar, sesuaikan jika berbeda */
+  min-height: 400px;
+  max-width: 100%;
+  margin: 0 auto; /* Tidak terlalu berpengaruh jika width 100% */
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  display: block;
+}
+
+/* Mengatur z-index untuk kontrol default Leaflet agar tidak tertimpa navbar */
+.leaflet-top.leaflet-left {
+  z-index: 900; /* Lebih rendah dari navbar (navbar z-index: 1000) */
+}
+
+/* Kontainer panel samping di halaman peta (untuk search & highlight card) */
+.side-panel-container {
+  display: flex;
+  flex-direction: row;      /* Ini membuat anak-anaknya (search-panel & highlight) sejajar horizontal */
+  align-items: flex-start;
+  gap: 18px;
+  position: absolute;
+  top: 84px;
+  left: 24px;
+  z-index: 900;
+  width: auto;
+  max-width: none;
+  height: auto;
+}
+
+/* Pastikan children dari side-panel-container bisa diinteraksi */
+.side-panel-container > .gunung-highlight-card,
+.side-panel-container > .search-panel {
+  pointer-events: auto; /* Aktifkan interaksi untuk children */
+}
+
+/* Search panel di halaman peta */
+.search-panel {
+  /* width: 100%; (sudah dicakup oleh .side-panel-container > .search-panel di atas) */
+  margin: 0 auto; /* Jika width lebih kecil dari parent, ini akan memusatkan */
+  background: rgba(247, 250, 247, 0.6); /* Latar belakang semi-transparan */
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: 8px 0 8px 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Efek focus untuk search-panel */
+.search-panel:focus-within {
+  background: #f7faf7; /* Latar belakang solid saat fokus */
+  backdrop-filter: none;
+}
+
+.search-bar {
+  /* Search bar di dalam .search-panel */
+  width: 90%; /* Relatif terhadap .search-panel */
+  max-width: 320px;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  transition: width 0.3s cubic-bezier(0.4, 2, 0.6, 1), box-shadow 0.3s,
+    background 0.3s;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0 12px;
+  position: relative; /* Untuk search-result-list jika diposisikan absolut terhadap ini */
+}
+
+.search-bar.expanded {
+  /* width: 320px; (max-width sudah mengatur ini) */
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+}
+
+.search-bar .search-icon {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+#search-gunung {
+  /* Input pencarian di dalam .search-bar */
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1em;
+  width: 0; /* Awalnya disembunyikan */
+  opacity: 0; /* Awalnya disembunyikan */
+  transition: width 0.3s, opacity 0.2s;
+}
+
+.search-bar.expanded #search-gunung {
+  width: 220px; /* Lebar saat search bar expanded */
+  opacity: 1;
+  margin-left: 4px;
+}
+
+/* Daftar hasil pencarian */
+/* Gaya .search-result-list yang di-comment di file asli mungkin perlu dipertimbangkan jika diperlukan */
+.search-result-list {
+  /* Default state (hidden or styled by JS) */
+  max-height: 84px; /* Kira-kira 2 baris, sesuaikan jika perlu */
+  overflow-y: auto;
+  margin: 6px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-size: 0.97rem;
+}
+
+.search-bar.expanded .search-result-list, /* Ini kurang tepat, karena .search-result-list bukan child dari .search-bar */
+.search-result-list.active {
+  /* .active ditambahkan oleh JS */
+  max-height: 400px; /* Tinggi maksimum saat terlihat */
+  opacity: 1;
+  overflow-y: auto;
+  pointer-events: auto;
+  /* Jika .search-result-list berada di luar .search-bar tapi di dalam .search-panel: */
+  /* background: #fff; (jika perlu background sendiri) */
+  /* box-shadow: 0 8px 24px rgba(0,0,0,0.10); (jika perlu shadow sendiri) */
+  /* border-radius: 0 0 18px 18px; (jika bagian bawah search-panel) */
+}
+
+.search-result-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid;
+}
+
+.search-result-list li:hover {
+  border-bottom: none;
+}
+
+.result-icon {
+  width: 28px;
+  height: 28px;
+  background: #eaeae8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.result-title {
+  font-weight: 500;
+  color: #222;
+}
+
+.result-sub {
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Kartu sorotan gunung di halaman peta */
+.gunung-highlight-card {
+  position: relative;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px 16px 16px 16px;
+  min-width: 280px;
+  max-width: 340px;
+  min-height: 180px;
+  max-height: 572px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  transition:
+    max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s;
+  opacity: 1;
+  overflow: hidden;
+}
+
+/* Gaya untuk kartu sorotan yang diperkecil (minimized) */
+.gunung-highlight-card.minimized {
+  max-height: 56px !important;
+  min-height: 0 !important;
+  padding: 0 16px !important;
+  opacity: 0.95;
+  overflow: hidden;
+  transition:
+    max-height 0.35s cubic-bezier(0.4,0,0.2,1),
+    padding 0.35s cubic-bezier(0.4,0,0.2,1),
+    opacity 0.25s;
+}
+
+.highlight-list {
+  overflow-y: auto; /* Scroll untuk daftar item */
+  padding: 0 18px; /* Padding kiri kanan untuk item */
+  /* max-height: calc(100vh - 160px); (Ini dari gaya global, mungkin perlu disesuaikan dengan konteks .side-panel-container) */
+  flex-grow: 1; /* Mengisi sisa ruang di .gunung-highlight-card */
+}
+
+.highlight-card-item {
+  background: #f8f8f8;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.highlight-card-item:last-child {
+  margin-bottom: 0;
+}
+
+.highlight-img-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #e0e0e0; /* Placeholder jika gambar tidak ada */
+  overflow: hidden;
+}
+
+.highlight-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.highlight-info {
+  padding: 14px 16px 12px 16px;
+}
+
+.highlight-title {
+  font-weight: bold;
+  font-size: 1.08em;
+  margin-bottom: 4px;
+}
+
+.highlight-sub {
+  color: #666;
+  font-size: 0.98em;
+  margin-bottom: 6px;
+}
+
+.highlight-meta {
+  color: #888;
+  font-size: 0.95em;
+}
+
+/* Kontrol peta kustom (tombol zoom, layer, dll.) */
+.custom-map-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px; /* Jarak dari atas (jika di kanan atas) */
+  margin-right: 8px; /* Jarak dari kanan (jika di kanan atas) */
+  /* Penambahan: pastikan posisinya di atas peta */
+  position: absolute;
+  top: 10px; /* Sesuaikan dari atas, setelah memperhitungkan navbar */
+  right: 10px;
+  z-index: 1000; /* Di atas peta tapi di bawah .side-panel-container jika tumpang tindih */
+}
+
+/* Gaya untuk tombol kontrol peta individu bisa ditambahkan di sini jika berbeda dari .btn umum */
+/* .ctrl-btn dari style yang di-inject JS sudah mencakup ini, tapi bisa dipindah ke sini */
