@@ -2,6 +2,7 @@ import "./components/navbar-component.js";
 import "./components/footer-component.js";
 import "./assets/styles/styles.css";
 import "./assets/styles/mountain-detail.css";
+import "./assets/styles/about-page.css";
 import { HomeView } from "./views/HomeView";
 import { AboutView } from "./views/AboutView";
 import { LoginView } from "./views/LoginView";
