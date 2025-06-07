@@ -25,14 +25,26 @@ export class HomeView {
                 <section class="mulai-jelajah-section" aria-labelledby="jelajah-heading">
                     <h2 id="jelajah-heading">Mulai Jelajahi dari Sini</h2>
                     <div class="card-container">
-                        ${this.renderMountainCards(mountains.slice(0, 4))}
+                        ${this.renderMountainCards(
+                          [65, 73, 86, 51]
+                            .map((id) =>
+                              mountains.find((mountain) => mountain.id === id)
+                            )
+                            .filter((mountain) => mountain)
+                        )}
                     </div>
                 </section>
 
                 <section class="destinasi-populer-section" aria-labelledby="populer-heading">
                     <h2 id="populer-heading">Destinasi Populer</h2>
                     <div class="card-container">
-                        ${this.renderMountainCards(mountains.slice(0, 4))}
+                        ${this.renderMountainCards(
+                          [170, 79, 197, 159]
+                            .map((id) =>
+                              mountains.find((mountain) => mountain.id === id)
+                            )
+                            .filter((mountain) => mountain)
+                        )}
                     </div>
                 </section>
 
