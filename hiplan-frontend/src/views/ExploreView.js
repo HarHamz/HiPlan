@@ -17,7 +17,7 @@ export class ExploreView {
           <div class="search-panel">
             <div class="search-bar">
               <span class="search-icon">
-                <svg width="20" height="20" fill="none" stroke="#222" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <i class="bi bi-search"></i>
               </span>
               <input id="search-gunung" type="text" placeholder="Telusuri Gunung Indonesia" autocomplete="off" />
               <button id="search-exit-btn" class="search-exit-btn" type="button" title="Tutup Pencarian" style="display:none;">

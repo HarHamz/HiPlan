@@ -40,7 +40,7 @@
 .search-panel {
   margin: 0 auto;
   background: rgba(247, 250, 247, 0.6);
-  border-radius: 18px;
+  border-radius: 10px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   padding: 8px 0 8px 0;
   margin-top: 0;
@@ -55,18 +55,17 @@
 }
 
 .search-bar {
-  width: 90%;
   max-width: 320px;
   background: transparent;
   box-shadow: none;
-  border-radius: 24px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   transition: width 0.3s cubic-bezier(0.4, 2, 0.6, 1), box-shadow 0.3s,
     background 0.3s;
   overflow: hidden;
   cursor: pointer;
-  padding: 0 12px;
+  margin: 0 10px;
   position: relative;
 }
 
@@ -76,7 +75,6 @@
 }
 
 .search-bar .search-icon {
-  margin-right: 8px;
   flex-shrink: 0;
 }
 
@@ -84,7 +82,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-size: 1em;
+  font-size: 0.8em;
   width: 0;
   opacity: 0;
   transition: width 0.3s, opacity 0.2s;
