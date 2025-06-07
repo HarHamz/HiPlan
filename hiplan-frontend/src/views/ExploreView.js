@@ -13,20 +13,19 @@ export class ExploreView {
       </header>
       <main class="map-page-full-container" style="position:relative;">
         <div class="side-panel-container">
-        <div id="gunung-highlight-card" class="gunung-highlight-card"></div>
-          <div class="search-panel">
+          <div id="gunung-highlight-card" class="gunung-highlight-card"></div>
+            <div class="search-panel">
             <div class="search-bar">
               <span class="search-icon">
                 <i class="bi bi-search"></i>
               </span>
               <input id="search-gunung" type="text" placeholder="Telusuri Gunung Indonesia" autocomplete="off" />
               <button id="search-exit-btn" class="search-exit-btn" type="button" title="Tutup Pencarian" style="display:none;">
-                <svg width="18" height="18" viewBox="0 0 24 24" stroke="#888" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <i class="bi bi-x"></i>
               </button>
             </div>
             <ul id="search-result-list" class="search-result-list"></ul>
           </div>
-          <!-- Desktop highlight: sekarang di bawah search-panel -->
         </div>
         <div id="map"></div>
         <!-- Mobile highlight -->
@@ -368,9 +367,7 @@ export class ExploreView {
                 <div class="highlight-title">${gunung.Nama}</div>
                 <div class="highlight-sub">${gunung.Provinsi}</div>
                 <div class="highlight-meta">
-                  ⭐ ${gunung.Rating || "-"} &bull; ${
-                gunung["Ketinggian (dpl)"]
-              } mdpl
+                ${gunung["Ketinggian (dpl)"]} mdpl
                 </div>
               </div>
             </div>
@@ -495,7 +492,6 @@ export class ExploreView {
       }
     });
 
-    // Tambahkan/ubah CSS berikut setelah style.innerHTML (atau gabungkan dengan style yang sudah ada)
     style.innerHTML += `
       .gunung-highlight-card {
         position: relative;
@@ -517,7 +513,7 @@ export class ExploreView {
         justify-content: space-between;
         gap: 12px;
         margin-bottom: 12px;
-        padding: 8px;
+        padding: 4px 4px 8px;
       }
       .highlight-card-title {
         font-size: 1.1rem;
