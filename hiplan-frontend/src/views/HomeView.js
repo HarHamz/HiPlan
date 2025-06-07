@@ -68,15 +68,20 @@ export class HomeView {
 
     this.bindEvents();
   }
-
   renderMountainCards(mountains) {
     return mountains
       .map((mountain) => {
+        // Gunakan gambar dari Cloudinary jika tersedia, atau fallback ke local images
+        const imageUrl =
+          mountain.mainImage && mountain.mainImage.startsWith("http")
+            ? mountain.mainImage
+            : require("../assets/images/" + mountain.mainImage);
+
         return `            
         <article class="card" data-id="${mountain.id}">
           <a href="#/mountain/${mountain.id}" class="card-link">
-          <img src="${require("../assets/images/" +
-            mountain.mainImage)}" alt="Pemandangan Gunung ${mountain.name}" />
+          <img src="${imageUrl}" alt="Pemandangan Gunung ${mountain.name}" 
+               onerror="this.src='${require("../assets/images/bromo.jpg")}'" />
                     <div class="card-content">
                         <h3>${mountain.name}</h3>
                         <p>${mountain.location}</p>

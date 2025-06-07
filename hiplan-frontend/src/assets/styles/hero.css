@@ -1,7 +1,3 @@
-/*******************************
-* FILENAME: 04_content.css
-*******************************/
-
 /* Hero section styles */
 .hero {
   height: 80vh;
@@ -38,7 +34,6 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* General Search container styles (misalnya di hero) */
 .search-container {
   display: flex;
   max-width: 600px;
@@ -51,7 +46,6 @@
 }
 
 #searchInput {
-  /* Ini adalah ID, mungkin lebih baik jika ini adalah kelas jika digunakan di banyak tempat */
   flex: 1;
   padding: 1rem;
   border: none;
@@ -66,7 +60,6 @@
 }
 
 .search-btn {
-  /* Ini juga bisa jadi lebih umum atau spesifik tergantung penggunaan */
   background: rgb(255, 255, 255);
   border: none;
   padding: 0.5rem 1rem;
@@ -79,14 +72,11 @@
   height: 24px;
 }
 
-/* Mountain cards section / General Card styles */
 .mountain-section {
-  /* Ini lebih seperti nama seksi daripada komponen card itu sendiri */
   padding: 4rem 2rem;
 }
 
 .mountain-section h2 {
-  /* Judul seksi */
   color: #2d3648;
   margin-bottom: 2rem;
   font-size: 1.8rem;
@@ -136,17 +126,14 @@
 }
 
 .altitude {
-  /* Kelas utilitas atau spesifik untuk card gunung */
-  color: #00381f !important; /* Penggunaan !important sebaiknya dihindari jika memungkinkan */
+  color: #00381f !important;
   font-weight: 500;
   margin-top: 0.5rem;
 }
 
-/* General Section styles */
-.mulai-jelajah-section, /* Contoh seksi spesifik */
+.mulai-jelajah-section,
 .destinasi-populer-section {
-  /* Contoh seksi spesifik */
-  padding: 4rem 0 1rem;
+  padding: 4rem 0.75rem 1rem;
   width: 100%;
 }
 
@@ -154,7 +141,6 @@
 .destinasi-populer-section > div,
 .mulai-jelajah-section h2,
 .destinasi-populer-section h2 {
-  /* Targeting elemen dalam seksi spesifik */
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -165,10 +151,9 @@
   margin-bottom: 2rem;
   font-size: 1.8rem;
   font-weight: 600;
-  padding: 0; /* Jika h2 dari .explore-container sudah punya padding, ini bisa menimpanya */
+  padding: 0;
 }
 
-/* Feature section styles (biasanya di halaman utama atau tentang kami) */
 .feature-section {
   max-width: 1260px;
   margin: 4rem auto;
@@ -176,7 +161,6 @@
 }
 
 .feature-section h2 {
-  /* Judul untuk feature section */
   color: #00381f;
   font-size: 2rem;
   margin-bottom: 1.5rem;
@@ -244,5 +228,3 @@
   object-fit: contain;
   margin-bottom: 0.5rem;
 }
-
-/* Catatan: Gaya untuk form login/register akan dimasukkan ke file terpisah karena cukup banyak */

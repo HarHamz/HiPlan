@@ -1,10 +1,9 @@
-/* Main CSS - Entry point untuk semua styles */
-@import url("./base.css"); /* Base styles & resets */
-@import url("./layout.css"); /* Layout utilities */
-@import url("./forms.css"); /* Form specific styles */
-@import url("./hero.css"); /* Hero section & general components */
-@import url("./mountain-detail.css"); /* Mountain detail page styles */
-@import url("./about-page.css"); /* About page styles */
-@import url("./explore-map.css"); /* Map page styles */
-@import url("./styles.css"); /* Page-specific overrides */
-@import url("./responsive.css"); /* Media queries */
+@import url("./base.css");
+@import url("./layout.css");
+@import url("./forms.css");
+@import url("./hero.css");
+@import url("./mountain-detail.css");
+@import url("./about-page.css");
+@import url("./explore-map.css");
+@import url("./styles.css");
+@import url("./responsive.css");

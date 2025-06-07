@@ -16,13 +16,14 @@ export class Mountain {
     estimatedTime,
     latitude,
     longitude,
-    deskripsi
+    deskripsi,
+    gambar
   ) {
     this.id = id;
     this.name = nama;
     this.location = `${kabupaten}, ${provinsi}`;
     this.altitude = ketinggian;
-    this.mainImage = "bromo.jpg";
+    this.mainImage = gambar || "bromo.jpg";
     this.description = deskripsi;
     this.difficulty = this.calculateDifficulty(elevationGain, jarakM);
     this.distance = jarakM ? (jarakM / 1000).toFixed(1) : "N/A";
@@ -129,7 +130,8 @@ export class MountainModel {
           data["Estimated Time "],
           data.Latitude,
           data.Longitude,
-          data.Deskripsi
+          data.Deskripsi,
+          data.Gambar
         )
     );
   }

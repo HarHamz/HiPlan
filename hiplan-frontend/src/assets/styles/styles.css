@@ -64,7 +64,6 @@ h2 {
 /*******************************
 * CARD STYLES - SPECIFIC LAYOUTS
 *******************************/
-/* Hanya layout spesifik dan override yang didefinisikan di sini */
 
 .mountain-section {
   padding: 4rem 2rem;
@@ -108,7 +107,7 @@ h2 {
 /*******************************
 * FORM STYLES - LAYOUT ONLY
 *******************************/
-/* Hanya layout container yang didefinisikan di sini */
+
 .login-container,
 .register-container {
   display: flex;

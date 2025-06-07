@@ -79,10 +79,14 @@ export class MountainDetailView {
         <div class="mountain-image-wrapper">
           <section class="mountain-gallery">
             <div class="main-image">
-              <img src="${require("../assets/images/" +
-                mountain.mainImage)}" alt="${
-      mountain.name
-    }" class="main-photo" />
+              <img src="${
+                mountain.mainImage && mountain.mainImage.startsWith("http")
+                  ? mountain.mainImage
+                  : require("../assets/images/" + mountain.mainImage)
+              }" 
+                alt="${mountain.name}" 
+                class="main-photo" 
+                onerror="this.src='${require("../assets/images/bromo.jpg")}'" />
             </div>
           </section>
         </div>
@@ -244,7 +248,7 @@ export class MountainDetailView {
                 </div>
                 <div class="detail-info">
                   <h4>Jarak Tempuh</h4>
-                  <p>${mountain.distance || "N/A"} km</p>
+                  <p>${mountain.distance || "N/A"} m</p>
                 </div>
               </div>
               
@@ -440,12 +444,16 @@ export class MountainDetailView {
               0
             )} km dari sini</p>`
           : "";
-
         return `            
         <article class="card" data-id="${mountain.id}">
           <a href="#/mountain/${mountain.id}" class="card-link">
-            <img src="${require("../assets/images/" +
-              mountain.mainImage)}" alt="Pemandangan Gunung ${mountain.name}" />
+            <img src="${
+              mountain.mainImage && mountain.mainImage.startsWith("http")
+                ? mountain.mainImage
+                : require("../assets/images/" + mountain.mainImage)
+            }" 
+              alt="Pemandangan Gunung ${mountain.name}" 
+              onerror="this.src='${require("../assets/images/bromo.jpg")}'" />
             <div class="card-content">
               <h3>${mountain.name}</h3>
               <p>${mountain.location}</p>

@@ -253,9 +253,7 @@ export class ExploreView {
     const highlightCard = document.getElementById("gunung-highlight-card");
     const highlightCardMobile = document.getElementById(
       "gunung-highlight-card-mobile"
-    );
-
-    // Fungsi render highlight mobile
+    ); // Fungsi render highlight mobile
     function showHighlightCardMobile(gunung) {
       if (!highlightCardMobile) return;
       if (!gunung) {
@@ -263,12 +261,13 @@ export class ExploreView {
         highlightCardMobile.innerHTML = "";
         return;
       }
-      // Gunakan gambar dari data jika ada, jika tidak fallback ke cartenzImg
-      const imgSrc = gunung.Foto || cartenzImg;
+      // Gunakan gambar dari Cloudinary jika ada, jika tidak fallback ke cartenzImg
+      const imgSrc = gunung.Gambar || cartenzImg;
       highlightCardMobile.innerHTML = `
         <button class="close-highlight-btn" aria-label="Tutup">&times;</button>
         <div class="highlight-card-content-mobile" data-mountain-id="${gunung.Id}" style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:8px;border-radius:12px;transition:background-color 0.2s ease;">
-          <img src="${imgSrc}" alt="${gunung.Nama}" style="width:72px;height:72px;object-fit:cover;border-radius:14px;flex-shrink:0;background:#f5f5f5;">
+          <img src="${imgSrc}" alt="${gunung.Nama}" style="width:72px;height:72px;object-fit:cover;border-radius:14px;flex-shrink:0;background:#f5f5f5;" 
+               onerror="this.src='${cartenzImg}'" />
           <div>
             <div class="highlight-title-mobile" style="font-size:1.1rem;font-weight:600;margin-bottom:2px;">${gunung.Nama}</div>
             <div class="highlight-sub-mobile" style="color:#3498db;font-size:0.97rem;margin-bottom:2px;">${gunung.Provinsi}</div>
@@ -362,7 +361,8 @@ export class ExploreView {
               gunung.Id
             }" data-index="${index}" style="cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
               <div class="highlight-img-wrap">
-                <img src="${cartenzImg}" alt="${gunung.Nama}" />
+                <img src="${gunung.Gambar || cartenzImg}" alt="${gunung.Nama}" 
+                     onerror="this.src='${cartenzImg}'" />
               </div>
               <div class="highlight-info">
                 <div class="highlight-title">${gunung.Nama}</div>

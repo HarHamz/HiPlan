@@ -17,7 +17,9 @@ export class AboutView {
             </section>
 
             <main style="padding-left: 20px; padding-right: 20px;">
+            <div class="section-title">
             <h1 style="padding-top: 50px;">MENGAPA HIPLAN DICIPTAKAN?</h1>
+            </div>
 
                 <section class="AboutView-section" aria-labelledby="">
                   <div class="content-block">

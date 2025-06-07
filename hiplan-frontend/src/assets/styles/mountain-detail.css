@@ -817,6 +817,7 @@ y
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 2rem;
+  margin-bottom: 20px;
 }
 
 .area-sekitar-container {
