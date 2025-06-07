@@ -47,13 +47,11 @@ export class MountainDetailView {
   }
 
   setupNavbarBehavior() {
-    // Tunggu sebentar untuk memastikan custom element sudah loaded
     setTimeout(() => {
       const navBar = document.querySelector("nav-bar");
       const mountainTabs = document.querySelector(".mountain-tabs");
 
       if (navBar) {
-        // Hapus sticky dari navbar global
         navBar.style.setProperty("--navbar-position", "static");
       }
 
@@ -101,7 +99,6 @@ export class MountainDetailView {
     `;
   }
   renderCuacaTab(mountain) {
-    // Generate tanggal real-time untuk 6 hari (hari ini + 5 hari ke depan)
     const today = new Date();
     const dayNames = [
       "Minggu",
@@ -127,7 +124,6 @@ export class MountainDetailView {
       "Des",
     ];
 
-    // Data cuaca tetap sama, hanya tanggal yang berubah
     const weatherData = [
       {
         weather: "cerah",
@@ -248,7 +244,7 @@ export class MountainDetailView {
                 </div>
                 <div class="detail-info">
                   <h4>Jarak Tempuh</h4>
-                  <p>${mountain.distance || "N/A"} m</p>
+                  <p>${mountain.distance || "N/A"} km</p>
                 </div>
               </div>
               
@@ -408,10 +404,9 @@ export class MountainDetailView {
     `;
   }
   renderAreaSekitarTab(mountain) {
-    // Ambil data gunung terdekat dari presenter
     const nearbyMountains = this.presenter
       ? this.presenter.getNearbyMountains()
-      : []; // Fallback jika presenter belum tersedia
+      : [];
 
     return `
       <section class="area-sekitar-section">
@@ -474,13 +469,10 @@ export class MountainDetailView {
         e.preventDefault();
         const sectionId = tab.getAttribute("data-section");
 
-        // Hapus kelas active
         tabs.forEach((t) => t.classList.remove("active"));
 
-        // Tambahkan kelas active
         tab.classList.add("active");
 
-        // Smooth scroll
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
           const tabsHeight =
@@ -498,14 +490,11 @@ export class MountainDetailView {
       });
     });
 
-    // Check scroll position to highlight active tab
     window.addEventListener("scroll", () => {
       const scrollPosition = window.scrollY + 200;
 
-      // Get all section elements
       const sections = document.querySelectorAll(".section-container");
 
-      // Find the current section in view
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
@@ -516,7 +505,6 @@ export class MountainDetailView {
         ) {
           const sectionId = section.getAttribute("id");
 
-          // Highlight the corresponding tab
           tabs.forEach((tab) => {
             if (tab.getAttribute("data-section") === sectionId) {
               tabs.forEach((t) => t.classList.remove("active"));
@@ -527,7 +515,6 @@ export class MountainDetailView {
       });
     });
 
-    // Setup weather click handlers for interactive difficulty system
     this.setupWeatherClickHandlers();
   }
 
@@ -576,13 +563,10 @@ export class MountainDetailView {
         const weather = card.getAttribute("data-weather");
         const day = card.getAttribute("data-day");
 
-        // Remove active class from all cards
         weatherCards.forEach((c) => c.classList.remove("active-weather"));
 
-        // Add active class to clicked card
         card.classList.add("active-weather");
 
-        // Show weather impact info
         if (weatherImpactInfo) {
           weatherImpactInfo.style.display = "block";
           weatherImpactText.textContent = this.getWeatherImpactText(
@@ -591,10 +575,9 @@ export class MountainDetailView {
           );
         }
 
-        // Notify presenter about weather selection
         if (this.presenter && this.presenter.selectWeather) {
           this.presenter.selectWeather(weather);
-        } // Smooth scroll to jalur section to see the effect
+        }
         setTimeout(() => {
           const jalurSection = document.getElementById("section-jalur");
           if (jalurSection) {
@@ -603,34 +586,5 @@ export class MountainDetailView {
         }, 300);
       });
     });
-
-    // Reset weather selection
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () => {
-        // Remove active class from all cards
-        weatherCards.forEach((c) => c.classList.remove("active-weather"));
-
-        // Hide weather impact info
-        if (weatherImpactInfo) {
-          weatherImpactInfo.style.display = "none";
-        }
-
-        // Reset presenter weather selection
-        if (this.presenter && this.presenter.resetWeatherSelection) {
-          this.presenter.resetWeatherSelection();
-        }
-      });
-    }
-  }
-
-  // Method untuk mendapatkan teks dampak cuaca
-  getWeatherImpactText(weather, day) {
-    const impactTexts = {
-      cerah: `Cuaca cerah pada hari ${day} memberikan kondisi ideal untuk pendakian. Jarak pandang yang baik dan jalur yang kering membuat pendakian lebih aman dan mudah.`,
-      berawan: `Cuaca berawan pada hari ${day} menambah sedikit tantangan. Suhu lebih sejuk namun kemungkinan hujan ringan dapat membuat jalur licin.`,
-      hujan: `Hujan pada hari ${day} significantly meningkatkan tingkat kesulitan. Jalur menjadi licin dan berlumpur, jarak pandang terbatas, dan risiko hipotermia meningkat.`,
-      badai: `Badai pada hari ${day} sangat berbahaya untuk pendakian! Angin kencang, hujan deras, dan risiko petir membuat pendakian sangat berisiko. Disarankan untuk menunda pendakian.`,
-    };
-    return impactTexts[weather] || "Informasi dampak cuaca tidak tersedia.";
   }
 }
