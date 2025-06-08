@@ -413,6 +413,7 @@
   .forecast-card {
     flex-shrink: 0;
     min-width: 110px;
+    max-width: 170.5px;
   }
 
   .weather-instruction {
@@ -1047,5 +1048,253 @@ y
 
   .main-image {
     height: 250px;
+  }
+}
+
+/* ==================== MONTHLY WEATHER TREND SUB-SECTION ==================== */
+.monthly-weather-trend {
+  margin-top: 40px;
+  background: var(--color-background);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  padding: 30px;
+  box-shadow: var(--shadow-medium);
+}
+
+.monthly-weather-trend h3 {
+  color: var(--color-text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+/* Monthly Weather Selector */
+.monthly-weather-selector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: var(--color-background-light);
+  border-radius: 8px;
+  border: 1px solid var(--color-border-light);
+}
+
+.monthly-weather-selector label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 1rem;
+  margin-right: 8px;
+}
+
+.month-dropdown,
+.year-dropdown {
+  padding: 10px 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: white;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  min-width: 120px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.month-dropdown:focus,
+.year-dropdown:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.prediction-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: auto;
+}
+
+.prediction-btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
+}
+
+.prediction-btn:active {
+  transform: translateY(0);
+}
+
+/* Prediction Result */
+.prediction-result {
+  background: var(--color-background-light);
+  border-radius: 10px;
+  padding: 25px;
+  border: 1px solid var(--color-border-light);
+}
+
+.prediction-result h4 {
+  color: var(--color-text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Weather Parameters */
+.weather-parameters {
+  margin-bottom: 25px;
+}
+
+.weather-parameters h5 {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.parameter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.parameter-item {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.parameter-item:hover {
+  box-shadow: var(--shadow-light);
+  transform: translateY(-1px);
+}
+
+.parameter-label {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.parameter-value {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Weather Tendency */
+.weather-tendency {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.weather-tendency h5 {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.weather-tendency #weather-tendency-result {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Responsive design for monthly weather trend */
+@media (max-width: 768px) {
+  .monthly-weather-trend {
+    margin-top: 30px;
+    padding: 20px;
+  }
+
+  .monthly-weather-trend h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .monthly-weather-selector {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .monthly-weather-selector label {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .month-dropdown,
+  .year-dropdown {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .prediction-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .prediction-result {
+    padding: 20px;
+  }
+
+  .parameter-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .parameter-item {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .monthly-weather-trend {
+    padding: 15px;
+  }
+
+  .monthly-weather-selector {
+    padding: 12px;
+  }
+
+  .prediction-result {
+    padding: 15px;
+  }
+
+  .prediction-result h4 {
+    font-size: 1.1rem;
+  }
+
+  .weather-parameters h5 {
+    font-size: 1rem;
+  }
+
+  .parameter-value {
+    font-size: 1rem;
+  }
+
+  .weather-tendency h5 {
+    font-size: 1rem;
+  }
+
+  .weather-tendency #weather-tendency-result {
+    font-size: 1.1rem;
   }
 }

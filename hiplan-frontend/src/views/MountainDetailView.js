@@ -179,8 +179,16 @@ export class MountainDetailView {
         precip: "25%",
         humid: "40%",
       },
+      {
+        weather: "cerah",
+        icon: "bi-sun",
+        desc: "Cerah",
+        temp: "24°",
+        wind: "5 kph",
+        precip: "0%",
+        humid: "35%",
+      },
     ];
-
     return `
     <section class="cuaca-section">
       <div class="cuaca-container">
@@ -215,6 +223,54 @@ export class MountainDetailView {
             `;
             })
             .join("")}
+        </div>
+
+        <!-- Sub Section: Kecenderungan Cuaca Bulanan -->
+        <div class="monthly-weather-trend">
+          <h3>Kecenderungan Cuaca Bulanan</h3>
+            <div class="monthly-weather-selector">
+            <label for="month-select">Bulan:</label>
+            <select id="month-select" class="month-dropdown">
+              
+            </select>
+            
+            <label for="year-select">Tahun:</label>
+            <select id="year-select" class="year-dropdown">
+              
+            </select>
+            
+            <button id="view-prediction-btn" class="prediction-btn">Lihat Prediksi Kecenderungan Cuaca Bulanan</button>
+          </div>
+
+          <div id="prediction-result" class="prediction-result">
+            <h4>Hasil Prediksi</h4>
+            
+            <div class="weather-parameters">
+              <h5>Rata-rata Parameter Cuaca:</h5>
+              <div class="parameter-grid">
+                <div class="parameter-item">
+                  <span class="parameter-label">Suhu (°C)</span>
+                  <span class="parameter-value" id="avg-temp">25.93 °C</span>
+                </div>
+                <div class="parameter-item">
+                  <span class="parameter-label">Kecepatan Angin</span>
+                  <span class="parameter-value" id="avg-wind">7.39 km/h</span>
+                </div>
+                <div class="parameter-item">
+                  <span class="parameter-label">Probabilitas Hujan (%)</span>
+                  <span class="parameter-value" id="avg-precip">97.00 %</span>
+                </div>
+                <div class="parameter-item">
+                  <span class="parameter-label">Kelembapan (%)</span>
+                  <span class="parameter-value" id="avg-humidity">87.63 %</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="weather-tendency">
+              <h5>Kecenderungan cuaca: <span id="weather-tendency-result">Hujan</span></h5>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -516,13 +572,16 @@ export class MountainDetailView {
     });
 
     this.setupWeatherClickHandlers();
+
+    setTimeout(() => {
+      this.setupMonthlyWeatherTrend();
+    }, 100);
   }
 
   setCurrentMountain(mountain) {
     this.currentMountain = mountain;
   }
 
-  // Method untuk update tampilan tingkat kesulitan
   updateDifficultyDisplay(difficulty, description, color, selectedWeather) {
     const difficultyScore = document.getElementById("difficultyScore");
     const difficultyDescription = document.getElementById(
@@ -551,10 +610,8 @@ export class MountainDetailView {
     }
   }
 
-  // Method untuk menangani klik pada card cuaca
   setupWeatherClickHandlers() {
     const weatherCards = document.querySelectorAll(".clickable-weather");
-    const resetBtn = document.getElementById("resetWeatherBtn");
     const weatherImpactInfo = document.getElementById("weatherImpactInfo");
     const weatherImpactText = document.getElementById("weatherImpactText");
 
@@ -586,5 +643,180 @@ export class MountainDetailView {
         }, 300);
       });
     });
+  }
+
+  setupMonthlyWeatherTrend() {
+    this.setupMonthDropdown();
+    this.populateYearDropdown();
+    this.setupMonthlyPredictionHandler();
+  }
+
+  populateYearDropdown() {
+    const yearSelect = document.getElementById("year-select");
+    if (!yearSelect) return;
+
+    yearSelect.innerHTML = "";
+
+    const currentYear = new Date().getFullYear();
+
+    for (let i = 0; i <= 10; i++) {
+      const year = currentYear + i;
+      const option = document.createElement("option");
+      option.value = year;
+      option.textContent = year;
+
+      if (i === 0) {
+        option.selected = true;
+      }
+
+      yearSelect.appendChild(option);
+    }
+  }
+
+  setupMonthDropdown() {
+    const monthSelect = document.getElementById("month-select");
+    if (!monthSelect) return;
+
+    const months = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+
+    monthSelect.innerHTML = "";
+
+    const currentMonth = new Date().getMonth();
+
+    months.forEach((monthName, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.textContent = monthName;
+
+      if (index === currentMonth) {
+        option.selected = true;
+      }
+
+      monthSelect.appendChild(option);
+    });
+  }
+
+  setupMonthlyPredictionHandler() {
+    const predictionBtn = document.getElementById("view-prediction-btn");
+    const predictionResult = document.getElementById("prediction-result");
+    const monthSelect = document.getElementById("month-select");
+    const yearSelect = document.getElementById("year-select");
+
+    if (!predictionBtn || !predictionResult) return;
+
+    predictionBtn.addEventListener("click", () => {
+      const selectedMonth = monthSelect.value;
+      const selectedYear = yearSelect.value;
+      const monthNames = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      predictionBtn.textContent = "Memuat Prediksi...";
+      predictionBtn.disabled = true;
+
+      setTimeout(() => {
+        const weatherData = this.generateMonthlyWeatherData(
+          selectedMonth,
+          selectedYear
+        );
+
+        this.updatePredictionResults(
+          weatherData,
+          monthNames[selectedMonth],
+          selectedYear
+        );
+
+        predictionResult.style.display = "block";
+
+        predictionBtn.textContent =
+          "Lihat Prediksi Kecenderungan Cuaca Bulanan";
+        predictionBtn.disabled = false;
+
+        predictionResult.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }, 1500);
+    });
+  }
+
+  // Method untuk generate mock weather data berdasarkan bulan dan tahun
+  generateMonthlyWeatherData(month, year) {
+    const monthlyPatterns = {
+      0: { temp: 22, precip: 85, wind: 6, humidity: 82, tendency: "Hujan" },
+      1: { temp: 23, precip: 80, wind: 7, humidity: 80, tendency: "Hujan" },
+      2: { temp: 24, precip: 75, wind: 8, humidity: 78, tendency: "Berawan" },
+      3: { temp: 25, precip: 70, wind: 7, humidity: 75, tendency: "Berawan" },
+      4: { temp: 26, precip: 65, wind: 6, humidity: 72, tendency: "Cerah" },
+      5: { temp: 25, precip: 60, wind: 5, humidity: 70, tendency: "Cerah" },
+      6: { temp: 24, precip: 55, wind: 6, humidity: 68, tendency: "Cerah" },
+      7: { temp: 25, precip: 60, wind: 7, humidity: 70, tendency: "Cerah" },
+      8: { temp: 26, precip: 70, wind: 8, humidity: 75, tendency: "Berawan" },
+      9: { temp: 27, precip: 80, wind: 7, humidity: 80, tendency: "Hujan" },
+      10: { temp: 25, precip: 90, wind: 6, humidity: 85, tendency: "Hujan" },
+      11: { temp: 23, precip: 95, wind: 8, humidity: 88, tendency: "Hujan" },
+    };
+
+    const baseData = monthlyPatterns[month] || monthlyPatterns[11];
+
+    const yearOffset = (year - 2024) * 0.1;
+
+    return {
+      temp: (baseData.temp + yearOffset + (Math.random() - 0.5) * 2).toFixed(2),
+      precip: Math.max(
+        0,
+        Math.min(100, baseData.precip + (Math.random() - 0.5) * 10)
+      ).toFixed(2),
+      wind: (baseData.wind + (Math.random() - 0.5) * 2).toFixed(2),
+      humidity: Math.max(
+        0,
+        Math.min(100, baseData.humidity + (Math.random() - 0.5) * 8)
+      ).toFixed(2),
+      tendency: baseData.tendency,
+    };
+  }
+
+  // Method untuk update hasil prediksi di UI
+  updatePredictionResults(weatherData, monthName, year) {
+    const avgTemp = document.getElementById("avg-temp");
+    const avgPrecip = document.getElementById("avg-precip");
+    const avgWind = document.getElementById("avg-wind");
+    const avgHumidity = document.getElementById("avg-humidity");
+    const tendencyResult = document.getElementById("weather-tendency-result");
+
+    if (avgTemp) avgTemp.textContent = `${weatherData.temp} °C`;
+    if (avgPrecip) avgPrecip.textContent = `${weatherData.precip} %`;
+    if (avgWind) avgWind.textContent = `${weatherData.wind} km/h`;
+    if (avgHumidity) avgHumidity.textContent = `${weatherData.humidity} %`;
+    if (tendencyResult) tendencyResult.textContent = weatherData.tendency;
+
+    const resultTitle = document.querySelector("#prediction-result h4");
+    if (resultTitle) {
+      resultTitle.textContent = `Hasil Prediksi - ${monthName} ${year}`;
+    }
   }
 }
