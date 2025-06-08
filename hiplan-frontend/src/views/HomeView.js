@@ -11,13 +11,17 @@ export class HomeView {
 
             <section class="hero" style="background-image: url('${require("../assets/images/cartenz.jpg")}')" aria-label="Hero section">
                 <div class="hero-content">
-                    <h1>JELAJAHI GUNUNG DI INDONESIA</h1>
-                    <form class="search-container" role="search" aria-label="Pencarian gunung">
-                        <input type="search" placeholder="Cari gunung di Indonesia" id="searchInput" aria-label="Cari gunung di Indonesia"/>
-                        <button type="submit" class="search-btn" aria-label="Tombol cari">
-                            <img src="${require("../assets/icon/search-icon.svg")}" alt="Icon pencarian"/>
-                        </button>
-                    </form>
+                    <h1>JELAJAHI GUNUNG DI INDONESIA</h1>                    <div class="search-wrapper">
+                        <form class="search-container" role="search" aria-label="Pencarian gunung">
+                            <input type="search" placeholder="Cari gunung di Indonesia" id="searchInput" aria-label="Cari gunung di Indonesia" autocomplete="off"/>
+                            <button type="submit" class="search-btn" aria-label="Tombol cari">
+                                <img src="${require("../assets/icon/search-icon.svg")}" alt="Icon pencarian"/>
+                            </button>
+                        </form>
+                        <div id="search-suggestions" class="search-suggestions" style="display: none;">
+                            <ul id="suggestions-list" class="suggestions-list"></ul>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -77,13 +81,11 @@ export class HomeView {
 
             <footer-component></footer-component>
         `;
-
     this.bindEvents();
   }
   renderMountainCards(mountains) {
     return mountains
       .map((mountain) => {
-        // Gunakan gambar dari Cloudinary jika tersedia, atau fallback ke local images
         const imageUrl =
           mountain.mainImage && mountain.mainImage.startsWith("http")
             ? mountain.mainImage
@@ -105,20 +107,28 @@ export class HomeView {
       })
       .join("");
   }
-
   bindEvents() {
     const searchForm = document.querySelector(".search-container");
     const searchInput = document.getElementById("searchInput");
 
-    // Handle search form submission
     if (searchForm) {
       searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (this.onSearch) {
-          this.onSearch(searchInput.value);
+        const query = searchInput.value.trim();
+
+        if (query.length >= 2) {
+          const searchResults = this.getSuggestions(query);
+          this.showSearchResults(searchResults);
+          this.hideSuggestions();
+        } else {
+          this.showDefaultContent();
         }
       });
     }
+
+    setTimeout(() => {
+      this.setupAutocomplete();
+    }, 100);
   }
 
   setLoginHandler(handler) {
@@ -129,14 +139,265 @@ export class HomeView {
     this.onRegister = handler;
   }
 
-  setSearchHandler(handler) {
-    this.onSearch = handler;
+  setMountainsData(mountains) {
+    this.mountainsData = mountains;
+    this.originalMountains = mountains;
+  }
+  setupAutocomplete() {
+    const searchInput = document.getElementById("searchInput");
+    const suggestionsContainer = document.getElementById("search-suggestions");
+    const suggestionsList = document.getElementById("suggestions-list");
+
+    if (!searchInput || !suggestionsContainer || !suggestionsList) {
+      return;
+    }
+    let currentFocus = -1;
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.trim();
+      currentFocus = -1;
+
+      if (query.length < 2) {
+        this.hideSuggestions();
+
+        if (query.length === 0) {
+          this.showDefaultContent();
+        }
+        return;
+      }
+
+      const suggestions = this.getSuggestions(query);
+      this.showSuggestions(suggestions);
+    });
+
+    searchInput.addEventListener("focus", (e) => {
+      const query = e.target.value.trim();
+      if (query.length >= 2) {
+        const suggestions = this.getSuggestions(query);
+        this.showSuggestions(suggestions);
+      }
+    });
+
+    searchInput.addEventListener("blur", () => {
+      setTimeout(() => this.hideSuggestions(), 150);
+    });
+
+    // Handle keyboard navigation
+    searchInput.addEventListener("keydown", (e) => {
+      const items = suggestionsList.querySelectorAll("li");
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        currentFocus = Math.min(currentFocus + 1, items.length - 1);
+        this.setActiveSuggestion(currentFocus);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        currentFocus = Math.max(currentFocus - 1, -1);
+        this.setActiveSuggestion(currentFocus);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (currentFocus >= 0 && items[currentFocus]) {
+          items[currentFocus].click();
+        } else {
+          const query = searchInput.value.trim();
+          if (query.length >= 2) {
+            const searchResults = this.getSuggestions(query);
+            this.showSearchResults(searchResults);
+            this.hideSuggestions();
+          } else if (query.length === 0) {
+            this.showDefaultContent();
+          }
+        }
+      } else if (e.key === "Escape") {
+        this.hideSuggestions();
+        searchInput.blur();
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".search-wrapper")) {
+        this.hideSuggestions();
+      }
+    });
+  }
+  getSuggestions(query) {
+    if (!this.mountainsData || !Array.isArray(this.mountainsData)) {
+      return [];
+    }
+
+    const searchTerm = query.toLowerCase();
+    return this.mountainsData
+      .filter(
+        (mountain) =>
+          (mountain.name && mountain.name.toLowerCase().includes(searchTerm)) ||
+          (mountain.location &&
+            mountain.location.toLowerCase().includes(searchTerm))
+      )
+      .slice(0, 8)
+      .map((mountain) => ({
+        id: mountain.id,
+        name: mountain.name || "Nama tidak tersedia",
+        location: mountain.location || "Lokasi tidak tersedia",
+        altitude: mountain.altitude || "N/A",
+      }));
   }
 
-  updateSearchResults(mountains) {
-    const containers = document.querySelectorAll(".card-container");
-    containers.forEach((container) => {
-      container.innerHTML = this.renderMountainCards(mountains);
+  showSuggestions(suggestions) {
+    const suggestionsContainer = document.getElementById("search-suggestions");
+    const suggestionsList = document.getElementById("suggestions-list");
+
+    if (!suggestions || suggestions.length === 0) {
+      this.hideSuggestions();
+      return;
+    }
+
+    suggestionsList.innerHTML = suggestions
+      .map(
+        (suggestion) => `
+      <li class="suggestion-item" data-mountain-id="${suggestion.id}">
+        <div class="suggestion-icon">
+          <i class="bi bi-geo-alt"></i>
+        </div>
+        <div class="suggestion-content">
+          <div class="suggestion-name">${this.highlightMatch(
+            suggestion.name,
+            document.getElementById("searchInput").value
+          )}</div>
+          <div class="suggestion-details">${suggestion.location} • ${
+          suggestion.altitude
+        } mdpl</div>
+        </div>
+      </li>
+    `
+      )
+      .join("");
+
+    suggestionsList.querySelectorAll(".suggestion-item").forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const mountainId = item.getAttribute("data-mountain-id");
+        this.navigateToMountain(mountainId);
+      });
     });
+
+    suggestionsContainer.style.display = "block";
+  }
+
+  hideSuggestions() {
+    const suggestionsContainer = document.getElementById("search-suggestions");
+    if (suggestionsContainer) {
+      suggestionsContainer.style.display = "none";
+    }
+  }
+
+  setActiveSuggestion(index) {
+    const items = document.querySelectorAll(".suggestion-item");
+    items.forEach((item, i) => {
+      item.classList.toggle("active", i === index);
+    });
+  }
+
+  // Highlight matching text dalam suggestions
+  highlightMatch(text, query) {
+    if (!query) return text;
+
+    const regex = new RegExp(
+      `(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+      "gi"
+    );
+    return text.replace(regex, "<strong>$1</strong>");
+  }
+
+  navigateToMountain(mountainId) {
+    window.location.hash = `#/mountain/${mountainId}`;
+    this.hideSuggestions();
+
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      searchInput.value = "";
+    }
+  }
+
+  showSearchResults(searchResults) {
+    const jelajahHeading = document.getElementById("jelajah-heading");
+    const populerHeading = document.getElementById("populer-heading");
+
+    if (jelajahHeading) jelajahHeading.style.display = "none";
+    if (populerHeading) populerHeading.style.display = "none";
+
+    const containers = document.querySelectorAll(".card-container");
+    const firstContainer = containers[0];
+    const secondContainer = containers[1];
+
+    if (searchResults.length > 0) {
+      const mountainsForCards = searchResults.map((result) => ({
+        id: result.id,
+        name: result.name,
+        location: result.location,
+        altitude: result.altitude,
+        mainImage: this.findMountainImage(result.id),
+      }));
+
+      if (firstContainer) {
+        firstContainer.innerHTML = this.renderMountainCards(mountainsForCards);
+      }
+
+      if (secondContainer) {
+        secondContainer.innerHTML = "";
+      }
+    } else {
+      if (firstContainer) {
+        firstContainer.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: #666;">
+            <p>Tidak ada gunung yang ditemukan untuk pencarian ini.</p>
+          </div>
+        `;
+      }
+
+      if (secondContainer) {
+        secondContainer.innerHTML = "";
+      }
+    }
+  }
+
+  showDefaultContent() {
+    const jelajahHeading = document.getElementById("jelajah-heading");
+    const populerHeading = document.getElementById("populer-heading");
+
+    if (jelajahHeading) jelajahHeading.style.display = "block";
+    if (populerHeading) populerHeading.style.display = "block";
+
+    if (this.originalMountains) {
+      const containers = document.querySelectorAll(".card-container");
+      const jelajahContainer = containers[0];
+      const populerContainer = containers[1];
+
+      if (jelajahContainer) {
+        jelajahContainer.innerHTML = this.renderMountainCards(
+          [65, 73, 86, 51]
+            .map((id) =>
+              this.originalMountains.find((mountain) => mountain.id === id)
+            )
+            .filter((mountain) => mountain)
+        );
+      }
+
+      if (populerContainer) {
+        populerContainer.innerHTML = this.renderMountainCards(
+          [170, 79, 197, 159]
+            .map((id) =>
+              this.originalMountains.find((mountain) => mountain.id === id)
+            )
+            .filter((mountain) => mountain)
+        );
+      }
+    }
+  }
+
+  findMountainImage(mountainId) {
+    if (this.originalMountains) {
+      const mountain = this.originalMountains.find((m) => m.id === mountainId);
+      return mountain ? mountain.mainImage : "bromo.jpg";
+    }
+    return "bromo.jpg";
   }
 }
