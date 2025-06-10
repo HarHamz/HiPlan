@@ -261,67 +261,77 @@ export class NotificationUtils {
 
   // Demo method for testing notifications
   static demo() {
-    console.log('🎯 Testing Notification System...');
-    
+    console.log("🎯 Testing Notification System...");
+
     setTimeout(() => {
-      this.success('Login berhasil! Selamat datang kembali, Ahmad Rifki.');
+      this.success("Login berhasil! Selamat datang kembali, Ahmad Rifki.");
     }, 500);
-    
+
     setTimeout(() => {
-      this.error('Email atau password salah. Silakan coba lagi.');
+      this.error("Email atau password salah. Silakan coba lagi.");
     }, 2500);
-    
+
     setTimeout(() => {
-      this.warning('Akun Anda akan segera kedaluwarsa. Silakan perbarui.');
+      this.warning("Akun Anda akan segera kedaluwarsa. Silakan perbarui.");
     }, 4500);
-    
+
     setTimeout(() => {
-      this.info('Sistem notifikasi berfungsi dengan baik!');
+      this.info("Sistem notifikasi berfungsi dengan baik!");
     }, 6500);
   }
 
   // Test login success with full_name from database
   static testLoginSuccess(userData = null) {
-    const user = userData || { 
-      full_name: "Ahmad Rifki Susanto", 
-      email: "ahmad.rifki@example.com" 
+    const user = userData || {
+      full_name: "Ahmad Rifki Susanto",
+      email: "ahmad.rifki@example.com",
     };
-    const userName = user?.fullName || user?.full_name || user?.nama || user?.name || user?.email || "User";
-    
+    const userName =
+      user?.fullName ||
+      user?.full_name ||
+      user?.nama ||
+      user?.name ||
+      user?.email ||
+      "User";
+
     this.success(`Selamat datang kembali, ${userName}! Login berhasil.`, 3000);
   }
 
-  // Test register success with full_name from database  
+  // Test register success with full_name from database
   static testRegisterSuccess(userData = null) {
-    const user = userData || { 
-      full_name: "Sari Dewi Lestari", 
-      email: "sari.dewi@example.com" 
+    const user = userData || {
+      full_name: "Sari Dewi Lestari",
+      email: "sari.dewi@example.com",
     };
-    const userName = user?.fullName || user?.full_name || user?.nama || user?.name || "User";
-    
-    this.success(`Selamat ${userName}! Akun Anda berhasil dibuat. Silakan masuk dengan akun baru Anda.`, 4000);
+    const userName =
+      user?.fullName || user?.full_name || user?.nama || user?.name || "User";
+
+    this.success(
+      `Selamat ${userName}! Akun Anda berhasil dibuat. Silakan masuk dengan akun baru Anda.`,
+      4000
+    );
   }
 
   // Test with various name field formats from database
   static testDatabaseNameFormats() {
-    console.log('🧪 Testing various database name formats...');
-    
+    console.log("🧪 Testing various database name formats...");
+
     setTimeout(() => {
       this.testLoginSuccess({ full_name: "John Doe" });
     }, 500);
-    
+
     setTimeout(() => {
-      this.testLoginSuccess({ fullName: "Jane Smith" }); 
+      this.testLoginSuccess({ fullName: "Jane Smith" });
     }, 2000);
-    
+
     setTimeout(() => {
       this.testLoginSuccess({ nama: "Budi Santoso" });
     }, 3500);
-    
+
     setTimeout(() => {
       this.testLoginSuccess({ name: "Sarah Wilson" });
     }, 5000);
-    
+
     setTimeout(() => {
       this.testLoginSuccess({ email: "user@example.com" }); // fallback
     }, 6500);

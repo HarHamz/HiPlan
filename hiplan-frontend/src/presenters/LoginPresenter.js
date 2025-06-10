@@ -33,12 +33,19 @@ export class LoginPresenter {
         body: JSON.stringify({ email, password }),
       });
 
-      const result = await response.json();      if (response.ok) {
+      const result = await response.json();
+      if (response.ok) {
         authManager.saveAuthData(result.data.token, result.data.user);
 
         // Get user name with same logic as navbar
         const user = result.data.user;
-        const userName = user?.fullName || user?.full_name || user?.nama || user?.name || user?.email || "User";
+        const userName =
+          user?.fullName ||
+          user?.full_name ||
+          user?.nama ||
+          user?.name ||
+          user?.email ||
+          "User";
 
         NotificationUtils.success(
           `Selamat datang kembali, ${userName}! Login berhasil.`,

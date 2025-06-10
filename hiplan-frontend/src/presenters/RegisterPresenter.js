@@ -31,12 +31,19 @@ export class RegisterPresenter {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();      if (response.ok) {
+      const result = await response.json();
+      if (response.ok) {
         console.log("Registrasi berhasil:", result);
 
         // Get user name from response or fallback to form data
         const user = result.data?.user || result.user;
-        const userName = user?.fullName || user?.full_name || user?.nama || user?.name || formData.nama || "User";
+        const userName =
+          user?.fullName ||
+          user?.full_name ||
+          user?.nama ||
+          user?.name ||
+          formData.nama ||
+          "User";
 
         NotificationUtils.success(
           `Selamat ${userName}! Akun Anda berhasil dibuat. Silakan masuk dengan akun baru Anda.`,
