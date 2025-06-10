@@ -46,37 +46,6 @@
   box-shadow: 0 0 0 2px rgba(143, 192, 152, 0.2);
 }
 
-/* Styling untuk link Lupa Password */
-.forgot-password {
-  display: block;
-  text-align: right;
-  color: #00381f;
-  text-decoration: none;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.forgot-password:hover {
-  color: #8fc098;
-}
-
-.forgot-password::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 1px;
-  bottom: -2px;
-  left: 0;
-  background-color: #8fc098;
-  transition: width 0.3s ease;
-}
-
-.forgot-password:hover::after {
-  width: 100%;
-}
-
 /* Tombol khusus form (login, register) */
 .login-btn,
 .register-btn {
@@ -96,6 +65,19 @@
 .login-btn:hover,
 .register-btn:hover {
   background: #333;
+}
+
+/* Loading state for buttons */
+.login-btn:disabled,
+.register-btn:disabled {
+  background: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.login-btn:disabled:hover,
+.register-btn:disabled:hover {
+  background: #666;
 }
 
 /* Styling untuk Register Link (di bawah form login) */
@@ -130,5 +112,40 @@
 }
 
 .register-now:hover::after {
+  width: 100%;
+}
+
+/* Styling untuk Auth Link (sudah punya akun/belum punya akun) */
+.auth-link {
+  text-align: center;
+  color: #1a1a19;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.auth-link a {
+  color: #00381f;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.auth-link a:hover {
+  color: #8fc098;
+}
+
+.auth-link a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #8fc098;
+  transition: width 0.3s ease;
+}
+
+.auth-link a:hover::after {
   width: 100%;
 }

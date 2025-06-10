@@ -1,3 +1,5 @@
+import { NotificationUtils } from "../utils/NotificationUtils.js";
+
 export class RegisterPresenter {
   constructor(view) {
     this.view = view;
@@ -11,9 +13,16 @@ export class RegisterPresenter {
   init() {
     this.view.render();
   }
-
   async handleRegister(formData) {
+    const registerButton = document.querySelector(".register-btn");
+    const originalText = registerButton?.textContent || "Daftar";
+
     try {
+      if (registerButton) {
+        registerButton.disabled = true;
+        registerButton.textContent = "Mendaftar...";
+      }
+
       const response = await fetch("http://localhost:3001/api/register", {
         method: "POST",
         headers: {
@@ -22,24 +31,52 @@ export class RegisterPresenter {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
+      const result = await response.json();      if (response.ok) {
         console.log("Registrasi berhasil:", result);
 
-        alert("Registrasi Berhasil! Silakan masuk.");
-        window.location.hash = "#login";
+        // Get user name from response or fallback to form data
+        const user = result.data?.user || result.user;
+        const userName = user?.fullName || user?.full_name || user?.nama || user?.name || formData.nama || "User";
+
+        NotificationUtils.success(
+          `Selamat ${userName}! Akun Anda berhasil dibuat. Silakan masuk dengan akun baru Anda.`,
+          4000
+        );
+
+        setTimeout(() => {
+          window.location.hash = "#login";
+        }, 1500);
       } else {
         console.error("Registrasi gagal:", result.message);
-        alert(
-          `Registrasi Gagal: ${
-            result.message || "Terjadi kesalahan pada server"
-          }`
-        );
+
+        let errorMessage = "Registrasi gagal. Silakan coba lagi.";
+        if (result.message) {
+          if (result.message.includes("email")) {
+            errorMessage =
+              "Email sudah terdaftar. Gunakan email lain atau coba masuk.";
+          } else if (result.message.includes("validation")) {
+            errorMessage =
+              "Data tidak valid. Periksa kembali informasi yang Anda masukkan.";
+          } else {
+            errorMessage = result.message;
+          }
+        }
+
+        NotificationUtils.error(errorMessage, 4000);
       }
     } catch (error) {
       console.error("Error saat registrasi:", error);
-      alert("Terjadi kesalahan saat mencoba mendaftar. Silakan coba lagi.");
+
+      // Show network error notification
+      NotificationUtils.error(
+        "Tidak dapat terhubung ke server. Periksa koneksi internet Anda dan coba lagi.",
+        4000
+      );
+    } finally {
+      if (registerButton) {
+        registerButton.disabled = false;
+        registerButton.textContent = originalText;
+      }
     }
   }
 

@@ -21,15 +21,14 @@ export class LoginView {
                     <form id="loginForm">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Masukan nama anda" required>
+                            <input type="email" id="email" name="email" placeholder="user@hotmail.com" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" placeholder="••••••••••••" required>
                         </div>
-                        <a href="#" class="forgot-password">Lupa password?</a>
                         <button type="submit" class="login-btn">Masuk</button>
-                        <p class="register-link">Belum punya akun? <a href="#" class="register-now">Daftar</a></p>
+                        <p class="auth-link">Belum punya akun? <a href="#register">Daftar</a></p>
                     </form>
                 </div>
             </main>
@@ -42,10 +41,9 @@ export class LoginView {
 
     this.bindEvents();
   }
-
   bindEvents() {
     const loginForm = document.getElementById("loginForm");
-    const registerLink = document.querySelector(".register-now");
+    const registerLink = document.querySelector(".auth-link a");
 
     // Handle form submission
     loginForm.addEventListener("submit", (e) => {
@@ -58,12 +56,14 @@ export class LoginView {
     });
 
     // Handle register navigation from the link
-    registerLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (this.onRegister) {
-        this.onRegister();
-      }
-    });
+    if (registerLink) {
+      registerLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (this.onRegister) {
+          this.onRegister();
+        }
+      });
+    }
   }
 
   setLoginHandler(handler) {

@@ -5,6 +5,7 @@ import "./assets/styles/mountain-detail.css";
 import "./assets/styles/about-page.css";
 import "./assets/styles/settings.css";
 import "./assets/styles/main.css";
+import { NotificationUtils } from "./utils/NotificationUtils.js";
 import { HomeView } from "./views/HomeView";
 import { AboutView } from "./views/AboutView";
 import { LoginView } from "./views/LoginView";
@@ -20,6 +21,8 @@ import { MountainDetailView } from "./views/MountainDetailView";
 import { ExplorePresenter } from "./presenters/ExplorePresenter";
 import { SettingsPresenter } from "./presenters/SettingsPresenter";
 import pageTransition from "./utils/PageTransition.js";
+
+window.NotificationUtils = NotificationUtils;
 
 // Initialize the application
 document.addEventListener("DOMContentLoaded", () => {

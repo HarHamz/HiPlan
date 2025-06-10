@@ -30,9 +30,10 @@ export class RegisterView {
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" placeholder="••••••••" required>
-                        </div>
+                        </div>                        
                         <button type="submit" class="register-btn">Daftar</button>
                     </form>
+                    <p class="auth-link">Sudah punya akun? <a href="#login">Masuk</a></p>
                 </div>
             </main>
         `;
