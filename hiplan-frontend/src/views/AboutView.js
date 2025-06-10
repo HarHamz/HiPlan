@@ -16,7 +16,7 @@ export class AboutView {
                 </div>
             </section>
 
-            <main style="padding-left: 20px; padding-right: 20px;">
+            <main>
             <div class="section-title">
             <h1 style="padding-top: 50px;">MENGAPA HIPLAN DICIPTAKAN?</h1>
             </div>
@@ -60,84 +60,87 @@ export class AboutView {
                     <h2 id="">Mendorong Pendekatan Perencanaan yang Lebih Proaktif</h2>
                     <p class="AboutView-p-left">Daripada hanya mengandalkan informasi dari mulut ke mulut atau sumber yang sporadis, HiPlan mendorong pendekatan perencanaan yang lebih proaktif. Dengan fitur prediktif, pendaki dapat mengantisipasi berbagai kondisi dan mempersiapkan diri jauh-jauh hari, bukan hanya bereaksi terhadap situasi yang tidak terduga di lapangan</p>
                   </div>
-                </section>
+                </section>                <section class="cara-kerja-section">
+                    <div class="section-title">
+                        <h1>CARA KERJA HIPLAN</h1>
+                    </div>
+                    
+                    <div class="cara-kerja-steps">
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <img src="${require("../assets/images/AboutView/lens_icon.png")}" alt="Search Icon">
+                            </div>
+                            <div class="step-content">
+                                <h3>Tentukan Preferensi Pendakian</h3>
+                                <p>Mulailah dengan memasukkan kriteria pendakian yang Anda inginkan, seperti lokasi gunung, perkiraan tingkat kesulitan, atau rentang ketinggian.</p>
+                            </div>
+                        </div>
 
-                <h1 style="padding-bottom: 20px;">CARA KERJA HIPLAN</h1>
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <img src="${require("../assets/images/AboutView/brain_icon.png")}" alt="AI Brain Icon">
+                            </div>
+                            <div class="step-content">
+                                <h3>Analisis AI Cerdas</h3>
+                                <p>Sistem AI kami menganalisis data historis cuaca, tingkat kesulitan, dan kondisi gunung untuk memberikan rekomendasi yang akurat dan personal.</p>
+                            </div>
+                        </div>
 
-                <section class="AboutView-section" id="AboutView-section-1" aria-labelledby="">
-                <div class="feature-icon" id="feature-icon">
-                <img src="${require("../assets/images/AboutView/lens_icon.png")}" alt="lens">
-                </div>
-                <article class="card">
-                <h2>Tentukan Preferensi Pendakian</h2>
-                <p>Mulailah dengan memasukkan kriteria pendakian yang Anda inginkan, seperti lokasi gunung, perkiraan tingkat kesulitan, atau rentang ketinggian.</p>
-                </article>
-                </section>
-
-                <section class="AboutView-section" id="AboutView-section-2" aria-labelledby="">
-                <div class="feature-icon" id="feature-icon">
-                <img src="${require("../assets/images/AboutView/mountain_page.png")}" alt="">
-                </div>
-                <article class="card">
-                <h2>Tentukan Preferensi Pendakian</h2>
-                <p>Mulailah dengan memasukkan kriteria pendakian yang Anda inginkan, seperti lokasi gunung, perkiraan tingkat kesulitan, atau rentang ketinggian.</p>
-                </article>
-                </section>
-
-                <section class="AboutView-section" id="AboutView-section-3" aria-labelledby="">
-                <div class="feature-icon" id="feature-icon">
-                <img src="${require("../assets/images/AboutView/brain_icon.png")}" alt="">
-                </div>
-                <article class="card">
-                <h2>Tentukan Preferensi Pendakian</h2>
-                <p>Mulailah dengan memasukkan kriteria pendakian yang Anda inginkan, seperti lokasi gunung, perkiraan tingkat kesulitan, atau rentang ketinggian.</p>
-                </article>
-                </section>
-
-                <h1>FITUR UNGGULAN HIPLAN</h1>
-
-                <section class="mulai-jelajah-section" aria-labelledby="jelajah-heading" style="padding: 0px;">
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <img src="${require("../assets/images/AboutView/mountain_page.png")}" alt="Mountain Results Icon">
+                            </div>
+                            <div class="step-content">
+                                <h3>Dapatkan Rekomendasi Terbaik</h3>
+                                <p>Terima rekomendasi gunung yang sesuai dengan kemampuan Anda, lengkap dengan prediksi cuaca, estimasi waktu, dan tips keselamatan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>                <section class="fitur-unggulan-section">
+                    <div class="section-title">
+                        <h1>FITUR UNGGULAN HIPLAN</h1>
+                    </div>
+                    
                     <div class="AboutView-card-container">
-                <article class="AboutView-card">
-                <img src="${require("../assets/images/AboutView/weather_icon.png")}" alt="weather_icon">
-                <div class="AboutView-card-content">
-                <h3 class="AboutView-h3-center">Prediksi Tren Cuaca</h3>
-                <div class="AboutView-p-center">
-                <p>Rencanakan pendakian di musim ideal dengan prediksi kecenderungan cuaca bulanan berbasis data historis.</p>
-                </div>
-                </div>
-                </article>
+                        <article class="AboutView-card">
+                            <img src="${require("../assets/images/AboutView/weather_icon.png")}" alt="weather_icon">
+                            <div class="AboutView-card-content">
+                                <h3 class="AboutView-h3-center">Prediksi Cuaca</h3>
+                                <div class="AboutView-p-center">
+                                    <p>Rencanakan pendakian di musim ideal dengan prediksi kecenderungan cuaca bulanan berbasis data historis.</p>
+                                </div>
+                            </div>
+                        </article>
 
-                <article class="AboutView-card">
-                <img src="${require("../assets/images/AboutView/target_icon.png")}" alt="target_icon">
-                <div class="AboutView-card-content">
-                <h3 class="AboutView-h3-center">Prediksi Tren Cuaca</h3>
-                <div class="AboutView-p-center">
-                <p>Pahami tingkat kesulitan gunung secara prediktif berdasarkan elevasi dan suhu rata-rata untuk persiapan terbaik.</p>
-                </div>
-                </div>
-                </article>
+                        <article class="AboutView-card">
+                            <img src="${require("../assets/images/AboutView/target_icon.png")}" alt="target_icon">
+                            <div class="AboutView-card-content">
+                                <h3 class="AboutView-h3-center">Tingkat kesulitan</h3>
+                                <div class="AboutView-p-center">
+                                    <p>Pahami tingkat kesulitan gunung secara prediktif berdasarkan elevasi dan suhu rata-rata untuk persiapan terbaik.</p>
+                                </div>
+                            </div>
+                        </article>
 
-                <article class="AboutView-card">
-                <img src="${require("../assets/images/AboutView/stopwatch_icon.png")}" alt="stopwatch_icon">
-                <div class="AboutView-card-content">
-                <h3 class="AboutView-h3-center">Prediksi Tren Cuaca</h3>
-                <div class="AboutView-p-center">
-                <p>Dapatkan perkiraan waktu tempuh pendakian yang realistis sesuai tingkat kesulitan dan ketinggian gunung.</p>
-                </div>
-                </div>
-                </article>
+                        <article class="AboutView-card">
+                            <img src="${require("../assets/images/AboutView/stopwatch_icon.png")}" alt="stopwatch_icon">
+                            <div class="AboutView-card-content">
+                                <h3 class="AboutView-h3-center">Waktu Tempuh</h3>
+                                <div class="AboutView-p-center">
+                                    <p>Dapatkan perkiraan waktu tempuh pendakian yang realistis sesuai tingkat kesulitan dan ketinggian gunung.</p>
+                                </div>
+                            </div>
+                        </article>
 
-                <article class="AboutView-card">
-                <img src="${require("../assets/images/AboutView/lens_icon_2.png")}" alt="lens_icon_2">
-                <div class="AboutView-card-content">
-                <h3 class="AboutView-h3-center">Prediksi Tren Cuaca</h3>
-                <div class="AboutView-p-center">
-                <p>Temukan destinasi pendakian ideal yang cocok dengan preferensi  dan level kemampuanmu.</p>
-                </div>
-                </div>
-                </article>
-
+                        <article class="AboutView-card">
+                            <img src="${require("../assets/images/AboutView/lens_icon_2.png")}" alt="lens_icon_2">
+                            <div class="AboutView-card-content">
+                                <h3 class="AboutView-h3-center">Destinasi Ideal</h3>
+                                <div class="AboutView-p-center">
+                                    <p>Temukan destinasi pendakian ideal yang cocok dengan preferensi dan level kemampuanmu.</p>
+                                </div>
+                            </div>
+                        </article>
                     </div>
                 </section>
 

@@ -1,56 +1,185 @@
-/* ------------------
- AboutView 
----------------------*/
-.section-title h1 {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 2rem;
+/* ==================== ABOUT PAGE STYLES ==================== */
+
+/* ==================== VARIABLES ==================== */
+:root {
+  --about-primary-color: #008148;
+  --about-text-primary: #1e3932;
+  --about-text-secondary: #2d3648;
+  --about-text-light: #666;
+  --about-background: #fff;
+  --about-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --about-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --about-shadow-image: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --about-transition: all 0.3s ease;
+  --about-border-radius: 8px;
+  --about-spacing-xs: 10px;
+  --about-spacing-sm: 15px;
+  --about-spacing-md: 20px;
+  --about-spacing-lg: 30px;
+  --about-spacing-xl: 40px;
 }
 
+/* ==================== SECTION TITLE ==================== */
+.section-title h1 {
+  text-align: center;
+  margin: var(--about-spacing-md) 0;
+  font-size: 2rem;
+  color: var(--about-text-primary);
+  font-weight: 600;
+}
+
+/* ==================== FEATURE CARDS ==================== */
 .AboutView-card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
   margin: 0 auto;
   padding: 16px;
+  max-width: 1200px;
 }
 
 .AboutView-card {
-  background: white;
-  border-radius: 8px;
+  background: var(--about-background);
+  border-radius: var(--about-border-radius);
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: var(--about-shadow-light);
+  transition: var(--about-transition);
   max-height: 330px;
   text-align: center;
+  border: 1px solid #f0f0f0;
 }
 
 .AboutView-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--about-shadow-medium);
 }
 
 .AboutView-card img {
   width: 50%;
   padding: 16px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   object-fit: cover;
   display: inline-block;
+  height: auto;
 }
 
 .AboutView-card-content {
   padding: 1rem;
-  background: rgb(255, 255, 255);
+  background: var(--about-background);
 }
+
+/* ==================== CARA KERJA SECTION ==================== */
+.cara-kerja-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--about-spacing-xl) var(--about-spacing-md);
+}
+
+.cara-kerja-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--about-spacing-lg);
+  margin-top: var(--about-spacing-lg);
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--about-spacing-lg);
+  padding: var(--about-spacing-md);
+  background: var(--about-background);
+  border-radius: var(--about-border-radius);
+  box-shadow: var(--about-shadow-light);
+  transition: var(--about-transition);
+  position: relative;
+  max-width: 80%;
+}
+
+/* Step staircase effect */
+.step-item:nth-child(1) {
+  margin-left: 0;
+  align-self: flex-start;
+}
+
+.step-item:nth-child(2) {
+  margin-left: 10%;
+  align-self: flex-start;
+}
+
+.step-item:nth-child(3) {
+  margin-left: 20%;
+  align-self: flex-start;
+}
+
+.step-item:hover {
+  box-shadow: var(--about-shadow-medium);
+  transform: translateY(-2px);
+}
+
+.step-icon {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-icon img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h3 {
+  color: var(--about-text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.step-content p {
+  color: var(--about-text-light);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* ==================== FITUR UNGGULAN SECTION ==================== */
+.fitur-unggulan-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--about-spacing-xl) var(--about-spacing-md);
+}
+
+/* ==================== CONTENT SECTIONS ==================== */
+.AboutView-section {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--about-spacing-xl);
+  gap: var(--about-spacing-lg);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Content Block */
 .content-block {
   flex: 2;
-  padding: 1em;
+  padding: 1rem;
 }
 
 .content-block h2 {
   font-size: 1.5rem;
+  color: var(--about-text-primary);
+  margin-bottom: var(--about-spacing-sm);
+  font-weight: 600;
 }
 
+/* Image Block */
 .image-block {
   display: flex;
   flex: 1;
@@ -58,114 +187,273 @@
   text-align: right;
   padding: 16px;
   padding-top: 28px;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .image-block img {
   max-width: 100%;
   height: auto;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: var(--about-border-radius);
+  box-shadow: var(--about-shadow-image);
+  transition: var(--about-transition);
+}
+
+.image-block img:hover {
+  transform: scale(1.02);
+  box-shadow: var(--about-shadow-medium);
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+.AboutView-h2 {
+  text-align: center;
+  margin: var(--about-spacing-xs);
+  color: var(--about-text-primary);
+  font-weight: 600;
+}
+
+.AboutView-h3-center {
+  color: var(--about-text-secondary);
+  text-align: center;
+  padding-bottom: var(--about-spacing-xs);
+  font-weight: 500;
 }
 
 .AboutView-p-left {
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.7;
-  margin-bottom: 15px;
+  margin-bottom: var(--about-spacing-sm);
   text-align: justify;
+  color: var(--about-text-light);
 }
 
 .AboutView-p-center {
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.7;
-  margin-bottom: 15px;
-  text-align: justify;
+  margin-bottom: var(--about-spacing-sm);
   text-align: center;
+  color: var(--about-text-light);
 }
 
-.AboutView-h2 {
-  text-align: center;
-  margin: 10px;
-}
-.AboutView-h3-center {
-  color: #2d3648;
-  text-align: center;
-  padding-bottom: 10px;
-}
-
-.AboutView-section {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 40px;
-  gap: 30px;
-}
-
+/* ==================== SECTION SPACING ==================== */
 #AboutView-section-1 {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0 1rem;
 }
 
 #AboutView-section-2 {
-  padding-left: 4rem;
-  padding-right: 1rem;
+  padding: 0 1rem;
+  margin-top: var(--about-spacing-lg);
 }
 
 #AboutView-section-3 {
-  padding-left: 8rem;
-  padding-right: 1rem;
+  padding: 0 1rem;
+  margin-top: var(--about-spacing-lg);
 }
 
-/* -------------------
-  AboutView mobile
-  ----------------------*/
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet and Mobile Styles */
 @media screen and (max-width: 768px) {
+  /* Section Layout */
   .AboutView-section {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 40px;
-    gap: 30px;
+    margin-bottom: var(--about-spacing-lg);
+    gap: var(--about-spacing-md);
+    padding: 0 1rem;
   }
 
+  /* Reverse Section for Mobile */
+  #AboutView-section-reverse {
+    flex-direction: column-reverse;
+  }
+
+  /* Image Block Mobile */
   .image-block {
     text-align: center;
     padding: 16px;
+    min-width: auto;
+    width: 100%;
   }
 
   .image-block img {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
+  /* Content Block Mobile */
   .content-block {
-    max-width: 800px;
+    max-width: 100%;
     text-align: left;
+    padding: 0.5rem;
   }
 
+  .content-block h2 {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  /* Feature Cards Mobile */
+  .AboutView-card-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .AboutView-card {
+    max-height: none;
+  }
+
+  .AboutView-card img {
+    width: 60%;
+    padding: 20px;
+  }
+
+  /* Feature Icon Mobile */
   .feature-icon img {
-    width: 150px;
+    width: 120px;
     height: auto;
     object-fit: contain;
     margin-bottom: 0.5rem;
   }
 
-  #AboutView-section-reverse {
-    flex-direction: column-reverse;
-  }
-
-  #AboutView-section-1 {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
-  #AboutView-section-2 {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
+  /* Section Spacing Mobile */
+  #AboutView-section-1,
+  #AboutView-section-2,
   #AboutView-section-3 {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0;
+    margin-top: var(--about-spacing-md);
+  }
+
+  /* Typography Mobile */
+  .section-title h1 {
+    font-size: 1.7rem;
+  }
+  .AboutView-p-left,
+  .AboutView-p-center {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  /* Cara Kerja Mobile */
+  .cara-kerja-section {
+    padding: var(--about-spacing-lg) var(--about-spacing-sm);
+  }
+
+  .step-item {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--about-spacing-md);
+    max-width: 90%;
+  }
+
+  /* Mobile staircase effect - reduced margin */
+  .step-item:nth-child(1) {
+    margin-left: 0;
+  }
+
+  .step-item:nth-child(2) {
+    margin-left: 5%;
+  }
+
+  .step-item:nth-child(3) {
+    margin-left: 10%;
+  }
+
+  .step-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+  }
+
+  .step-icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .step-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small Mobile Styles */
+@media screen and (max-width: 480px) {
+  /* Section Layout */
+  .AboutView-section {
+    gap: var(--about-spacing-sm);
+  }
+
+  /* Content adjustments */
+  .content-block {
+    padding: 0.25rem;
+  }
+
+  .content-block h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Card adjustments */
+  .AboutView-card-container {
+    padding: 0.5rem;
+  }
+
+  .AboutView-card img {
+    width: 70%;
+    padding: 15px;
+  }
+
+  /* Typography adjustments */
+  .section-title h1 {
+    font-size: 1.5rem;
+    margin: var(--about-spacing-sm) 0;
+  }
+  .AboutView-p-left,
+  .AboutView-p-center {
+    font-size: 0.9rem;
+    margin-bottom: var(--about-spacing-xs);
+  }
+  /* Cara Kerja Small Mobile */
+  .cara-kerja-section {
+    padding: var(--about-spacing-md) var(--about-spacing-xs);
+  }
+
+  .step-item {
+    gap: var(--about-spacing-sm);
+    padding: var(--about-spacing-sm);
+    max-width: 95%;
+  }
+
+  /* Small mobile staircase effect - minimal margin */
+  .step-item:nth-child(1) {
+    margin-left: 0;
+  }
+
+  .step-item:nth-child(2) {
+    margin-left: 2%;
+  }
+
+  .step-item:nth-child(3) {
+    margin-left: 4%;
+  }
+
+  .step-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .step-icon img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .step-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
   }
 }
