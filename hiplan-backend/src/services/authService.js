@@ -22,6 +22,7 @@ class AuthService {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Generate user ID
+      const { nanoid } = await import("nanoid");
       const userId = `user-${nanoid(16)}`;
 
       // Insert new user
@@ -73,7 +74,7 @@ class AuthService {
 
       const token = jwt.token.generate(
         payload,
-        process.env.JWT_SECRET || "your-secret-key"
+        process.env.JWT_SECRET || "secrettokenhiplan"
       );
 
       return {
