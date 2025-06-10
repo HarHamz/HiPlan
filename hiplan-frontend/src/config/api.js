@@ -1,9 +1,5 @@
 const API_CONFIG = {
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? "hiplan-production.up.railway.app"
-      : "http://localhost:3001/api",
-
+  baseURL: "https://hiplan-production.up.railway.app/api",
   endpoints: {
     register: "/register",
     login: "/login",
