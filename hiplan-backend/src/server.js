@@ -6,7 +6,7 @@ const authRoutes = require("./routes/auth");
 const init = async () => {
   const server = Hapi.server({
     port: process.env.PORT || 3001,
-    host: process.env.HOST || "localhost",
+    host: process.env.NODE_ENV === "production" ? "0.0.0.0" : "localhost",
     routes: {
       cors: {
         origin: ["*"], // Allow all origins for development
