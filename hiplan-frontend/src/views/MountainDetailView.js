@@ -436,14 +436,27 @@ export class MountainDetailView {
         tabs.forEach((t) => t.classList.remove("active"));
 
         tab.classList.add("active");
-
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
           const tabsHeight =
-            document.querySelector(".mountain-tabs").offsetHeight;
-          const navbarHeight = document
-            .querySelector("nav-bar")
-            .shadowRoot.querySelector(".navbar").offsetHeight;
+            document.querySelector(".mountain-tabs")?.offsetHeight || 0;
+
+          // Safely get navbar height with proper null checks
+          let navbarHeight = 0;
+          try {
+            const navbarElement = document.querySelector("nav-bar");
+            if (navbarElement && navbarElement.shadowRoot) {
+              const navbarInner =
+                navbarElement.shadowRoot.querySelector(".navbar");
+              navbarHeight = navbarInner?.offsetHeight || 70; // fallback to 70px
+            } else {
+              navbarHeight = 70; // default navbar height
+            }
+          } catch (error) {
+            console.warn("Could not get navbar height, using default:", error);
+            navbarHeight = 70; // fallback
+          }
+
           const offset = tabsHeight + navbarHeight;
 
           window.scrollTo({
