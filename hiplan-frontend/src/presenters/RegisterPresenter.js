@@ -1,4 +1,5 @@
 import { NotificationUtils } from "../utils/NotificationUtils.js";
+import API_CONFIG from "../config/api.js";
 
 export class RegisterPresenter {
   constructor(view) {
@@ -23,13 +24,16 @@ export class RegisterPresenter {
         registerButton.textContent = "Mendaftar...";
       }
 
-      const response = await fetch("http://localhost:3001/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${API_CONFIG.baseURL}${API_CONFIG.endpoints.register}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {

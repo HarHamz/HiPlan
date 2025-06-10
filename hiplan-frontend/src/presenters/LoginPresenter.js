@@ -1,5 +1,6 @@
 import authManager from "../utils/auth.js";
 import { NotificationUtils } from "../utils/NotificationUtils.js";
+import API_CONFIG from "../config/api.js";
 
 export class LoginPresenter {
   constructor(view) {
@@ -25,13 +26,16 @@ export class LoginPresenter {
         loginButton.textContent = "Masuk...";
       }
 
-      const response = await fetch("http://localhost:3001/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${API_CONFIG.baseURL}${API_CONFIG.endpoints.login}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {
