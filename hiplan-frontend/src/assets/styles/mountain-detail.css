@@ -601,218 +601,6 @@
   border-bottom: none;
 }
 
-/* ==================== ULASAN SECTION ==================== */
-.ulasan-section {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.ulasan-container {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.ulasan-container h2 {
-  color: var(--color-text-primary);
-  font-size: 2rem;
-  margin-bottom: 30px;
-  text-align: left;
-}
-
-/* Review Form Card */
-.review-form-card {
-  background: var(--color-background);
-  border-radius: 12px;
-  border: 1px solid var(--color-border);
-  padding: 30px;
-  margin-bottom: 40px;
-  box-shadow: var(--shadow-medium);
-}
-
-.review-form-card h3 {
-  color: var(--color-text-primary);
-  font-size: 1.4rem;
-  margin-bottom: 25px;
-  font-weight: 600;
-}
-
-/* Rating Input */
-.rating-input {
-  margin-bottom: 25px;
-}
-
-.rating-input p {
-  color: var(--color-text-secondary);
-  font-size: 1rem;
-  margin-bottom: 15px;
-  font-weight: 500;
-}
-
-.star-rating {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  gap: 5px;
-}
-
-.star-rating input {
-  display: none;
-}
-
-.star-rating label {
-  cursor: pointer;
-  font-size: 1.8rem;
-  color: #ddd;
-  transition: color 0.2s;
-}
-
-.star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input:checked ~ label {
-  color: #ffc107;
-}
-
-/* Review Comment */
-.review-comment {
-  margin-bottom: 25px;
-}
-
-.review-comment textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 15px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 1rem;
-  resize: vertical;
-  transition: border-color 0.3s ease;
-}
-
-.review-comment textarea:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
-}
-
-.review-comment textarea::placeholder {
-  color: var(--color-text-light);
-}
-
-/* Submit Review Button */
-.submit-review-btn {
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.submit-review-btn:hover {
-  background: var(--color-primary-dark);
-}
-
-/* Reviews List */
-.reviews-list {
-  margin-top: 40px;
-}
-
-.reviews-list h3 {
-  color: var(--color-text-secondar);
-  font-size: 1.3rem;
-  margin-bottom: 25px;
-  font-weight: 600;
-}
-
-/* Review Card */
-.review-card {
-  background: var(--color-background);
-  border-radius: 12px;
-  border: 1px solid var(--color-border);
-  padding: 25px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-light);
-  transition: var(--transition);
-}
-
-.review-card:hover {
-  box-shadow: var(--shadow-medium);
-}
-
-/* Review Header */
-.review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.reviewer-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.reviewer-avatar {
-  width: 50px;
-  height: 50px;
-  background: var(--color-primary-light);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  font-size: 1.5rem;
-}
-
-.reviewer-name h4 {
-  color: var(--color-text-primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 5px 0;
-}
-
-.review-date {
-  color: var(--color-text-light);
-  font-size: 0.9rem;
-}
-y
-
-/* Review Rating */
-.review-rating {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.review-rating i {
-  color: #ffc107;
-  font-size: 1rem;
-}
-
-.review-rating span {
-  color: var(--color-text-secondary);
-  font-weight: 600;
-  margin-left: 8px;
-}
-
-/* Review Content */
-.review-content {
-  margin-top: 15px;
-}
-
-.review-content p {
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  margin: 0;
-  text-align: justify;
-}
-
 /* ==================== AREA SEKITAR SECTION ==================== */
 .area-sekitar-section {
   max-width: var(--max-width);
@@ -981,12 +769,10 @@ y
   .tab.active::after {
     display: none;
   }
-
   /* Responsive containers */
   .responsive-container,
   .cuaca-section,
   .jalur-section,
-  .ulasan-section,
   .mountain-header {
     padding: 0 1.5rem;
   }
@@ -1027,7 +813,6 @@ y
   .responsive-container,
   .cuaca-section,
   .jalur-section,
-  .ulasan-section,
   .mountain-header,
   .tabs-container,
   .area-sekitar-section {

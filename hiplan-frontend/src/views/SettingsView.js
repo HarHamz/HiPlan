@@ -48,7 +48,6 @@ export class SettingsView {
     }
   }
 
-  // Keep these methods for future use when development continues
   setProfileData(userData) {
     // Will be implemented when development resumes
   }

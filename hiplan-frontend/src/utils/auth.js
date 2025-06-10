@@ -39,12 +39,10 @@ class AuthManager {
     window.location.href = "/";
   }
 
-  // Add listener for auth state changes
   addAuthStateListener(callback) {
     this.listeners.push(callback);
   }
 
-  // Remove listener
   removeAuthStateListener(callback) {
     this.listeners = this.listeners.filter((listener) => listener !== callback);
   }

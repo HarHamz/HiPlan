@@ -103,7 +103,7 @@ class NavBar extends HTMLElement {
           </button>
           <button class="dropdown-item logout-btn" type="button">
             <span class="dropdown-icon">🚪</span>
-            Logout
+            Keluar
           </button>
         </div>
       </li>

@@ -9,13 +9,11 @@ export class MountainDetailView {
       <header>
         <nav-bar></nav-bar>
       </header>      
-      <main class="mountain-detail">
-      <section class="mountain-tabs">
+      <main class="mountain-detail">      <section class="mountain-tabs">
           <div class="tabs-container">
             <a href="#section-ikhtisar" class="tab active" data-section="section-ikhtisar">Ikhtisar</a>
             <a href="#section-cuaca" class="tab" data-section="section-cuaca">Cuaca</a>
             <a href="#section-jalur" class="tab" data-section="section-jalur">Jalur</a>
-            <a href="#section-ulasan" class="tab" data-section="section-ulasan">Ulasan</a>
             <a href="#section-area-sekitar" class="tab" data-section="section-area-sekitar">Area Sekitar</a>
           </div>
         </section>
@@ -29,11 +27,8 @@ export class MountainDetailView {
         </div>
         <div id="section-cuaca" class="section-container">
           ${this.renderCuacaTab(mountain)}
-        </div>
-        <div id="section-jalur" class="section-container">
+        </div>        <div id="section-jalur" class="section-container">
           ${this.renderJalurTab(mountain)}
-        </div>        <div id="section-ulasan" class="section-container">
-          ${this.renderUlasanTab(mountain)}
         </div>        <div id="section-area-sekitar" class="section-container">
           ${this.renderAreaSekitarTab(mountain)}
         </div>
@@ -67,12 +62,9 @@ export class MountainDetailView {
 
   renderIkhtisarTab(mountain) {
     return `
-    
       <section class="mountain-header">
           <h1> ${mountain.name}</h1>
-          <p class="mountain-info">${mountain.ulasan} Ulasan - ${
-      mountain.location
-    }</p>
+          <p class="mountain-info">${mountain.location}</p>
       <div class="mountain-content-container">
         <div class="mountain-image-wrapper">
           <section class="mountain-gallery">
@@ -357,103 +349,6 @@ export class MountainDetailView {
               <li>Saat musim hujan, perhatikan peringatan cuaca</li>
               <li>Dilarang membawa alkohol dan meninggalkan sampah</li>
             </ul>
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  renderUlasanTab(mountain) {
-    return `
-      <section class="ulasan-section">
-        <div class="ulasan-container">
-          <h2>ULASAN</h2>
-          
-          <!-- Review Form -->
-          <div class="review-form-card">
-            <h3>Tambahkan Ulasan Anda</h3>
-            
-            <div class="rating-input">
-              <p>Berikan penilaian Anda:</p>
-              <div class="star-rating">
-                <input type="radio" id="star5" name="rating" value="5" />
-                <label for="star5"><i class="bi bi-star-fill"></i></label>
-                
-                <input type="radio" id="star4" name="rating" value="4" />
-                <label for="star4"><i class="bi bi-star-fill"></i></label>
-                
-                <input type="radio" id="star3" name="rating" value="3" />
-                <label for="star3"><i class="bi bi-star-fill"></i></label>
-                
-                <input type="radio" id="star2" name="rating" value="2" />
-                <label for="star2"><i class="bi bi-star-fill"></i></label>
-                
-                <input type="radio" id="star1" name="rating" value="1" />
-                <label for="star1"><i class="bi bi-star-fill"></i></label>
-              </div>
-            </div>
-            
-            <div class="review-comment">
-              <textarea id="reviewComment" placeholder="Bagikan pengalaman pendakian Anda di Gunung ${mountain.name}..."></textarea>
-            </div>
-            
-            <button class="submit-review-btn">Kirim Ulasan</button>
-          </div>
-          
-          <!-- Sample Reviews -->
-          <div class="reviews-list">
-            <h3>Ulasan Pendaki (${mountain.ulasan})</h3>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer-info">
-                  <div class="reviewer-avatar">
-                    <i class="bi bi-person-circle"></i>
-                  </div>
-                  <div class="reviewer-name">
-                    <h4>Ahmad Sulaiman</h4>
-                    <span class="review-date">Mei 10, 2025</span>
-                  </div>
-                </div>
-                <div class="review-rating">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star"></i>
-                  <span>4.0</span>
-                </div>
-              </div>
-              <div class="review-content">
-                <p>Pendakian yang menantang tapi sangat memuaskan! Jalur pendakian terawat dengan baik, pemandangan dari puncak sungguh memukau. Saya merekomendasikan untuk membawa jaket tebal karena cukup dingin di malam hari.</p>
-              </div>
-            </div>
-            
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer-info">
-                  <div class="reviewer-avatar">
-                    <i class="bi bi-person-circle"></i>
-                  </div>
-                  <div class="reviewer-name">
-                    <h4>Siti Rahayu</h4>
-                    <span class="review-date">April 28, 2025</span>
-                  </div>
-                </div>
-                <div class="review-rating">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <span>5.0</span>
-                </div>
-              </div>
-              <div class="review-content">
-                <p>Pengalaman pendakian terbaik! Gunung ${mountain.name} memiliki keindahan alam yang luar biasa. Basecamp sangat terorganisir dan petugas sangat membantu. Sunrise dari puncak adalah momen yang tidak akan pernah saya lupakan.</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
