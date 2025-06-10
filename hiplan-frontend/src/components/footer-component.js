@@ -1,143 +1,15 @@
 class FooterComponent extends HTMLElement {
   constructor() {
     super();
-
-    this._root = this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
     this.render();
   }
+
   render() {
-    this._root.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          background-color: #2c2c2c;
-          color: #f8f9fa;
-          padding: 3rem 0 2rem 0;
-          margin-top: 3rem;
-        }
-
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
-        }        
-        .main-footer-content {
-          display: flex;
-          align-items: center;
-          margin-bottom: 1rem;
-          flex-wrap: wrap;
-          gap: 2rem;
-        }
-
-        .footer-brand {
-          text-align: left;
-        }
-
-        .footer-brand-name {
-          font-weight: bold;
-          font-size: 2.5rem;
-          margin-bottom: 0.5rem;
-          color: #fff;
-          line-height: 1.2;
-        }
-
-        .footer-brand-subtitle {
-          color: #adb5bd;
-          font-size: 1rem;
-          margin: 0;
-        }
-
-        .list-unstyled {
-          list-style: none;
-          padding-left: 0;
-          margin: 0;
-        }
-
-        .list-unstyled li {
-          margin-bottom: 0.8rem;
-        }
-
-        .footer-link {
-          color: #adb5bd;
-          text-decoration: none;
-          font-size: 0.95rem;
-          transition: color 0.2s;
-          line-height: 1.4;
-        }
-
-        .footer-link:hover {
-          color: #fff;
-        }
-
-        .footer-divider {
-          border: none;
-          border-top: 1px solid rgba(255, 255, 255, 0.15);
-          margin: 0 0 2rem 0;
-        }
-
-        .footer-bottom {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 11rem;
-        }
-
-        .footer-social-icons {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .footer-social-link {
-          color: #adb5bd;
-          font-size: 1.3rem;
-          transition: color 0.2s;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .footer-social-link:hover {
-          color: #fff;
-        }
-
-        .footer-copyright {
-          color: #adb5bd;
-          font-size: 0.9rem;
-          margin: 0;
-        }        /* Media Queries */
-        @media screen and (max-width: 768px) {
-          .main-footer-content {
-            flex-direction: column;
-            text-align: center;
-          }
-          
-          .footer-brand {
-            max-width: 100%;
-            margin-bottom: 2rem;
-          }
-          
-          .footer-bottom {
-            flex-direction: column;
-            text-align: center;
-            gap: 1.5rem;
-          }
-          
-          .footer-social-icons {
-            justify-content: center;
-          }
-        }
-
-        @media screen and (max-width: 480px) {
-          .footer-brand-name {
-            font-size: 2rem;
-          }
-        }
-      </style>      <div class="container">
+    this.innerHTML = `
+      <div class="container">
         <div class="main-footer-content">
           <div class="footer-brand">
             <h2 class="footer-brand-name">HiPlan - Hike Safer, Plan Smart</h2>

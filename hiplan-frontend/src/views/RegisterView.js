@@ -3,8 +3,9 @@ export class RegisterView {
     this.app = document.getElementById("app");
   }
   render() {
-    this.app.innerHTML = `            <header>
-                <nav-bar></nav-bar>
+    this.app.innerHTML = `
+            <header>
+              <nav-bar></nav-bar>
             </header>
             <main class="register-container">
                 <div class="register-form">

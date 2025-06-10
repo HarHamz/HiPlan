@@ -1,24 +1,20 @@
-// landing-page/src/presenters/RegisterPresenter.js
 export class RegisterPresenter {
   constructor(view) {
     this.view = view;
-    // Menyiapkan event handler dari view
-    this.view.setRegisterHandler(this.handleRegister.bind(this)); //
-    this.view.setLoginHandler(this.handleLogin.bind(this)); //
-    // Render awal
-    this.init(); //
+
+    this.view.setRegisterHandler(this.handleRegister.bind(this));
+    this.view.setLoginHandler(this.handleLogin.bind(this));
+
+    this.init();
   }
 
   init() {
-    this.view.render(); //
+    this.view.render();
   }
 
   async handleRegister(formData) {
-    //
-    // Mengganti console.log dengan API call
     try {
-      const response = await fetch("http://localhost:3001/register", {
-        // Ganti 3001 dengan port Hapi.js Anda
+      const response = await fetch("http://localhost:3001/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +26,7 @@ export class RegisterPresenter {
 
       if (response.ok) {
         console.log("Registrasi berhasil:", result);
-        // TODO: Tangani registrasi yang sukses (misalnya, redirect ke halaman login)
+
         alert("Registrasi Berhasil! Silakan masuk.");
         window.location.hash = "#login";
       } else {
@@ -48,6 +44,6 @@ export class RegisterPresenter {
   }
 
   handleLogin() {
-    window.location.hash = "#login"; //
+    window.location.hash = "#login";
   }
 }

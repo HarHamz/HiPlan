@@ -1,39 +1,34 @@
-// landing-page/src/presenters/LoginPresenter.js
+import authManager from "../utils/auth.js";
+
 export class LoginPresenter {
   constructor(view) {
     this.view = view;
-    // Menyiapkan event handler dari view
+
     this.view.setLoginHandler(this.handleLogin.bind(this)); //
     this.view.setRegisterHandler(this.handleRegister.bind(this)); //
-    // Render awal
-    this.init(); //
+
+    this.init();
   }
 
   init() {
-    this.view.render(); //
+    this.view.render();
   }
 
   async handleLogin(email, password) {
-    //
-    // Mengganti console.log dengan API call
     try {
-      const response = await fetch("http://localhost:3001/login", {
-        // Ganti 3001 dengan port Hapi.js Anda
+      const response = await fetch("http://localhost:3001/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
-
       const result = await response.json();
-
       if (response.ok) {
-        console.log("Login berhasil:", result);
-        // TODO: Tangani login yang sukses (misalnya, simpan token, redirect)
-        // Contoh: localStorage.setItem('authToken', result.token);
-        // window.location.hash = '#'; // Redirect ke halaman utama
-        alert("Login Berhasil!"); // Pesan sementara
+        authManager.saveAuthData(result.data.token, result.data.user);
+
+        window.location.hash = "#";
+        alert("Login Berhasil!");
       } else {
         console.error("Login gagal:", result.message);
         alert(
@@ -47,6 +42,6 @@ export class LoginPresenter {
   }
 
   handleRegister() {
-    window.location.hash = "#register"; //
+    window.location.hash = "#register";
   }
 }

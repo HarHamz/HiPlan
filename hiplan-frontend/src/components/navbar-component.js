@@ -1,22 +1,28 @@
+import authManager from "../utils/auth.js";
+import profileUserIcon from "../assets/icon/profile-user.png";
+
 class NavBar extends HTMLElement {
   static get observedAttributes() {
     return ["active-page"];
   }
-
   constructor() {
     super();
 
-    // Create shadow root
-    this._root = this.attachShadow({ mode: "open" });
-
     // Initialize state
     this._isMenuOpen = false;
-
-    // Bind event handlers
+    this._isAuthenticated = authManager.isAuthenticated();
+    this._isProfileDropdownOpen = false; // Bind event handlers
     this._onHamburgerClick = this._onHamburgerClick.bind(this);
     this._onDocumentClick = this._onDocumentClick.bind(this);
     this._onMasukClick = this._onMasukClick.bind(this);
     this._onDaftarClick = this._onDaftarClick.bind(this);
+    this._onProfileClick = this._onProfileClick.bind(this);
+    this._onLogoutClick = this._onLogoutClick.bind(this);
+    this._onSettingsClick = this._onSettingsClick.bind(this);
+    this._onAuthStateChange = this._onAuthStateChange.bind(this);
+
+    // Listen for auth state changes
+    authManager.addAuthStateListener(this._onAuthStateChange);
 
     // Initial render
     this.render();
@@ -34,10 +40,10 @@ class NavBar extends HTMLElement {
       this._updateActivePage(window.location.hash);
     });
   }
-
   disconnectedCallback() {
     document.removeEventListener("click", this._onDocumentClick);
     window.removeEventListener("hashchange", this._updateActivePage);
+    authManager.removeAuthStateListener(this._onAuthStateChange);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -45,190 +51,12 @@ class NavBar extends HTMLElement {
       this._updateActivePage(newValue);
     }
   }
-
   render() {
-    this._root.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          width: 100%;
-          font-family: "Poppins", sans-serif;
-        }
-        
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
+    const authButtons = this._isAuthenticated
+      ? this._renderAuthenticatedButtons()
+      : this._renderGuestButtons();
 
-        .navbar {
-          background-color: #8fc098;
-          position: var(--navbar-position, fixed); 
-          width: 100%;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 1000;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }        
-        .navbar-container {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem 2rem;
-          max-width: 1260px;
-          margin: 0 auto;
-          width: 100%;
-        }
-
-        .nav-brand {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: #00381f;
-          text-decoration: none;
-        }
-
-        .nav-menu {
-          margin-left: auto;
-        }
-
-        .nav-menu .nav-links {
-          display: flex;
-          align-items: center;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          gap: 2rem;
-        }
-
-        .nav-menu .nav-links li {
-          display: flex;
-          align-items: center;
-        }
-
-        .nav-menu .nav-links a {
-          text-decoration: none;
-          color: #1a1a19;
-          font-weight: 500;
-          transition: color 0.3s ease;
-        }
-
-        .btn {
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-family: inherit;
-        }
-
-        .btn-masuk {
-          background: none;
-          border: 1px solid #1a1a19;
-          color: #1a1a19;
-          margin-left: auto;
-        }
-
-        .btn-daftar {
-          background: #1a1a19;
-          border: none;
-          color: rgb(255, 255, 255);
-          margin-left: auto;
-        }
-
-        .hamburger-menu {
-          display: none;
-        }
-
-        @media screen and (max-width: 768px) {
-          .navbar-container {
-            padding: 0.8rem 1rem;
-          }
-
-          .hamburger-menu {
-            display: block;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            z-index: 1100;
-          }
-
-          .hamburger-line {
-            display: block;
-            width: 24px;
-            height: 2px;
-            margin: 5px 0;
-            background-color: #1a1a19;
-            transition: transform 0.3s ease;
-          }
-
-          .nav-menu {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 280px;
-            height: 100vh;
-            background: #fff;
-            padding: 4rem 1.5rem 2rem;
-            transition: left 0.3s ease;
-            z-index: 1000;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-          }
-
-          .nav-menu .nav-links {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-          }
-
-          .nav-menu .nav-links li {
-            width: 100%;
-          }
-
-          .nav-menu .nav-links a,
-          .nav-menu .nav-links button {
-            display: block;
-            width: 100%;
-            padding: 0.8rem 0;
-            text-align: center;
-          }
-
-          .btn-masuk,
-          .btn-daftar {
-            margin: 0.5rem 0;
-            width: 100%;
-          }
-
-          .nav-menu.active {
-            left: 0;
-          }
-
-          .hamburger-menu.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-          }
-
-          .hamburger-menu.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-          }
-
-          .hamburger-menu.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-          }
-
-          .navbar.menu-active::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-          }
-        }
-      
-      </style>
+    this.innerHTML = `
       <nav class="navbar" aria-label="Main navigation">
         <div class="navbar-container">
           <a href="/" class="nav-brand">HiPlan</a>
@@ -239,22 +67,56 @@ class NavBar extends HTMLElement {
           </button>
           <div class="nav-menu">
             <ul class="nav-links" role="menubar">
-              <li role="none"><a href="/" role="menuitem" aria-current="page">Beranda</a></li>
+              <li role="none"><a href="/#" role="menuitem" aria-current="page">Beranda</a></li>
               <li role="none"><a href="#jelajah" role="menuitem">Jelajah</a></li>
               <li role="none"><a href="#about" role="menuitem">Tentang</a></li>
-              <li role="none"><button class="btn btn-masuk" type="button">Masuk</button></li>
-              <li role="none"><button class="btn btn-daftar" type="button">Daftar</button></li>
+              ${authButtons}
             </ul>
           </div>
         </div>
       </nav>
     `;
   }
+
+  _renderGuestButtons() {
+    return `
+      <li role="none"><button class="btn btn-masuk" type="button">Masuk</button></li>
+      <li role="none"><button class="btn btn-daftar" type="button">Daftar</button></li>
+    `;
+  }
+  _renderAuthenticatedButtons() {
+    const user = authManager.getUserData();
+    const userName =
+      user?.fullName || user?.full_name || user?.name || user?.email || "User";
+    const profilePicture = user?.profilePicture || profileUserIcon;
+
+    return `
+      <li role="none" class="profile-menu">
+        <button class="profile-btn" type="button" aria-label="Profile menu" aria-expanded="false">
+          <img src="${profilePicture}" alt="Profile" class="profile-image">
+        </button>
+        <div class="profile-dropdown">
+          <div class="dropdown-header">${userName}</div>
+          <button class="dropdown-item settings-btn" type="button">
+            <span class="dropdown-icon">⚙️</span>
+            Pengaturan
+          </button>
+          <button class="dropdown-item logout-btn" type="button">
+            <span class="dropdown-icon">🚪</span>
+            Logout
+          </button>
+        </div>
+      </li>
+    `;
+  }
   _setupEventListeners() {
     // Query elements once
-    const hamburgerBtn = this._root.querySelector(".hamburger-menu");
-    const masukBtn = this._root.querySelector(".btn-masuk");
-    const daftarBtn = this._root.querySelector(".btn-daftar");
+    const hamburgerBtn = this.querySelector(".hamburger-menu");
+    const masukBtn = this.querySelector(".btn-masuk");
+    const daftarBtn = this.querySelector(".btn-daftar");
+    const profileBtn = this.querySelector(".profile-btn");
+    const logoutBtn = this.querySelector(".logout-btn");
+    const settingsBtn = this.querySelector(".settings-btn");
 
     // Add event listeners with null checks
     if (hamburgerBtn) {
@@ -266,11 +128,20 @@ class NavBar extends HTMLElement {
     if (daftarBtn) {
       daftarBtn.addEventListener("click", this._onDaftarClick);
     }
+    if (profileBtn) {
+      profileBtn.addEventListener("click", this._onProfileClick);
+    }
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", this._onLogoutClick);
+    }
+    if (settingsBtn) {
+      settingsBtn.addEventListener("click", this._onSettingsClick);
+    }
     document.addEventListener("click", this._onDocumentClick);
   }
 
   _updateActivePage(page) {
-    const links = this._root.querySelectorAll(".nav-links a");
+    const links = this.querySelectorAll(".nav-links a");
     links.forEach((link) => {
       if (link.getAttribute("href") === page) {
         link.classList.add("active");
@@ -284,9 +155,9 @@ class NavBar extends HTMLElement {
 
   _onHamburgerClick(e) {
     e.stopPropagation();
-    const hamburger = this._root.querySelector(".hamburger-menu");
-    const navMenu = this._root.querySelector(".nav-menu");
-    const navbar = this._root.querySelector(".navbar");
+    const hamburger = this.querySelector(".hamburger-menu");
+    const navMenu = this.querySelector(".nav-menu");
+    const navbar = this.querySelector(".navbar");
 
     this._isMenuOpen = !this._isMenuOpen;
     hamburger.setAttribute("aria-expanded", this._isMenuOpen);
@@ -295,14 +166,16 @@ class NavBar extends HTMLElement {
     navMenu.classList.toggle("active");
     navbar.classList.toggle("menu-active");
   }
-
   _onDocumentClick(e) {
     // Only act if the click was outside the component
-    if (!this._root.contains(e.target)) {
-      const hamburger = this._root.querySelector(".hamburger-menu");
-      const navMenu = this._root.querySelector(".nav-menu");
-      const navbar = this._root.querySelector(".navbar");
+    if (!this.contains(e.target)) {
+      const hamburger = this.querySelector(".hamburger-menu");
+      const navMenu = this.querySelector(".nav-menu");
+      const navbar = this.querySelector(".navbar");
+      const profileBtn = this.querySelector(".profile-btn");
+      const dropdown = this.querySelector(".profile-dropdown");
 
+      // Close hamburger menu if open
       if (this._isMenuOpen) {
         this._isMenuOpen = false;
         hamburger.setAttribute("aria-expanded", "false");
@@ -310,15 +183,55 @@ class NavBar extends HTMLElement {
         navMenu.classList.remove("active");
         navbar.classList.remove("menu-active");
       }
+
+      // Close profile dropdown if open
+      if (this._isProfileDropdownOpen && profileBtn && dropdown) {
+        this._isProfileDropdownOpen = false;
+        profileBtn.setAttribute("aria-expanded", "false");
+        dropdown.classList.remove("active");
+      }
     }
   }
 
   _onMasukClick() {
     window.location.hash = "#login";
   }
-
   _onDaftarClick() {
     window.location.hash = "#register";
+  }
+
+  _onProfileClick(e) {
+    e.stopPropagation();
+    const profileBtn = this.querySelector(".profile-btn");
+    const dropdown = this.querySelector(".profile-dropdown");
+
+    this._isProfileDropdownOpen = !this._isProfileDropdownOpen;
+    profileBtn.setAttribute("aria-expanded", this._isProfileDropdownOpen);
+    dropdown.classList.toggle("active");
+  }
+  _onLogoutClick() {
+    authManager.logout();
+  }
+
+  _onSettingsClick() {
+    // Close the dropdown first
+    this._isProfileDropdownOpen = false;
+    const profileBtn = this.querySelector(".profile-btn");
+    const dropdown = this.querySelector(".profile-dropdown");
+
+    if (profileBtn && dropdown) {
+      profileBtn.setAttribute("aria-expanded", "false");
+      dropdown.classList.remove("active");
+    }
+
+    // Navigate to settings page
+    window.location.hash = "#settings";
+  }
+
+  _onAuthStateChange(isAuthenticated, userData) {
+    this._isAuthenticated = isAuthenticated;
+    this.render();
+    this._setupEventListeners();
   }
 }
 
