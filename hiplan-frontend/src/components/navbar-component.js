@@ -110,7 +110,6 @@ class NavBar extends HTMLElement {
     `;
   }
   _setupEventListeners() {
-    // Query elements once
     const hamburgerBtn = this.querySelector(".hamburger-menu");
     const masukBtn = this.querySelector(".btn-masuk");
     const daftarBtn = this.querySelector(".btn-daftar");
@@ -118,7 +117,6 @@ class NavBar extends HTMLElement {
     const logoutBtn = this.querySelector(".logout-btn");
     const settingsBtn = this.querySelector(".settings-btn");
 
-    // Add event listeners with null checks
     if (hamburgerBtn) {
       hamburgerBtn.addEventListener("click", this._onHamburgerClick);
     }
@@ -167,7 +165,6 @@ class NavBar extends HTMLElement {
     navbar.classList.toggle("menu-active");
   }
   _onDocumentClick(e) {
-    // Only act if the click was outside the component
     if (!this.contains(e.target)) {
       const hamburger = this.querySelector(".hamburger-menu");
       const navMenu = this.querySelector(".nav-menu");
@@ -175,7 +172,6 @@ class NavBar extends HTMLElement {
       const profileBtn = this.querySelector(".profile-btn");
       const dropdown = this.querySelector(".profile-dropdown");
 
-      // Close hamburger menu if open
       if (this._isMenuOpen) {
         this._isMenuOpen = false;
         hamburger.setAttribute("aria-expanded", "false");
@@ -184,7 +180,6 @@ class NavBar extends HTMLElement {
         navbar.classList.remove("menu-active");
       }
 
-      // Close profile dropdown if open
       if (this._isProfileDropdownOpen && profileBtn && dropdown) {
         this._isProfileDropdownOpen = false;
         profileBtn.setAttribute("aria-expanded", "false");
@@ -214,7 +209,6 @@ class NavBar extends HTMLElement {
   }
 
   _onSettingsClick() {
-    // Close the dropdown first
     this._isProfileDropdownOpen = false;
     const profileBtn = this.querySelector(".profile-btn");
     const dropdown = this.querySelector(".profile-dropdown");

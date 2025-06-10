@@ -5,11 +5,10 @@ export class MountainDetailPresenter {
     this.view = view || new MountainDetailView();
     this.model = model;
     this.mountainId = mountainId;
-    this.selectedWeather = null; // State untuk cuaca yang dipilih
+    this.selectedWeather = null;
 
     this.mountainData = this.model.getMountainById(this.mountainId);
 
-    // kalau mountainData tidak ditemukan, ambil data gunung pertama sebagai fallback
     if (!this.mountainData) {
       this.mountainData = this.model.getAllMountains()[0];
     }
@@ -67,11 +66,5 @@ export class MountainDetailPresenter {
         this.selectedWeather
       );
     }
-  }
-
-  // Method untuk reset pilihan cuaca
-  resetWeatherSelection() {
-    this.selectedWeather = null;
-    this.updateDifficultyDisplay();
   }
 }

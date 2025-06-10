@@ -1,8 +1,21 @@
+import authManager from "../utils/auth.js";
+
 export class MountainDetailView {
   constructor() {
     this.app = document.getElementById("app");
+    this.authManager = authManager;
   }
   render(mountain, presenter = null) {
+    // Check authentication first
+    if (!this.authManager.isAuthenticated()) {
+      sessionStorage.setItem(
+        "loginMessage",
+        "Anda harus login terlebih dahulu untuk melihat detail gunung."
+      );
+      window.location.hash = "#login";
+      return;
+    }
+
     this.currentMountain = mountain;
     this.presenter = presenter;
     this.app.innerHTML = `

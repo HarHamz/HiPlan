@@ -1,3 +1,4 @@
+import authManager from "../utils/auth.js";
 export class HomeView {
   constructor() {
     this.app = document.getElementById("app");
@@ -110,10 +111,20 @@ export class HomeView {
   bindEvents() {
     const searchForm = document.querySelector(".search-container");
     const searchInput = document.getElementById("searchInput");
-
     if (searchForm) {
       searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
+
+        // Check authentication before search
+        if (!authManager.isAuthenticated()) {
+          sessionStorage.setItem(
+            "loginMessage",
+            "Anda harus login terlebih dahulu untuk melakukan pencarian."
+          );
+          window.location.hash = "#login";
+          return;
+        }
+
         const query = searchInput.value.trim();
 
         if (query.length >= 2) {
@@ -125,9 +136,9 @@ export class HomeView {
         }
       });
     }
-
     setTimeout(() => {
       this.setupAutocomplete();
+      this.setupCardProtection();
     }, 100);
   }
 
@@ -306,8 +317,17 @@ export class HomeView {
     );
     return text.replace(regex, "<strong>$1</strong>");
   }
-
   navigateToMountain(mountainId) {
+    // Check authentication before navigation
+    if (!authManager.isAuthenticated()) {
+      sessionStorage.setItem(
+        "loginMessage",
+        "Anda harus login terlebih dahulu untuk melihat detail gunung."
+      );
+      window.location.hash = "#login";
+      return;
+    }
+
     window.location.hash = `#/mountain/${mountainId}`;
     this.hideSuggestions();
 
@@ -399,5 +419,28 @@ export class HomeView {
       return mountain ? mountain.mainImage : "bromo.jpg";
     }
     return "bromo.jpg";
+  }
+
+  setupCardProtection() {
+    // Add click protection to mountain cards
+    document.addEventListener("click", (e) => {
+      const cardLink = e.target.closest(".card-link");
+      if (cardLink) {
+        e.preventDefault();
+
+        // Check authentication before navigating
+        if (!authManager.isAuthenticated()) {
+          sessionStorage.setItem(
+            "loginMessage",
+            "Anda harus login terlebih dahulu untuk melihat detail gunung."
+          );
+          window.location.hash = "#login";
+          return;
+        }
+
+        // If authenticated, allow navigation
+        window.location.hash = cardLink.getAttribute("href");
+      }
+    });
   }
 }

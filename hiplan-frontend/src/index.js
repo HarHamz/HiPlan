@@ -19,41 +19,44 @@ import { MountainDetailPresenter } from "./presenters/MountainDetailPresenter";
 import { MountainDetailView } from "./views/MountainDetailView";
 import { ExplorePresenter } from "./presenters/ExplorePresenter";
 import { SettingsPresenter } from "./presenters/SettingsPresenter";
+import pageTransition from "./utils/PageTransition.js";
 
 // Initialize the application
 document.addEventListener("DOMContentLoaded", () => {
   const model = new MountainModel();
 
-  function handleRoute() {
+  async function handleRoute() {
     const hash = window.location.hash;
 
-    if (hash === "#login") {
-      const loginView = new LoginView();
-      new LoginPresenter(loginView);
-    } else if (hash === "#register") {
-      const registerView = new RegisterView();
-      new RegisterPresenter(registerView);
-    } else if (hash.startsWith("#/mountain/")) {
-      const mountainId = hash.split("/")[2];
-      const mountainDetailView = new MountainDetailView();
-      const mountainDetailPresenter = new MountainDetailPresenter(
-        mountainDetailView,
-        model,
-        mountainId
-      );
-      mountainDetailPresenter.init();
-    } else if (hash === "#about") {
-      const aboutView = new AboutView();
-      new AboutPresenter(aboutView, model);
-    } else if (hash === "#jelajah") {
-      const exploreView = new ExploreView();
-      new ExplorePresenter(exploreView, model);
-    } else if (hash === "#settings") {
-      new SettingsPresenter();
-    } else {
-      const homeView = new HomeView();
-      new HomePresenter(homeView, model);
-    }
+    await pageTransition.transition(() => {
+      if (hash === "#login") {
+        const loginView = new LoginView();
+        new LoginPresenter(loginView);
+      } else if (hash === "#register") {
+        const registerView = new RegisterView();
+        new RegisterPresenter(registerView);
+      } else if (hash.startsWith("#/mountain/")) {
+        const mountainId = hash.split("/")[2];
+        const mountainDetailView = new MountainDetailView();
+        const mountainDetailPresenter = new MountainDetailPresenter(
+          mountainDetailView,
+          model,
+          mountainId
+        );
+        mountainDetailPresenter.init();
+      } else if (hash === "#about") {
+        const aboutView = new AboutView();
+        new AboutPresenter(aboutView, model);
+      } else if (hash === "#jelajah") {
+        const exploreView = new ExploreView();
+        new ExplorePresenter(exploreView, model);
+      } else if (hash === "#settings") {
+        new SettingsPresenter();
+      } else {
+        const homeView = new HomeView();
+        new HomePresenter(homeView, model);
+      }
+    });
   }
 
   window.addEventListener("hashchange", handleRoute);

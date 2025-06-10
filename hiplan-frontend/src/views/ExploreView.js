@@ -1,12 +1,23 @@
 import gunungData from "../assets/data/gunung_indonesia.json";
 import cartenzImg from "../assets/images/cartenz.jpg";
+import authManager from "../utils/auth.js";
 
 export class ExploreView {
   constructor() {
     this.app = document.getElementById("app");
+    this.authManager = authManager;
   }
-
   render() {
+    // Check authentication first
+    if (!this.authManager.isAuthenticated()) {
+      sessionStorage.setItem(
+        "loginMessage",
+        "Anda harus login terlebih dahulu untuk mengakses halaman Jelajah."
+      );
+      window.location.hash = "#login";
+      return;
+    }
+
     this.app.innerHTML = `
       <header>
         <nav-bar active-page="#jelajah"></nav-bar>

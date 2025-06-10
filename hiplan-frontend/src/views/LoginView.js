@@ -3,12 +3,21 @@ export class LoginView {
     this.app = document.getElementById("app");
   }
   render() {
+    // Check for login message from sessionStorage
+    const loginMessage = sessionStorage.getItem("loginMessage");
+    const messageHTML = loginMessage
+      ? `<div class="auth-message" style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+        ${loginMessage}
+      </div>`
+      : "";
+
     this.app.innerHTML = `            <header>
                 <nav-bar></nav-bar>
             </header>
             <main class="login-container">
                 <div class="login-form">
                     <h1>Masuk</h1>
+                    ${messageHTML}
                     <form id="loginForm">
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -25,6 +34,11 @@ export class LoginView {
                 </div>
             </main>
         `;
+
+    // Clear the message from sessionStorage after displaying
+    if (loginMessage) {
+      sessionStorage.removeItem("loginMessage");
+    }
 
     this.bindEvents();
   }

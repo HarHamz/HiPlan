@@ -35,7 +35,7 @@ class AuthManager {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.notifyListeners();
-    // Redirect to home page
+
     window.location.href = "/";
   }
 
@@ -47,7 +47,6 @@ class AuthManager {
     this.listeners = this.listeners.filter((listener) => listener !== callback);
   }
 
-  // Notify all listeners of auth state change
   notifyListeners() {
     this.listeners.forEach((callback) => {
       try {
@@ -58,7 +57,6 @@ class AuthManager {
     });
   }
 
-  // Get authorization header for API calls
   getAuthHeader() {
     const token = this.getToken();
     return token ? { Authorization: `Bearer ${token}` } : {};

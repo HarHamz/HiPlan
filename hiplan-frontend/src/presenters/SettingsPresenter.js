@@ -8,13 +8,11 @@ export class SettingsPresenter {
   }
 
   init() {
-    // Check if user is authenticated
     if (!authManager.isAuthenticated()) {
       window.location.hash = "#login";
       return;
     }
 
-    // Render the development notice page
     this.view.render();
   }
 }
