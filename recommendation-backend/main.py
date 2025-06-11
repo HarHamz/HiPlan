@@ -15,7 +15,9 @@ try:
     scaler = joblib.load(os.path.join(MODEL_DIR, 'scaler.pkl'))
     combined_recom_features = joblib.load(os.path.join(MODEL_DIR, 'combined_features.pkl'))
     gunung = joblib.load(os.path.join(MODEL_DIR, 'gunung_data.pkl'))
+    print("✅ Model berhasil dimuat")
 except Exception as e:
+    print(f"❌ Error loading model: {e}")
     raise RuntimeError(f"Gagal load model/data: {e}")
 
 app = FastAPI(title="API Rekomendasi Gunung")
