@@ -38,9 +38,7 @@ export class HomeView {
                             .filter((mountain) => mountain)
                         )}
                     </div>
-                </section>
-
-                <section class="destinasi-populer-section" aria-labelledby="populer-heading">
+                </section>                <section class="destinasi-populer-section" aria-labelledby="populer-heading">
                     <h2 id="populer-heading">Destinasi Populer</h2>
                     <div class="card-container">
                         ${this.renderMountainCards(
@@ -50,6 +48,34 @@ export class HomeView {
                             )
                             .filter((mountain) => mountain)
                         )}
+                    </div>
+                </section>
+
+                <section class="rekomendasi-section" aria-labelledby="rekomendasi-heading">
+                    <h2 id="rekomendasi-heading">Butuh Rekomendasi?</h2>
+                    <p class="rekomendasi-description">Dapatkan rekomendasi gunung berdasarkan preferensi Anda</p>
+                    <div class="rekomendasi-container">
+                        <form class="rekomendasi-form" id="rekomendasiForm">                            <div class="input-group">
+                                <div class="input-field">
+                                    <label for="lokasiInput">Lokasi Preferensi</label>
+                                    <input type="text" id="lokasiInput" name="lokasi" placeholder="Masukkan lokasi (contoh: Jawa Barat, Bandung, dll)" required />
+                                </div>
+                                <div class="input-field">
+                                    <label for="ketinggianInput">Ketinggian Maksimal (mdpl)</label>
+                                    <select id="ketinggianInput" name="ketinggian" required>
+                                        <option value="">Pilih Ketinggian</option>
+                                        <option value="1500">Hingga 1.500 mdpl (Pemula)</option>
+                                        <option value="2500">Hingga 2.500 mdpl (Menengah)</option>
+                                        <option value="3500">Hingga 3.500 mdpl (Mahir)</option>
+                                        <option value="5000">Diatas 3.500 mdpl (Expert)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="rekomendasi-btn">
+                                <img src="${require("../assets/icon/search-icon.svg")}" alt="Search Icon" class="btn-icon"/>
+                                Cari Rekomendasi
+                            </button>
+                        </form>
                     </div>
                 </section>
 
@@ -98,7 +124,7 @@ export class HomeView {
         <article class="card" data-id="${mountain.id}">
           <a href="#/mountain/${mountain.id}" class="card-link">
           <img src="${imageUrl}" alt="Pemandangan Gunung ${mountain.name}" 
-               onerror="this.src='${require("../assets/images/bromo.jpg")}'" />
+              onerror="this.src='${require("../assets/images/bromo.jpg")}'" />
                     <div class="card-content">
                         <h3>${mountain.name}</h3>
                         <p>${mountain.location}</p>
@@ -141,6 +167,7 @@ export class HomeView {
     setTimeout(() => {
       this.setupAutocomplete();
       this.setupCardProtection();
+      this.setupRekomendasiForm();
     }, 100);
   }
 
@@ -422,7 +449,6 @@ export class HomeView {
     }
     return "bromo.jpg";
   }
-
   setupCardProtection() {
     // Add click protection to mountain cards
     document.addEventListener("click", (e) => {
@@ -444,5 +470,37 @@ export class HomeView {
         window.location.hash = cardLink.getAttribute("href");
       }
     });
+  }
+
+  setupRekomendasiForm() {
+    const rekomendasiForm = document.getElementById("rekomendasiForm");
+
+    if (rekomendasiForm) {
+      rekomendasiForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Check authentication before processing recommendation
+        if (!authManager.isAuthenticated()) {
+          sessionStorage.setItem(
+            "loginMessage",
+            "Anda harus login terlebih dahulu untuk mendapatkan rekomendasi."
+          );
+          window.location.hash = "#login";
+          return;
+        }
+
+        const formData = new FormData(rekomendasiForm);
+        const lokasi = formData.get("lokasi");
+        const ketinggian = formData.get("ketinggian");
+
+        // TODO: Implement recommendation logic
+        console.log("Rekomendasi form submitted:", { lokasi, ketinggian });
+
+        // Placeholder for future recommendation functionality
+        alert(
+          `Fitur rekomendasi akan segera hadir!\nLokasi: ${lokasi}\nKetinggian: ${ketinggian} mdpl`
+        );
+      });
+    }
   }
 }

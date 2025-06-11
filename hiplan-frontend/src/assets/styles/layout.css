@@ -51,3 +51,159 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+/* Recommendation Section */
+.rekomendasi-section {
+  max-width: 1260px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  text-align: left;
+}
+
+.rekomendasi-section h2 {
+  color: #00381f;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.rekomendasi-description {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.rekomendasi-container {
+  width: 100%;
+}
+
+.rekomendasi-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 56, 31, 0.1);
+}
+
+.input-group {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.input-field {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.input-field label {
+  display: block;
+  color: #00381f;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.input-field select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e1e8e4;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  color: #333;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.input-field input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e1e8e4;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.input-field input[type="text"]:focus,
+.input-field select:focus {
+  outline: none;
+  border-color: #00381f;
+  box-shadow: 0 0 0 3px rgba(0, 56, 31, 0.1);
+}
+
+.input-field input[type="text"]::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.rekomendasi-btn {
+  background: linear-gradient(135deg, #00381f 0%, #004d2a 100%);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 56, 31, 0.2);
+}
+
+.rekomendasi-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 56, 31, 0.3);
+}
+
+.rekomendasi-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .rekomendasi-section {
+    padding: 0 1rem;
+    margin: 2rem auto;
+  }
+
+  .rekomendasi-form {
+    padding: 2rem 1.5rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .input-field {
+    min-width: 100%;
+  }
+
+  .rekomendasi-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .rekomendasi-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+}
