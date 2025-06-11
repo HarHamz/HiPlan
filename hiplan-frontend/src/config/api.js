@@ -1,6 +1,6 @@
 const API_CONFIG = {
   baseURL: "https://hiplan-production.up.railway.app/api",
-  mlBackendURL: "http://127.0.0.1:8000", // ML backend URL
+  mlRecomBackendURL: "http://127.0.0.1:8000", // ML backend URL
   endpoints: {
     register: "/register",
     login: "/login",
@@ -15,7 +15,7 @@ const API_CONFIG = {
   },
 
   getMLURL: function (endpoint) {
-    return this.mlBackendURL + this.endpoints[endpoint];
+    return this.mlRecomBackendURL + this.endpoints[endpoint];
   },
 };
 

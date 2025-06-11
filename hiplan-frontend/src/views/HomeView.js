@@ -90,12 +90,6 @@ export class HomeView {
                         <div class="card-container" id="recommendationCards">
                             <!-- Results will be inserted here -->
                         </div>
-                        <div class="results-actions">
-                            <button id="backToDefaultBtn" class="back-to-home-btn">
-                                <i class="bi bi-arrow-left"></i>
-                                Kembali ke Beranda
-                            </button>
-                        </div>
                     </div>
                 </section>
 
@@ -707,11 +701,8 @@ export class HomeView {
           mountain.access === "Buka"
             ? '<span style="background: #28a745; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">Buka</span>'
             : '<span style="background: #dc3545; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">Tutup</span>';
-
         return `            
-        <article class="card" data-id="${
-          mountain.id
-        }" style="border: 2px solid #00381f; box-shadow: 0 4px 12px rgba(0, 56, 31, 0.15);">
+        <article class="card" data-id="${mountain.id}">
           <a href="#/mountain/${mountain.id}" class="card-link">
             <div style="position: relative;">
               <img src="${imageUrl}" alt="Pemandangan ${mountain.name}" 
@@ -724,9 +715,6 @@ export class HomeView {
               <h3>${mountain.name}</h3>
               <p>${mountain.location}</p>
               <p class="altitude">${mountain.altitude} mdpl</p>
-              <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #28a745; font-weight: 500;">
-                ⭐ Rekomendasi untuk Anda
-              </div>
             </div>
           </a>
         </article>
