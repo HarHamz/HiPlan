@@ -1,6 +1,6 @@
 const API_CONFIG = {
   baseURL: "https://hiplan-production.up.railway.app/api",
-  mlRecomBackendURL: "https://observant-perfection-production.up.railway.app", // ML backend URL
+  mlRecomBackendURL: "https://hiplan-ml-recommender-system.up.railway.app", // ML backend URL
   endpoints: {
     register: "/register",
     login: "/login",
