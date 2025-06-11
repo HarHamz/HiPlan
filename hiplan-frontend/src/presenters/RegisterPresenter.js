@@ -37,8 +37,6 @@ export class RegisterPresenter {
 
       const result = await response.json();
       if (response.ok) {
-        console.log("Registrasi berhasil:", result);
-
         // Get user name from response or fallback to form data
         const user = result.data?.user || result.user;
         const userName =
@@ -58,8 +56,6 @@ export class RegisterPresenter {
           window.location.hash = "#login";
         }, 1500);
       } else {
-        console.error("Registrasi gagal:", result.message);
-
         let errorMessage = "Registrasi gagal. Silakan coba lagi.";
         if (result.message) {
           if (result.message.includes("email")) {
@@ -76,9 +72,6 @@ export class RegisterPresenter {
         NotificationUtils.error(errorMessage, 4000);
       }
     } catch (error) {
-      console.error("Error saat registrasi:", error);
-
-      // Show network error notification
       NotificationUtils.error(
         "Tidak dapat terhubung ke server. Periksa koneksi internet Anda dan coba lagi.",
         4000
