@@ -59,9 +59,11 @@ export class HomeView {
                         <div class="feature-image">
                             <img src="${require("../assets/images/lawu.jpg")}" alt="Pendaki di gunung" />
                         </div>
-                        <div class="feature-content">                            <p>Semangat petualangan memanggil jiwa untuk menjelajahi ketinggian, seperti rekan pendaki di samping ini. Namun, di balik setiap pendakian hebat, ada perencanaan yang matang.</p>
+                        <div class="feature-content">                            
+                        <p>Semangat petualangan memanggil jiwa untuk menjelajahi ketinggian. Namun, di balik setiap pendakian hebat, ada perencanaan yang matang.</p>
                             <p>Seringkali kita bertanya: Kapan cuaca terbaik untuk mendaki? Apakah gunung ini sesuai dengan kemampuan saya? Berapa lama waktu yang dibutuhkan? Mencari jawaban yang akurat bisa jadi tantangan.</p>
-                            <p>HiPlan hadir sebagai solusi. Kami mengubah keraguan menjadi kepastian dengan menyediakan prediksi tren cuaca bulanan, analisis tingkat kesulitan gunung, estimasi waktu tempuh, dan rekomendasi yang dipersonalisasi. Semua berbasis data untuk perencanaan yang lebih cerdas.</p>                            <div class="feature-icons">
+                            <p>HiPlan hadir sebagai solusi. Kami mengubah keraguan menjadi kepastian dengan menyediakan prediksi tren cuaca bulanan, analisis tingkat kesulitan gunung, estimasi waktu tempuh, dan rekomendasi yang dipersonalisasi. Semua berbasis data untuk perencanaan yang lebih cerdas.</p>
+                            <div class="feature-icons">
                                 <div class="feature-icon">
                                     <img src="${require("../assets/icon/heavy-rain.png")}" alt="Icon cuaca" />
                                     
