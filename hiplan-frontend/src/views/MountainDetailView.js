@@ -478,10 +478,33 @@ export class MountainDetailView {
     });
     this.setupWeatherClickHandlers();
     this.setupWeatherPrediction();
+    this.setupMountainCardClickHandlers();
   }
-
   setCurrentMountain(mountain) {
     this.currentMountain = mountain;
+  }
+
+  /**
+   * Setup click handlers for mountain cards in the area sekitar section
+   */
+  setupMountainCardClickHandlers() {
+    const mountainCards = document.querySelectorAll(".card[data-id]");
+
+    mountainCards.forEach((card) => {
+      const cardLink = card.querySelector(".card-link");
+
+      if (cardLink) {
+        cardLink.addEventListener("click", (e) => {
+          // Let the normal navigation happen, but scroll to top after a brief delay
+          setTimeout(() => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }, 100);
+        });
+      }
+    });
   }
 
   updateDifficultyDisplay(difficulty, description, color, selectedWeather) {

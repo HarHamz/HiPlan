@@ -157,7 +157,6 @@ export class HomeView {
       searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        // Check authentication before search
         if (!authManager.isAuthenticated()) {
           sessionStorage.setItem(
             "loginMessage",
@@ -428,7 +427,6 @@ export class HomeView {
     if (jelajahHeading) jelajahHeading.style.display = "block";
     if (populerHeading) populerHeading.style.display = "block";
 
-    // Hide recommendation results
     this.hideRecommendations();
 
     if (this.originalMountains) {
@@ -575,8 +573,8 @@ export class HomeView {
       const mountainsForCards = recommendations.map((rec, index) => {
         // Try to find matching mountain from gunung_indonesia.json by name
         let mountainId = `rec_${index}`;
-        let imageUrl = "bromo.jpg"; // Default fallback image        // Load gunung_indonesia.json data to get proper image URLs and location info
-        let locationDisplay = rec.Provinsi; // Default fallback
+        let imageUrl = "bromo.jpg";
+        let locationDisplay = rec.Provinsi;
         try {
           const gunungData = require("../assets/data/gunung_indonesia.json");
           const foundMountain = gunungData.find(
@@ -603,9 +601,7 @@ export class HomeView {
               locationDisplay = foundMountain.Provinsi;
             }
           }
-        } catch (error) {
-          // Use fallback values if data loading fails
-        }
+        } catch (error) {}
 
         return {
           id: mountainId,
@@ -674,7 +670,7 @@ export class HomeView {
   }
   /**
    * Render recommendation cards with special styling and clickable links
-   * @param {Array} mountains - Array of mountain data
+   * @param {Array} mountains
    */ renderRecommendationCards(mountains) {
     return mountains
       .map((mountain) => {

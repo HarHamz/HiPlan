@@ -279,7 +279,6 @@ class WeatherMLService {
         description: "Cuaca cerah, cocok untuk pendakian",
       };
     } else {
-      // Fallback - shouldn't happen with proper API
       return {
         label: "TIDAK DIKETAHUI",
         icon: "❓",

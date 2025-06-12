@@ -200,8 +200,7 @@ class VisualCrossingService {
     });
     const translatedText = translatedConditions.join(", ");
 
-    const conditionsLower = conditions.toLowerCase(); // Determine primary weather type and icon based on priority
-
+    const conditionsLower = conditions.toLowerCase();
     // Highest priority: thunderstorm/storm conditions (type_37, type_38)
     if (
       conditionsLower.includes("thunderstorm") ||

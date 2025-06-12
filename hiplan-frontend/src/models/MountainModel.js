@@ -24,15 +24,14 @@ export class Mountain {
     this.id = id;
     this.name = nama;
     this.location = `${kabupaten}, ${provinsi}`;
-    this.kecamatan = kecamatan; // Add kecamatan field
-    this.kabupaten = kabupaten; // Keep kabupaten for reference
-    this.provinsi = provinsi; // Keep provinsi for reference
+    this.kecamatan = kecamatan;
+    this.kabupaten = kabupaten;
+    this.provinsi = provinsi;
     this.altitude = ketinggian;
     this.mainImage = gambar || "bromo.jpg";
     this.description = deskripsi;
-    // Initialize with basic difficulty, will be updated with ML prediction when weather data is available
     this.baseDifficulty = this.calculateBaseDifficulty(elevationGain, jarakM);
-    this.difficulty = this.baseDifficulty; // Default to base difficulty
+    this.difficulty = this.baseDifficulty;
     this.distance = jarakM ? (jarakM / 1000).toFixed(1) : "N/A";
     this.lat = latitude;
     this.long = longitude;
@@ -42,12 +41,10 @@ export class Mountain {
     this.jarakKm = jarakKm;
     this.elevationGain = elevationGain;
     this.estimatedTime = estimatedTime;
-    this.ulasan = Math.floor(Math.random() * 100) + 10; // Random
+    this.ulasan = Math.floor(Math.random() * 100) + 10;
   }
 
-  // Basic difficulty calculation for initial display (before ML prediction)
   calculateBaseDifficulty(elevationGain, distance) {
-    // Simple base calculation for initial display
     let score = 2; // Start with base score
 
     // Elevation factor (simplified)
@@ -142,7 +139,7 @@ export class MountainModel {
           data.Nama,
           data.Provinsi,
           data.Kabupaten,
-          data.Kecamatan, // Add kecamatan parameter
+          data.Kecamatan,
           data["Ketinggian (dpl)"],
           data["Jenis Gunung"],
           data.Status,
@@ -181,7 +178,7 @@ export class MountainModel {
 
   // Method untuk menghitung jarak antara dua koordinat menggunakan Haversine formula
   calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius bumi dalam km
+    const R = 6371;
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
     const a =
@@ -191,14 +188,13 @@ export class MountainModel {
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Jarak dalam km
+    return R * c;
   }
 
   // Method untuk mendapatkan gunung terdekat
   getNearbyMountains(mountainId, limit = 4) {
     const currentMountain = this.getMountainById(mountainId);
     if (!currentMountain || !currentMountain.lat || !currentMountain.long) {
-      // Jika tidak ada koordinat, kembalikan gunung random
       return this.mountains
         .filter((m) => m.id !== parseInt(mountainId))
         .slice(0, limit);

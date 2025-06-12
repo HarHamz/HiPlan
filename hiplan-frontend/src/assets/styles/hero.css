@@ -287,7 +287,6 @@
 .feature-container {
   display: flex;
   align-items: stretch;
-  gap: 4rem;
   background: white;
   border-radius: 12px;
   overflow: hidden;

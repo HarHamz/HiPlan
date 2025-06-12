@@ -30,8 +30,6 @@ export class MountainDetailPresenter {
   } // Method untuk menangani pemilihan cuaca
   selectWeather(weatherCondition) {
     this.selectedWeather = weatherCondition;
-    // The actual difficulty calculation is now handled by ML model in MountainDetailView
-    // when predictDifficultyForSelectedWeather() is called
   }
 
   // Get base difficulty from mountain data
@@ -51,9 +49,5 @@ export class MountainDetailPresenter {
     const difficulty = this.getCurrentDifficulty();
     return this.mountainData.getDifficultyColor(difficulty);
   }
-
-  // This method is no longer needed as ML handles the prediction  // updateDifficultyDisplay() is now handled by MountainDetailView's predictDifficultyForSelectedWeather()
-  updateDifficultyDisplay() {
-    // ML prediction is handled by MountainDetailView
-  }
+  updateDifficultyDisplay() {}
 }
