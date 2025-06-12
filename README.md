@@ -15,8 +15,9 @@ Hi everyone! We are from **CC25-CF202**. We consist of 6 people and these are my
 
 # About
 
-> **Theme**: Social, Culture, and Tourism
 HiPlan is an AI-based platform that transforms the way climbers plan their adventures in a safer, smarter, and more informed way for an unforgettable climbing experience.
+
+> **Theme**: Social, Culture, and Tourism
 
 # Tech Stack
 
