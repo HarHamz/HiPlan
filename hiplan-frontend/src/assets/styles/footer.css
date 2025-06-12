@@ -70,7 +70,7 @@ footer-component .footer-bottom {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 11rem;
+  gap: 1rem;
 }
 
 footer-component .footer-social-icons {

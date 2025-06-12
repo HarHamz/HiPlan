@@ -195,7 +195,7 @@
   background: linear-gradient(135deg, #00381f 0%, #004d2a 100%);
   color: white;
   border: none;
-  padding: 12px 32px;
+  padding: 12px 60px;
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 8px;
@@ -203,7 +203,7 @@
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   box-shadow: 0 4px 12px rgba(0, 56, 31, 0.2);
 }
 

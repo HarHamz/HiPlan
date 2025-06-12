@@ -64,8 +64,7 @@ export class LoginPresenter {
           if (result.message.includes("email")) {
             errorMessage = "Email tidak terdaftar. Pastikan email Anda benar.";
           } else if (result.message.includes("password")) {
-            errorMessage =
-              "Password salah. Silakan periksa kembali password Anda.";
+            errorMessage = "Email atau Password salah. Silakan coba lagi.";
           } else {
             errorMessage = result.message;
           }

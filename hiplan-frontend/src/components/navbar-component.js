@@ -18,7 +18,6 @@ class NavBar extends HTMLElement {
     this._onDaftarClick = this._onDaftarClick.bind(this);
     this._onProfileClick = this._onProfileClick.bind(this);
     this._onLogoutClick = this._onLogoutClick.bind(this);
-    this._onSettingsClick = this._onSettingsClick.bind(this);
     this._onAuthStateChange = this._onAuthStateChange.bind(this);
 
     // Listen for auth state changes
@@ -97,10 +96,6 @@ class NavBar extends HTMLElement {
         </button>
         <div class="profile-dropdown">
           <div class="dropdown-header">${userName}</div>
-          <button class="dropdown-item settings-btn" type="button">
-            <span class="dropdown-icon">⚙️</span>
-            Pengaturan
-          </button>
           <button class="dropdown-item logout-btn" type="button">
             <span class="dropdown-icon">🚪</span>
             Keluar
@@ -115,7 +110,6 @@ class NavBar extends HTMLElement {
     const daftarBtn = this.querySelector(".btn-daftar");
     const profileBtn = this.querySelector(".profile-btn");
     const logoutBtn = this.querySelector(".logout-btn");
-    const settingsBtn = this.querySelector(".settings-btn");
 
     if (hamburgerBtn) {
       hamburgerBtn.addEventListener("click", this._onHamburgerClick);
@@ -131,9 +125,6 @@ class NavBar extends HTMLElement {
     }
     if (logoutBtn) {
       logoutBtn.addEventListener("click", this._onLogoutClick);
-    }
-    if (settingsBtn) {
-      settingsBtn.addEventListener("click", this._onSettingsClick);
     }
     document.addEventListener("click", this._onDocumentClick);
   }
@@ -206,20 +197,6 @@ class NavBar extends HTMLElement {
   }
   _onLogoutClick() {
     authManager.logout();
-  }
-
-  _onSettingsClick() {
-    this._isProfileDropdownOpen = false;
-    const profileBtn = this.querySelector(".profile-btn");
-    const dropdown = this.querySelector(".profile-dropdown");
-
-    if (profileBtn && dropdown) {
-      profileBtn.setAttribute("aria-expanded", "false");
-      dropdown.classList.remove("active");
-    }
-
-    // Navigate to settings page
-    window.location.hash = "#settings";
   }
 
   _onAuthStateChange(isAuthenticated, userData) {
