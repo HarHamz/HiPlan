@@ -27,44 +27,33 @@ export class MountainDetailPresenter {
 
   getNearbyMountains() {
     return this.model.getNearbyMountains(this.mountainId, 4);
-  }
-
-  // Method untuk menangani pemilihan cuaca
+  } // Method untuk menangani pemilihan cuaca
   selectWeather(weatherCondition) {
     this.selectedWeather = weatherCondition;
-    // Update tampilan jalur dengan tingkat kesulitan yang baru
-    this.updateDifficultyDisplay();
+    // The actual difficulty calculation is now handled by ML model in MountainDetailView
+    // when predictDifficultyForSelectedWeather() is called
   }
 
-  // Method untuk mendapatkan tingkat kesulitan berdasarkan cuaca yang dipilih
+  // Get base difficulty from mountain data
   getCurrentDifficulty() {
-    if (this.selectedWeather) {
-      return this.mountainData.calculateWeatherDifficulty(this.selectedWeather);
-    }
-    return this.mountainData.difficulty;
+    // Return base difficulty - ML prediction handles dynamic calculation
+    return this.mountainData.baseDifficulty || this.mountainData.difficulty;
   }
 
-  // Method untuk mendapatkan deskripsi tingkat kesulitan saat ini
+  // Get description for base difficulty
   getCurrentDifficultyDescription() {
     const difficulty = this.getCurrentDifficulty();
     return this.mountainData.getDifficultyDescription(difficulty);
   }
 
-  // Method untuk mendapatkan warna tingkat kesulitan saat ini
+  // Get color for base difficulty
   getCurrentDifficultyColor() {
     const difficulty = this.getCurrentDifficulty();
     return this.mountainData.getDifficultyColor(difficulty);
   }
 
-  // Method untuk update tampilan tingkat kesulitan
+  // This method is no longer needed as ML handles the prediction  // updateDifficultyDisplay() is now handled by MountainDetailView's predictDifficultyForSelectedWeather()
   updateDifficultyDisplay() {
-    if (this.view && this.view.updateDifficultyDisplay) {
-      this.view.updateDifficultyDisplay(
-        this.getCurrentDifficulty(),
-        this.getCurrentDifficultyDescription(),
-        this.getCurrentDifficultyColor(),
-        this.selectedWeather
-      );
-    }
+    // ML prediction is handled by MountainDetailView
   }
 }

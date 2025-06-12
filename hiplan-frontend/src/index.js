@@ -22,8 +22,6 @@ import { ExplorePresenter } from "./presenters/ExplorePresenter";
 import { SettingsPresenter } from "./presenters/SettingsPresenter";
 import pageTransition from "./utils/PageTransition.js";
 
-window.NotificationUtils = NotificationUtils;
-
 // Initialize the application
 document.addEventListener("DOMContentLoaded", () => {
   const model = new MountainModel();

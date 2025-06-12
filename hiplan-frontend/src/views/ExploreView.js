@@ -52,7 +52,6 @@ export class ExploreView {
       typeof L === "undefined" ||
       typeof L.MarkerClusterGroup === "undefined"
     ) {
-      console.error("Leaflet library or MarkerCluster plugin not loaded.");
       return;
     }
 

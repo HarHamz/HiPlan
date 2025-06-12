@@ -20,24 +20,14 @@ class WeatherMLService {
           message: "Kecamatan, bulan, dan tahun harus diisi",
           data: null,
         };
-      }
-
-      // Validate month range
+      } // Validate month range
       if (month < 1 || month > 12) {
         return {
           success: false,
           message: "Bulan harus antara 1-12",
           data: null,
         };
-      }
-
-      console.log("Getting seasonality prediction for:", {
-        kecamatanName,
-        month,
-        year,
-      });
-
-      // Build URL with query parameters
+      } // Build URL with query parameters
       const url = new URL(API_CONFIG.getWeatherMLURL("weatherSeasonality"));
       url.searchParams.append("kecamatan_name", kecamatanName);
       url.searchParams.append("month", month.toString());
@@ -49,12 +39,9 @@ class WeatherMLService {
         headers: {
           Accept: "application/json",
         },
-      });
-
-      // Check if response is ok
+      }); // Check if response is ok
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Weather ML API Error:", response.status, errorText);
 
         return {
           success: false,
@@ -65,15 +52,15 @@ class WeatherMLService {
 
       // Parse response
       const result = await response.json();
-      console.log("Seasonality prediction result:", result);
 
+      // Normalize response data structure to handle API variations
+      const normalizedData = this.normalizeSeasonalityResponse(result);
       return {
         success: true,
         message: "Prediksi cuaca berhasil didapatkan",
-        data: result,
+        data: normalizedData,
       };
     } catch (error) {
-      console.error("Error in getSeasonalityPrediction:", error);
       return {
         success: false,
         message:
@@ -81,6 +68,36 @@ class WeatherMLService {
         data: null,
       };
     }
+  }
+
+  /**
+   * Normalize seasonality response to handle API structure variations
+   * @param {Object} response - Raw API response
+   * @returns {Object} - Normalized response data
+   */
+  static normalizeSeasonalityResponse(response) {
+    // Handle different possible API response structures
+    return {
+      request_info: response.request_info || {
+        kecamatan_name: response.kecamatan_name || response.location,
+        month: response.month,
+        year: response.year,
+      },
+      analysis: response.analysis || {
+        determined_seasonality:
+          response.determined_seasonality ||
+          response.seasonality ||
+          response.analysis?.determined_seasonality,
+        reasoning_metrics: response.reasoning_metrics ||
+          response.analysis?.reasoning_metrics ||
+          response.metrics || {
+            average_precipprob: response.average_precipprob || 0,
+            average_windspeed: response.average_windspeed || 0,
+            average_temp: response.average_temp || 0,
+            average_humidity: response.average_humidity || 0,
+          },
+      },
+    };
   }
 
   /**
@@ -101,14 +118,8 @@ class WeatherMLService {
         };
       }
 
-      console.log("Getting monthly forecast for:", {
-        kecamatanName,
-        month,
-        year,
-      });
-
       // Build URL with query parameters
-      const url = new URL(API_CONFIG.getWeatherMLURL("weatherMonthly"));
+      const url = new URL(API_CONFIG.getWeatherMLURL("weatherSeasonality"));
       url.searchParams.append("kecamatan_name", kecamatanName);
       url.searchParams.append("month", month.toString());
       url.searchParams.append("year", year.toString());
@@ -120,10 +131,8 @@ class WeatherMLService {
           Accept: "application/json",
         },
       });
-
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Weather ML API Error:", response.status, errorText);
 
         return {
           success: false,
@@ -133,7 +142,6 @@ class WeatherMLService {
       }
 
       const result = await response.json();
-      console.log("Monthly forecast result:", result);
 
       return {
         success: true,
@@ -141,7 +149,6 @@ class WeatherMLService {
         data: result,
       };
     } catch (error) {
-      console.error("Error in getMonthlyForecast:", error);
       return {
         success: false,
         message:
@@ -168,9 +175,7 @@ class WeatherMLService {
           message: "Semua parameter harus diisi",
           data: null,
         };
-      }
-
-      // Validate days range
+      } // Validate days range
       if (daysToPredict < 1 || daysToPredict > 90) {
         return {
           success: false,
@@ -178,12 +183,6 @@ class WeatherMLService {
           data: null,
         };
       }
-
-      console.log("Getting range forecast for:", {
-        kecamatanName,
-        startDate,
-        daysToPredict,
-      });
 
       // Build URL with query parameters
       const url = new URL(API_CONFIG.getWeatherMLURL("weatherRange"));
@@ -198,10 +197,8 @@ class WeatherMLService {
           Accept: "application/json",
         },
       });
-
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Weather ML API Error:", response.status, errorText);
 
         return {
           success: false,
@@ -211,7 +208,6 @@ class WeatherMLService {
       }
 
       const result = await response.json();
-      console.log("Range forecast result:", result);
 
       return {
         success: true,
@@ -219,7 +215,6 @@ class WeatherMLService {
         data: result,
       };
     } catch (error) {
-      console.error("Error in getRangeForecast:", error);
       return {
         success: false,
         message:
@@ -257,12 +252,14 @@ class WeatherMLService {
    * Helper function to format weather seasonality for display
    * @param {string} seasonality - "Cerah" or "Hujan" from API
    * @returns {Object} - Formatted seasonality info
-   */
-  static formatSeasonality(seasonality) {
+   */ static formatSeasonality(seasonality) {
     // Normalize the seasonality value
     const normalizedSeasonality = seasonality ? seasonality.toLowerCase() : "";
 
-    if (normalizedSeasonality === "hujan") {
+    if (
+      normalizedSeasonality === "rainy" ||
+      normalizedSeasonality === "hujan"
+    ) {
       return {
         label: "HUJAN",
         icon: "🌧️",
@@ -270,7 +267,10 @@ class WeatherMLService {
         color: "#3498db",
         description: "Curah hujan tinggi, persiapkan perlengkapan anti hujan",
       };
-    } else if (normalizedSeasonality === "cerah") {
+    } else if (
+      normalizedSeasonality === "sunny" ||
+      normalizedSeasonality === "cerah"
+    ) {
       return {
         label: "CERAH",
         icon: "☀️",

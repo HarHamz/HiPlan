@@ -1,4 +1,5 @@
 import gunungData from "../assets/data/gunung_indonesia.json";
+import DifficultyPredictionService from "../utils/DifficultyPredictionService.js";
 
 export class Mountain {
   constructor(
@@ -6,6 +7,7 @@ export class Mountain {
     nama,
     provinsi,
     kabupaten,
+    kecamatan,
     ketinggian,
     jenisGunung,
     status,
@@ -22,10 +24,15 @@ export class Mountain {
     this.id = id;
     this.name = nama;
     this.location = `${kabupaten}, ${provinsi}`;
+    this.kecamatan = kecamatan; // Add kecamatan field
+    this.kabupaten = kabupaten; // Keep kabupaten for reference
+    this.provinsi = provinsi; // Keep provinsi for reference
     this.altitude = ketinggian;
     this.mainImage = gambar || "bromo.jpg";
     this.description = deskripsi;
-    this.difficulty = this.calculateDifficulty(elevationGain, jarakM);
+    // Initialize with basic difficulty, will be updated with ML prediction when weather data is available
+    this.baseDifficulty = this.calculateBaseDifficulty(elevationGain, jarakM);
+    this.difficulty = this.baseDifficulty; // Default to base difficulty
     this.distance = jarakM ? (jarakM / 1000).toFixed(1) : "N/A";
     this.lat = latitude;
     this.long = longitude;
@@ -37,61 +44,76 @@ export class Mountain {
     this.estimatedTime = estimatedTime;
     this.ulasan = Math.floor(Math.random() * 100) + 10; // Random
   }
-  // Dummy nunggu model
-  calculateDifficulty(elevationGain, distance) {
-    // Skala 1-10 berdasarkan elevation gain dan distance
-    let score = 1;
 
-    // Faktor elevation gain (bobot 60%)
-    if (elevationGain > 2500) score += 5.4; // Sangat tinggi
-    else if (elevationGain > 2000) score += 4.8;
-    else if (elevationGain > 1500) score += 3.6;
-    else if (elevationGain > 1000) score += 2.4;
-    else if (elevationGain > 500) score += 1.2;
+  // Basic difficulty calculation for initial display (before ML prediction)
+  calculateBaseDifficulty(elevationGain, distance) {
+    // Simple base calculation for initial display
+    let score = 2; // Start with base score
 
-    // Faktor distance (bobot 40%)
-    if (distance > 30000) score += 3.6; // Sangat jauh
-    else if (distance > 25000) score += 3.2;
-    else if (distance > 20000) score += 2.4;
-    else if (distance > 15000) score += 1.6;
-    else if (distance > 10000) score += 0.8;
+    // Elevation factor (simplified)
+    if (elevationGain > 2000) score += 3;
+    else if (elevationGain > 1500) score += 2.5;
+    else if (elevationGain > 1000) score += 2;
+    else if (elevationGain > 500) score += 1;
 
-    // Batasi score antara 1-10 dan bulatkan ke 1 desimal
+    // Distance factor (simplified)
+    if (distance > 25000) score += 2;
+    else if (distance > 15000) score += 1.5;
+    else if (distance > 10000) score += 1;
+
     return Math.min(Math.max(Math.round(score * 10) / 10, 1), 10);
   }
 
-  // Menghitung tingkat kesulitan berdasarkan cuaca
-  calculateWeatherDifficulty(weatherCondition) {
-    const baseDifficulty = this.difficulty;
-    let weatherModifier = 0;
+  /**
+   * Get ML-based difficulty prediction with weather data
+   * @param {Object} weatherData - Weather conditions
+   * @returns {Promise<Object>} Prediction result with difficulty and time
+   */
+  async predictDifficultyWithWeather(weatherData) {
+    try {
+      const result = await DifficultyPredictionService.predictDifficulty(
+        this,
+        weatherData
+      );
 
-    // Faktor penambah kesulitan berdasarkan kondisi cuaca
-    switch (weatherCondition.toLowerCase()) {
-      case "badai":
-      case "storm":
-        weatherModifier = 3.5;
-        break;
-      case "hujan":
-      case "rain":
-        weatherModifier = 2.0;
-        break;
-      case "berawan":
-      case "cloudy":
-        weatherModifier = 0.5;
-        break;
-      case "cerah":
-      case "sunny":
-        weatherModifier = 0;
-        break;
-      default:
-        weatherModifier = 0;
+      if (result.success) {
+        // Update the difficulty with ML prediction
+        this.difficulty = result.data.difficulty_score;
+        this.estimatedTimeML = result.data.estimated_time;
+
+        return {
+          success: true,
+          difficulty: result.data.difficulty_score,
+          estimatedTime: result.data.estimated_time,
+          description: this.getDifficultyDescription(
+            result.data.difficulty_score
+          ),
+          color: this.getDifficultyColor(result.data.difficulty_score),
+        };
+      } else {
+        // Fallback to base difficulty if ML fails
+        return {
+          success: false,
+          difficulty: this.baseDifficulty,
+          estimatedTime: this.estimatedTime,
+          description: this.getDifficultyDescription(this.baseDifficulty),
+          color: this.getDifficultyColor(this.baseDifficulty),
+          error: result.error,
+        };
+      }
+    } catch (error) {
+      // Fallback to base difficulty
+      return {
+        success: false,
+        difficulty: this.baseDifficulty,
+        estimatedTime: this.estimatedTime,
+        description: this.getDifficultyDescription(this.baseDifficulty),
+        color: this.getDifficultyColor(this.baseDifficulty),
+        error: error.message,
+      };
     }
-
-    const weatherDifficulty = baseDifficulty + weatherModifier;
-    return Math.min(Math.max(Math.round(weatherDifficulty * 10) / 10, 1), 10);
   }
 
-  // Mendapatkan deskripsi tingkat kesulitan berdasarkan nilai
   getDifficultyDescription(difficulty) {
     if (difficulty <= 2) return "Sangat Mudah";
     if (difficulty <= 4) return "Mudah";
@@ -120,6 +142,7 @@ export class MountainModel {
           data.Nama,
           data.Provinsi,
           data.Kabupaten,
+          data.Kecamatan, // Add kecamatan parameter
           data["Ketinggian (dpl)"],
           data["Jenis Gunung"],
           data.Status,
@@ -184,7 +207,7 @@ export class MountainModel {
     // Hitung jarak untuk semua gunung kecuali gunung saat ini
     const mountainsWithDistance = this.mountains
       .filter((mountain) => mountain.id !== parseInt(mountainId))
-      .filter((mountain) => mountain.lat && mountain.long) // Pastikan ada koordinat
+      .filter((mountain) => mountain.lat && mountain.long)
       .map((mountain) => ({
         ...mountain,
         distance: this.calculateDistance(
@@ -194,7 +217,7 @@ export class MountainModel {
           mountain.long
         ),
       }))
-      .sort((a, b) => a.distance - b.distance); // Urutkan berdasarkan jarak terdekat
+      .sort((a, b) => a.distance - b.distance);
 
     return mountainsWithDistance.slice(0, limit);
   }

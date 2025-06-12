@@ -1,10 +1,15 @@
 import authManager from "../utils/auth.js";
 import WeatherMLService from "../utils/WeatherMLService.js";
+import VisualCrossingService from "../utils/VisualCrossingService.js";
+import DifficultyPredictionService from "../utils/DifficultyPredictionService.js";
 
 export class MountainDetailView {
   constructor() {
     this.app = document.getElementById("app");
     this.authManager = authManager;
+    this.weatherData = null; // Store fetched weather data
+    this.selectedWeatherCard = null; // Store selected weather card for prediction
+    this.difficultyPrediction = null; // Store difficulty prediction result
   }
   render(mountain, presenter = null) {
     // Check authentication first
@@ -19,6 +24,10 @@ export class MountainDetailView {
 
     this.currentMountain = mountain;
     this.presenter = presenter;
+
+    // Initialize weather data loading
+    this.loadWeatherData();
+
     this.app.innerHTML = `
       <header>
         <nav-bar></nav-bar>
@@ -101,100 +110,113 @@ export class MountainDetailView {
             <p>${mountain.description}</p>
           </div>
         </section>
-      </div>
-    `;
+      </div>    `;
+  }
+  /**
+   * Load weather data from Visual Crossing API
+   */
+  async loadWeatherData() {
+    try {
+      // Get location for weather data
+      const kecamatanName = this.extractKecamatanFromMountain(
+        this.currentMountain
+      );
+
+      if (!kecamatanName) {
+        throw new Error("Could not determine location for weather data");
+      } // Fetch weather data from Visual Crossing API only
+      const weatherResult = await VisualCrossingService.getDailyForecast(
+        kecamatanName,
+        7
+      );
+
+      if (!weatherResult.success || weatherResult.days.length === 0) {
+        throw new Error(
+          `Failed to load weather data: ${
+            weatherResult.error || "No data available"
+          }`
+        );
+      }
+
+      // Format data from Visual Crossing API
+      this.weatherData = VisualCrossingService.formatWeatherForCards(
+        weatherResult.days
+      );
+
+      // Update the weather display
+      this.updateWeatherDisplay();
+    } catch (error) {
+      // Show error message to user instead of fallback data
+      this.showWeatherError(error.message);
+    }
+  }
+
+  /**
+   * Update weather display with loaded data
+   */
+  updateWeatherDisplay() {
+    const weatherForecastContainer =
+      document.querySelector(".weather-forecast");
+    if (weatherForecastContainer && this.weatherData) {
+      const today = new Date();
+      const dayNames = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+      ];
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Mei",
+        "Jun",
+        "Jul",
+        "Ags",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Des",
+      ];
+
+      const weatherCardsHTML = this.weatherData
+        .map((data, index) => {
+          const currentDate = new Date(today);
+          currentDate.setDate(today.getDate() + index);
+          const dayName = dayNames[currentDate.getDay()];
+          const dateNumber = currentDate.getDate();
+          const monthName = monthNames[currentDate.getMonth()];
+          const year = currentDate.getFullYear();
+
+          return `
+            <div class="forecast-card clickable-weather" data-weather="${data.weather}" data-day="${dayName}">
+              <div class="forecast-day">${dayName}</div>
+              <div class="forecast-date">${dateNumber} ${monthName} ${year}</div>
+              <div class="forecast-icon">
+                <i class="bi ${data.icon}"></i>
+              </div>
+              <div class="forecast-temp">${data.temp}</div>
+              <div class="forecast-desc">${data.desc}</div>
+              <div class="forecast-details">
+                <div class="forecast-wind"><i class="bi bi-wind"></i> ${data.wind}</div>
+                <div class="forecast-precip"><i class="bi bi-cloud-rain-heavy"></i> ${data.precip}</div>
+                <div class="forecast-humid"><i class="bi bi-droplet"></i> ${data.humid}</div>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+      weatherForecastContainer.innerHTML = weatherCardsHTML;
+
+      // Re-bind weather click handlers after weather data is loaded
+      this.setupWeatherClickHandlers();
+    }
   }
   renderCuacaTab(mountain) {
-    const today = new Date();
-    const dayNames = [
-      "Minggu",
-      "Senin",
-      "Selasa",
-      "Rabu",
-      "Kamis",
-      "Jumat",
-      "Sabtu",
-    ];
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Ags",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ];
-
-    const weatherData = [
-      {
-        weather: "cerah",
-        icon: "bi-sun",
-        desc: "Cerah",
-        temp: "22°",
-        wind: "8 kph",
-        precip: "10%",
-        humid: "40%",
-      },
-      {
-        weather: "badai",
-        icon: "bi-cloud-lightning-rain",
-        desc: "Badai",
-        temp: "12°",
-        wind: "25 kph",
-        precip: "90%",
-        humid: "80%",
-      },
-      {
-        weather: "hujan",
-        icon: "bi-cloud-rain",
-        desc: "Hujan",
-        temp: "17°",
-        wind: "15 kph",
-        precip: "70%",
-        humid: "60%",
-      },
-      {
-        weather: "berawan",
-        icon: "bi-cloud",
-        desc: "Berawan",
-        temp: "18°",
-        wind: "10 kph",
-        precip: "30%",
-        humid: "50%",
-      },
-      {
-        weather: "cerah",
-        icon: "bi-sun",
-        desc: "Cerah",
-        temp: "22°",
-        wind: "6 kph",
-        precip: "5%",
-        humid: "30%",
-      },
-      {
-        weather: "berawan",
-        icon: "bi-cloud",
-        desc: "Berawan",
-        temp: "18°",
-        wind: "12 kph",
-        precip: "25%",
-        humid: "40%",
-      },
-      {
-        weather: "cerah",
-        icon: "bi-sun",
-        desc: "Cerah",
-        temp: "24°",
-        wind: "5 kph",
-        precip: "0%",
-        humid: "35%",
-      },
-    ];
     return `
     <section class="cuaca-section">
       <div class="cuaca-container">
@@ -202,33 +224,15 @@ export class MountainDetailView {
         <!--<p class="weather-instruction">Klik pada kartu cuaca untuk melihat bagaimana kondisi cuaca mempengaruhi tingkat kesulitan pendakian</p>-->
 
         <div class="weather-forecast">
-          ${weatherData
-            .map((data, index) => {
-              const currentDate = new Date(today);
-              currentDate.setDate(today.getDate() + index);
-              const dayName = dayNames[currentDate.getDay()];
-              const dateNumber = currentDate.getDate();
-              const monthName = monthNames[currentDate.getMonth()];
-              const year = currentDate.getFullYear();
-
-              return `
-              <div class="forecast-card clickable-weather" data-weather="${data.weather}" data-day="${dayName}">
-                <div class="forecast-day">${dayName}</div>
-                <div class="forecast-date">${dateNumber} ${monthName} ${year}</div>
-                <div class="forecast-icon">
-                  <i class="bi ${data.icon}"></i>
-                </div>
-                <div class="forecast-temp">${data.temp}</div>
-                <div class="forecast-desc">${data.desc}</div>
-                <div class="forecast-details">
-                  <div class="forecast-wind"><i class="bi bi-wind"></i> ${data.wind}</div>
-                  <div class="forecast-precip"><i class="bi bi-cloud-rain-heavy"></i> ${data.precip}</div>
-                  <div class="forecast-humid"><i class="bi bi-droplet"></i> ${data.humid}</div>
-                </div>
-              </div>
-            `;
-            })
-            .join("")}
+          <div class="weather-loading-state">
+            <div class="loading-spinner">🌤️</div>
+            <h3>Memuat Data Cuaca Real-time</h3>
+            <p>Mengambil data cuaca dari Visual Crossing API...</p>
+            <div class="loading-dots">
+              <span>.</span><span>.</span><span>.</span>
+            </div>
+          </div>
+        </div>
         </div>        <!-- Weather Prediction Section -->
         <div class="weather-prediction-section">
           <div class="weather-prediction-header">
@@ -320,9 +324,7 @@ export class MountainDetailView {
                   <div class="detail-info">
                     <h4>Tingkat Kesulitan</h4>
                     <div class="difficulty-display" id="difficultyDisplay">
-                      <span class="difficulty-score" id="difficultyScore">${
-                        mountain.difficulty
-                      }/10</span>
+                      <span class="difficulty-score" id="difficultyScore">-</span>
                     </div>
                   </div>
                 </div>
@@ -437,7 +439,6 @@ export class MountainDetailView {
               navbarHeight = 70; // default navbar height
             }
           } catch (error) {
-            console.warn("Could not get navbar height, using default:", error);
             navbarHeight = 70; // fallback
           }
 
@@ -510,20 +511,24 @@ export class MountainDetailView {
       }
     }
   }
-
   setupWeatherClickHandlers() {
     const weatherCards = document.querySelectorAll(".clickable-weather");
     const weatherImpactInfo = document.getElementById("weatherImpactInfo");
     const weatherImpactText = document.getElementById("weatherImpactText");
 
-    weatherCards.forEach((card) => {
-      card.addEventListener("click", () => {
+    weatherCards.forEach((card, index) => {
+      card.addEventListener("click", async () => {
         const weather = card.getAttribute("data-weather");
         const day = card.getAttribute("data-day");
 
         weatherCards.forEach((c) => c.classList.remove("active-weather"));
+        card.classList.add("active-weather"); // Store selected weather card data
+        if (this.weatherData && this.weatherData[index]) {
+          this.selectedWeatherCard = this.weatherData[index];
 
-        card.classList.add("active-weather");
+          // Predict difficulty and time
+          await this.predictDifficultyForSelectedWeather();
+        }
 
         if (weatherImpactInfo) {
           weatherImpactInfo.style.display = "block";
@@ -536,6 +541,7 @@ export class MountainDetailView {
         if (this.presenter && this.presenter.selectWeather) {
           this.presenter.selectWeather(weather);
         }
+
         setTimeout(() => {
           const jalurSection = document.getElementById("section-jalur");
           if (jalurSection) {
@@ -556,9 +562,7 @@ export class MountainDetailView {
     const resultContainer = document.getElementById(
       "weather-prediction-result"
     );
-
     if (!predictionBtn || !monthSelect || !yearInput || !resultContainer) {
-      console.warn("Weather prediction elements not found");
       return;
     }
 
@@ -590,22 +594,18 @@ export class MountainDetailView {
         '<div class="weather-loading">Mengambil prediksi cuaca...</div>';
 
       try {
-        // Get district name from current mountain
+        // Get district name from current mountain (must match Streamlit exactly)
         const kecamatanName = this.extractKecamatanFromMountain(
           this.currentMountain
         );
 
         if (!kecamatanName) {
           throw new Error(
-            "Tidak dapat menentukan lokasi kecamatan dari data gunung"
+            `Tidak dapat menentukan lokasi kecamatan dari data gunung. Pastikan data gunung memiliki field 'kecamatan' atau 'Kecamatan'. Mountain: ${this.currentMountain.name}`
           );
         }
 
-        console.log(
-          `Getting weather prediction for: ${kecamatanName}, Month: ${selectedMonth}, Year: ${selectedYear}`
-        );
-
-        // Get seasonality prediction
+        // Get seasonality prediction only (match Streamlit behavior)
         const seasonalityResult =
           await WeatherMLService.getSeasonalityPrediction(
             kecamatanName,
@@ -613,31 +613,20 @@ export class MountainDetailView {
             selectedYear
           );
 
-        // Get detailed monthly forecast
-        const monthlyResult = await WeatherMLService.getMonthlyForecast(
-          kecamatanName,
-          selectedMonth,
-          selectedYear
-        );
-        if (seasonalityResult.success && monthlyResult.success) {
-          console.log("Seasonality data:", seasonalityResult.data);
-          console.log("Monthly data:", monthlyResult.data);
+        if (seasonalityResult.success) {
           this.displayWeatherPredictionResult(
             seasonalityResult.data,
-            monthlyResult.data,
+            null, // No monthly data, only seasonality
             selectedMonth,
             selectedYear,
             kecamatanName
           );
         } else {
           throw new Error(
-            seasonalityResult.message ||
-              monthlyResult.message ||
-              "Gagal mendapatkan prediksi cuaca"
+            seasonalityResult.message || "Gagal mendapatkan prediksi cuaca"
           );
         }
       } catch (error) {
-        console.error("Error getting weather prediction:", error);
         resultContainer.innerHTML = `
           <div class="weather-error">
             <h4>⚠️ Gagal Mendapatkan Prediksi</h4>
@@ -652,76 +641,29 @@ export class MountainDetailView {
       }
     });
   }
-
   /**
-   * Extract kecamatan name from mountain data
+   * Extract kecamatan name from mountain data - MUST match Streamlit exactly
    */
   extractKecamatanFromMountain(mountain) {
-    if (!mountain || !mountain.location) {
+    if (!mountain) {
       return null;
     }
 
-    // Try to extract kecamatan from location string
-    // Location format might be like "Kabupaten Malang, Jawa Timur" or "Berastagi, Sumatera Utara"
-    const location = mountain.location.toLowerCase();
-
-    // Common kecamatan mappings for mountain locations
-    const kecamatanMappings = {
-      bromo: "Probolinggo",
-      semeru: "Malang",
-      lawu: "Magetan",
-      merapi: "Sleman",
-      rinjani: "Lombok Timur",
-      kerinci: "Kerinci",
-      sumbing: "Wonosobo",
-      merbabu: "Boyolali",
-      sindoro: "Wonosobo",
-      slamet: "Brebes",
-      gede: "Bogor",
-      pangrango: "Bogor",
-      salak: "Bogor",
-      ceremai: "Kuningan",
-      papandayan: "Garut",
-      galunggung: "Tasikmalaya",
-      tangkuban: "Bandung Barat",
-      burangrang: "Bandung",
-      prau: "Kendal",
-    };
-
-    // Check if mountain name matches any known mapping
-    const mountainName = mountain.name ? mountain.name.toLowerCase() : "";
-    for (const [keyword, kecamatan] of Object.entries(kecamatanMappings)) {
-      if (mountainName.includes(keyword)) {
-        return kecamatan;
-      }
+    // Priority 1: Use actual kecamatan data from JSON (same as Streamlit should use)
+    if (mountain.kecamatan && mountain.kecamatan.trim() !== "") {
+      const kecamatanLowercase = mountain.kecamatan.toLowerCase();
+      return kecamatanLowercase;
     }
 
-    // If location contains specific keywords, try to extract
-    if (location.includes("malang")) return "Malang";
-    if (location.includes("bogor")) return "Bogor";
-    if (location.includes("bandung")) return "Bandung";
-    if (location.includes("garut")) return "Garut";
-    if (location.includes("tasikmalaya")) return "Tasikmalaya";
-    if (location.includes("cianjur")) return "Cianjur";
-    if (location.includes("sukabumi")) return "Sukabumi";
-    if (location.includes("lombok")) return "Lombok Timur";
-    if (location.includes("sumbawa")) return "Sumbawa";
-    if (location.includes("flores")) return "Ende";
-
-    // Default fallback - try to use first word that's not "kabupaten", "kota", etc.
-    const words = location.split(",")[0].trim().split(" ");
-    for (const word of words) {
-      if (
-        !["kabupaten", "kota", "provinsi", "gunung", "mount", "mt"].includes(
-          word.toLowerCase()
-        )
-      ) {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      }
+    // Priority 2: Use Kecamatan field with capital K (alternative field name)
+    if (mountain.Kecamatan && mountain.Kecamatan.trim() !== "") {
+      const kecamatanLowercase = mountain.Kecamatan.toLowerCase();
+      return kecamatanLowercase;
     }
 
-    // Ultimate fallback
-    return "Malang";
+    // Return null to force error rather than using inconsistent fallback
+    // This will help identify when web app and Streamlit might use different kecamatan names
+    return null;
   }
 
   /**
@@ -792,10 +734,9 @@ export class MountainDetailView {
                 0
               ).toFixed(2)} %</span>
             </div>
-          </div>
-        </div>
+          </div>        </div>
 
-        <div class="weather-tendency">
+        <div class="weather-prediction-tendency">
           <h4>Kecenderungan Cuaca: <span class="tendency-result">${
             seasonality.label
           }</span></h4>
@@ -839,6 +780,172 @@ export class MountainDetailView {
       )}°C. Kondisi baik untuk pendakian, namun tetap bawa perlengkapan cadangan dan perhatikan hidrasi karena suhu yang relatif hangat.`;
     } else {
       return `Data cuaca menunjukkan kondisi bervariasi. Siapkan perlengkapan untuk berbagai kondisi cuaca dan pantau prakiraan cuaca terkini sebelum melakukan pendakian.`;
+    }
+  }
+
+  /**
+   * Get weather impact text for selected weather condition
+   */
+  getWeatherImpactText(weather, day) {
+    const weatherImpacts = {
+      cerah: `Cuaca cerah pada hari ${day} memberikan kondisi ideal untuk pendakian. Visibility baik, jalur kering, dan risiko minimal. Pastikan membawa perlindungan dari sinar matahari.`,
+      berawan: `Cuaca berawan pada hari ${day} memberikan kondisi cukup baik untuk pendakian. Suhu lebih sejuk, namun tetap waspada terhadap kemungkinan perubahan cuaca mendadak.`,
+      hujan: `Cuaca hujan pada hari ${day} meningkatkan tingkat kesulitan pendakian. Jalur licin, visibility terbatas, dan risiko hipotermia. Gunakan perlengkapan anti hujan yang memadai.`,
+      badai: `Cuaca badai pada hari ${day} sangat berbahaya untuk pendakian. Tingkat kesulitan meningkat drastis. Disarankan untuk menunda pendakian atau mencari hari alternatif.`,
+    };
+
+    return (
+      weatherImpacts[weather] ||
+      `Kondisi cuaca ${weather} pada hari ${day} mempengaruhi tingkat kesulitan pendakian. Selalu persiapkan perlengkapan yang sesuai dengan kondisi cuaca.`
+    );
+  }
+
+  /**
+   * Show weather error when Visual Crossing API fails
+   */
+  showWeatherError(errorMessage) {
+    const weatherForecastContainer =
+      document.querySelector(".weather-forecast");
+    if (weatherForecastContainer) {
+      weatherForecastContainer.innerHTML = `
+        <div class="weather-api-error">
+          <div class="error-icon">⚠️</div>
+          <h3>Gagal Memuat Data Cuaca</h3>
+          <p>Tidak dapat mengambil data cuaca dari Visual Crossing API.</p>
+          <p class="error-detail">Error: ${errorMessage}</p>
+          <p class="error-suggestion">Pastikan koneksi internet stabil dan coba refresh halaman.</p>
+          <button class="retry-weather-btn" onclick="location.reload()">Coba Lagi</button>
+        </div>
+      `;
+    }
+  }
+
+  /**
+   * Predict difficulty and time for selected weather
+   */ async predictDifficultyForSelectedWeather() {
+    if (!this.selectedWeatherCard || !this.currentMountain) {
+      return;
+    }
+
+    try {
+      // Show loading state in difficulty display
+      this.updateDifficultyDisplayLoading();
+
+      // Parse weather data for prediction
+      const weatherData = DifficultyPredictionService.parseWeatherForPrediction(
+        this.selectedWeatherCard
+      );
+
+      // Make prediction
+      const predictionResult =
+        await DifficultyPredictionService.predictDifficulty(
+          this.currentMountain,
+          weatherData
+        );
+      if (predictionResult.success) {
+        this.difficultyPrediction = predictionResult.data;
+        this.updateDifficultyDisplayWithPrediction();
+      } else {
+        this.updateDifficultyDisplayError(predictionResult.error);
+      }
+    } catch (error) {
+      this.updateDifficultyDisplayError(error.message);
+    }
+  }
+
+  /**
+   * Update difficulty display with loading state
+   */
+  updateDifficultyDisplayLoading() {
+    const difficultyScore = document.getElementById("difficultyScore");
+    const estimatedTimeElement = document.querySelector(
+      ".jalur-detail-item:nth-child(3) p"
+    );
+
+    if (difficultyScore) {
+      difficultyScore.innerHTML =
+        '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
+      difficultyScore.style.color = "#666";
+    }
+
+    if (estimatedTimeElement) {
+      estimatedTimeElement.innerHTML =
+        '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
+    }
+  }
+
+  /**
+   * Update difficulty display with prediction results
+   */
+  updateDifficultyDisplayWithPrediction() {
+    if (!this.difficultyPrediction) return;
+
+    const difficultyScore = document.getElementById("difficultyScore");
+    const estimatedTimeElement = document.querySelector(
+      ".jalur-detail-item:nth-child(3) p"
+    );
+    const jalurDescription = document.querySelector(".jalur-description");
+
+    const score = this.difficultyPrediction.difficulty_score;
+    const time = this.difficultyPrediction.estimated_time;
+    const color = DifficultyPredictionService.getDifficultyColor(score);
+    const description =
+      DifficultyPredictionService.getDifficultyDescription(score);
+
+    if (difficultyScore) {
+      difficultyScore.textContent = `${score}/10`;
+      difficultyScore.style.color = color;
+    }
+
+    if (estimatedTimeElement) {
+      estimatedTimeElement.textContent = time;
+      estimatedTimeElement.style.color = color;
+      estimatedTimeElement.style.fontWeight = "bold";
+    }
+
+    if (jalurDescription) {
+      jalurDescription.innerHTML = `
+        <div class="prediction-result-info">
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+            * Prediksi ini berdasarkan kondisi cuaca yang Anda pilih dan data gunung menggunakan model AI.
+          </p>
+        </div>
+      `;
+    }
+  }
+
+  /**
+   * Update difficulty display with error message
+   */
+  updateDifficultyDisplayError(errorMessage) {
+    const difficultyScore = document.getElementById("difficultyScore");
+    const estimatedTimeElement = document.querySelector(
+      ".jalur-detail-item:nth-child(3) p"
+    );
+    const jalurDescription = document.querySelector(".jalur-description");
+
+    if (difficultyScore) {
+      difficultyScore.textContent = `${this.currentMountain.difficulty}/10`;
+      difficultyScore.style.color = "#666";
+    }
+
+    if (estimatedTimeElement) {
+      estimatedTimeElement.textContent = "-";
+      estimatedTimeElement.style.color = "#666";
+    }
+
+    if (jalurDescription) {
+      jalurDescription.innerHTML = `
+        <div class="prediction-error-info">
+          <div class="error-badge">
+            <strong>⚠️ Gagal Memprediksi Kesulitan</strong><br>
+            <span style="font-size: 0.9rem;">${errorMessage}</span>
+          </div>
+          <p style="margin-top: 1rem;">
+            **Silakan memilih tanggal pada bagian cuaca untuk mengetahui estimasi waktu dan tingkat kesulitan
+          </p>
+        </div>
+      `;
     }
   }
 }

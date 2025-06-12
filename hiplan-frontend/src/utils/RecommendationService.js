@@ -31,8 +31,6 @@ class RecommendationService {
         ketinggian: altitude,
       };
 
-      console.log("Sending recommendation request:", requestBody);
-
       // Make API call to ML backend
       const response = await fetch(API_CONFIG.getMLURL("recommendations"), {
         method: "POST",
@@ -56,7 +54,6 @@ class RecommendationService {
 
       // Parse JSON response
       const data = await response.json();
-      console.log("ML API Response:", data);
 
       // Validate response structure
       if (!data || !Array.isArray(data.rekomendasi)) {

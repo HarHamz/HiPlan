@@ -203,7 +203,7 @@
   background: var(--color-background);
   border-radius: 8px;
   border: 1px solid var(--color-border);
-  padding: 12px;
+  padding: 8px 5px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -226,21 +226,40 @@
 }
 
 .forecast-icon {
-  font-size: 2.5rem;
-  margin: 10px 0;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
+/* Weather icon colors for comprehensive conditions */
 .forecast-icon i.bi-sun {
-  color: #ffa500;
+  color: #ffd700;
 }
-.forecast-icon i.bi-cloud-lightning-rain {
-  color: #6c757d;
-}
-.forecast-icon i.bi-cloud-rain {
-  color: #6495ed;
+.forecast-icon i.bi-cloud-sun {
+  color: #87ceeb;
 }
 .forecast-icon i.bi-cloud {
-  color: #a9a9a9;
+  color: #708090;
+}
+.forecast-icon i.bi-cloud-rain {
+  color: #4682b4;
+}
+.forecast-icon i.bi-cloud-rain-heavy {
+  color: #4169e1;
+}
+.forecast-icon i.bi-cloud-drizzle {
+  color: #6495ed;
+}
+.forecast-icon i.bi-cloud-lightning-rain {
+  color: #483d8b;
+}
+.forecast-icon i.bi-snow {
+  color: #e0e0e0;
+}
+.forecast-icon i.bi-cloud-haze {
+  color: #d3d3d3;
+}
+.forecast-icon i.bi-wind {
+  color: #87ceeb;
 }
 
 .forecast-temp {
@@ -262,7 +281,7 @@
   gap: 10px;
   width: 100%;
   margin-top: 5px;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: var(--color-text-light);
 }
 
@@ -412,8 +431,8 @@
 
   .forecast-card {
     flex-shrink: 0;
-    min-width: 110px;
-    max-width: 170.5px;
+    min-width: 164px;
+    max-width: 164px;
   }
 
   .weather-instruction {
@@ -967,6 +986,7 @@
   transform: translateY(-1px);
 }
 
+/* Monthly Weather Trend Parameter Labels */
 .parameter-label {
   color: var(--color-text-light);
   font-size: 0.9rem;
@@ -979,8 +999,8 @@
   font-weight: 700;
 }
 
-/* Weather Tendency */
-.weather-tendency {
+/* Monthly Weather Tendency Display */
+.monthly-weather-tendency {
   text-align: center;
   padding: 20px;
   background: white;
@@ -988,14 +1008,14 @@
   border: 1px solid var(--color-border);
 }
 
-.weather-tendency h5 {
+.monthly-weather-tendency h5 {
   color: var(--color-text-secondary);
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
 }
 
-.weather-tendency #weather-tendency-result {
+.monthly-weather-tendency #weather-tendency-result {
   color: var(--color-primary);
   font-weight: 700;
   font-size: 1.2rem;
@@ -1134,170 +1154,405 @@
   color: var(--color-text-primary);
 }
 
-.weather-loading {
-  text-align: center;
-  padding: 2rem;
-  color: var(--color-text-light);
-}
-
-.weather-error {
-  background: var(--color-error-bg);
-  color: var(--color-error-text);
-  padding: 1rem;
-  border-radius: 6px;
-  text-align: center;
-}
-
-.weather-recommendation {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: linear-gradient(
-    135deg,
-    var(--color-primary-light) 0%,
-    rgba(0, 129, 72, 0.05) 100%
-  );
-  border-left: 4px solid var(--color-primary);
-  border-radius: 0 6px 6px 0;
-}
-
-.weather-recommendation h5 {
-  margin: 0 0 0.5rem 0;
-  color: var(--color-primary);
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.weather-recommendation p {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-/* ==================== SIMPLIFIED WEATHER PREDICTION DISPLAY ==================== */
+/* ==================== WEATHER PREDICTION RESULT STYLES ==================== */
 .weather-prediction-simple {
-  background: var(--color-background);
+  background: white;
   border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-light);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-medium);
+  overflow: hidden;
+  margin: 0;
 }
 
 .weather-prediction-simple h3 {
   color: var(--color-text-primary);
   font-size: 1.4rem;
   font-weight: 600;
-  margin: 0 0 1.5rem 0;
+  margin: 0;
   text-align: center;
-  border-bottom: 2px solid var(--color-primary);
-  padding-bottom: 0.5rem;
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+}
+
+.weather-summary {
+  background: white;
+  border-radius: 0;
+  padding: 2rem;
+  margin-bottom: 0;
+  border: none;
+  box-shadow: none;
 }
 
 .weather-summary h4 {
   color: var(--color-text-secondary);
   font-size: 1.1rem;
   font-weight: 600;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
+  text-align: left;
 }
 
 .weather-params-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .weather-param {
+  background: #f8f9fa;
+  padding: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 0.75rem;
-  background: var(--color-background-light);
-  border-radius: 8px;
-  border: 1px solid var(--color-border-light);
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 80px;
+  justify-content: center;
 }
 
-.param-label {
-  color: var(--color-text-secondary);
+.weather-param:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary-light);
+}
+
+/* Weather Prediction Result Parameter Labels */
+.weather-param .param-label {
   font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.5rem 0;
   font-weight: 500;
+  text-transform: capitalize;
 }
 
-.param-value {
+.weather-param .param-value {
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Weather Prediction Result Tendency Display */
+.weather-prediction-tendency {
+  background: var(--color-primary-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  border: 2px solid var(--color-primary);
+  margin: 0 2rem 2rem 2rem;
+}
+
+.weather-prediction-tendency h4 {
+  color: var(--color-text-secondary);
   font-size: 1rem;
   font-weight: 600;
-}
-
-.weather-tendency {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: linear-gradient(
-    135deg,
-    var(--color-primary-light) 0%,
-    rgba(0, 129, 72, 0.05) 100%
-  );
-  border-left: 4px solid var(--color-primary);
-  border-radius: 0 8px 8px 0;
-}
-
-.weather-tendency h4 {
-  color: var(--color-text-primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0;
-  text-align: center;
-}
-
-.tendency-result {
-  color: var(--color-primary);
-  font-weight: 700;
+  margin: 0 0 0.8rem 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.weather-prediction-tendency .tendency-result {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  display: block;
+}
+
+/* ==================== WEATHER LOADING AND ERROR STATES ==================== */
+.weather-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: var(--color-background-light);
+  border-radius: 12px;
+  border: 2px dashed var(--color-border);
+  margin: 1rem 0;
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.weather-loading-state h3 {
+  color: var(--color-text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.weather-loading-state p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.loading-dots {
+  display: inline-block;
+}
+
+.loading-dots span {
+  display: inline-block;
+  animation: blink 1.4s infinite both;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+/* Weather API Error */
+.weather-api-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  border-radius: 12px;
+  border: 2px solid #e17055;
+  margin: 1rem 0;
+  box-shadow: var(--shadow-medium);
+}
+
+.weather-api-error .error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.weather-api-error h3 {
+  color: #d63031;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.weather-api-error p {
+  color: #2d3436;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+.weather-api-error .error-detail {
+  font-family: "Courier New", monospace;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #636e72;
+  margin: 1rem 0;
+}
+
+.weather-api-error .error-suggestion {
+  font-style: italic;
+  color: #636e72;
+  font-size: 0.9rem;
+}
+
+.retry-weather-btn {
+  background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  box-shadow: var(--shadow-light);
+}
+
+.retry-weather-btn:hover {
+  background: linear-gradient(135deg, #00a085 0%, #00896b 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.retry-weather-btn:active {
+  transform: translateY(0);
 }
 
 /* Responsive design for simplified weather display */
 @media (max-width: 768px) {
   .weather-prediction-simple {
-    padding: 1.5rem;
+    margin: 1.5rem 0;
   }
 
-  .weather-params-grid {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .weather-param {
-    padding: 0.5rem;
-  }
-
-  .param-label {
-    font-size: 0.85rem;
-  }
-
-  .param-value {
-    font-size: 0.9rem;
+  .prediction-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 0;
   }
 
   .weather-prediction-simple h3 {
     font-size: 1.2rem;
+    padding: 1.2rem 1.5rem;
   }
 
-  .weather-tendency h4 {
+  .weather-summary {
+    padding: 1.5rem;
+  }
+
+  .weather-params-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .weather-param {
+    padding: 1rem;
+    min-height: 70px;
+  }
+  .weather-param .param-label {
+    font-size: 0.8rem;
+  }
+
+  .weather-param .param-value {
     font-size: 1rem;
+  }
+  .weather-prediction-tendency {
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    padding: 1.2rem;
+  }
+
+  .weather-prediction-tendency h4 {
+    font-size: 0.9rem;
+  }
+
+  .weather-prediction-tendency .tendency-result {
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .weather-prediction-simple {
+  .weather-prediction-simple h3 {
+    font-size: 1.1rem;
     padding: 1rem;
   }
 
-  .weather-prediction-simple h3 {
-    font-size: 1.1rem;
+  .weather-summary {
+    padding: 1rem;
   }
 
   .weather-summary h4 {
     font-size: 1rem;
   }
+
+  .weather-params-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .weather-param {
+    padding: 0.8rem;
+    min-height: 60px;
+  }
+  .weather-param .param-label {
+    font-size: 0.75rem;
+  }
+  .weather-param .param-value {
+    font-size: 0.9rem;
+  }
+
+  .weather-prediction-tendency {
+    margin: 0 1rem 1rem 1rem;
+    padding: 1rem;
+  }
+
+  .weather-prediction-tendency .tendency-result {
+    font-size: 1.1rem;
+  }
+}
+
+/* ==================== DIFFICULTY PREDICTION STYLES ==================== */
+.prediction-result-info {
+  margin-top: 1rem;
+}
+
+.prediction-badge {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.prediction-error-info {
+  margin-top: 1rem;
+}
+
+.error-badge {
+  padding: 1rem;
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 0 8px 8px 0;
+  color: #856404;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Enhanced loading dots for prediction */
+.jalur-detail-item .loading-dots {
+  display: inline-block;
+}
+
+.jalur-detail-item .loading-dots span {
+  display: inline-block;
+  animation: blink 1.4s infinite both;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.jalur-detail-item .loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.jalur-detail-item .loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
 }

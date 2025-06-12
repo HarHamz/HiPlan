@@ -522,17 +522,13 @@ export class HomeView {
         ) {
           alert("Ketinggian harus berupa angka antara 500 - 6000 mdpl.");
           return;
-        }
-
-        // Show loading state
+        } // Show loading state
         const submitBtn = rekomendasiForm.querySelector(".rekomendasi-btn");
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = "<span>Mencari rekomendasi...</span>";
         submitBtn.disabled = true;
 
         try {
-          console.log("Fetching recommendations for:", { lokasi, ketinggian });
-
           // Call ML API for recommendations
           const result = await RecommendationService.getRecommendations(
             lokasi,
@@ -550,7 +546,6 @@ export class HomeView {
             );
           }
         } catch (error) {
-          console.error("Error getting recommendations:", error);
           alert(
             "Terjadi kesalahan saat mengambil rekomendasi. Pastikan server ML sedang berjalan."
           );
@@ -573,7 +568,6 @@ export class HomeView {
     const recommendationCards = document.getElementById("recommendationCards");
 
     if (!resultsSection || !recommendationCards) {
-      console.error("Recommendation results elements not found");
       return;
     }
     if (recommendations && recommendations.length > 0) {
@@ -610,10 +604,7 @@ export class HomeView {
             }
           }
         } catch (error) {
-          console.warn(
-            "Could not load gunung_indonesia.json for image mapping:",
-            error
-          );
+          // Use fallback values if data loading fails
         }
 
         return {
